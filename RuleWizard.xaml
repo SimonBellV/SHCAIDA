@@ -1,0 +1,32 @@
+﻿<Window x:Class="SHCAIDA.RuleWizard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SHCAIDA"
+        mc:Ignorable="d"
+        Title="RuleWizard" Height="450" Width="800">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
+            <StackPanel Height="172" Orientation="Horizontal" HorizontalAlignment="Center">
+                <ListBox x:Name="SensorsLB" Width="300"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <CheckBox x:Name="NotCheck" HorizontalAlignment="Center" />
+                    <Label Content="Не"/>
+                </StackPanel>
+                <ListBox x:Name="StatusLB" Width="300"/>
+            </StackPanel>            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50">
+                <Button Content="и" Height="32" Margin="8" Width="75" Click="Button_Click"/>
+                <Button Content="или" Height="32" Margin="8" Width="75" Click="Button_Click_1"/>
+                <Button Content="значит" Height="32" Margin="8" Width="75" Click="Button_Click_2"/>
+                <Button Content="Готово" Height="32" Margin="8" Width="75" Click="Button_Click_3"/>
+                <Button Content="Удалить правило" Height="32" Margin="8" Width="100"/>
+            </StackPanel>
+            <TextBox x:Name="RuleTB" Height="24"/>
+            <ListBox x:Name="CurrentRulesLB" Height="150"/>
+            <Button Content="Button" Width="96"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

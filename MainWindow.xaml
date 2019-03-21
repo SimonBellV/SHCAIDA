@@ -1,0 +1,19 @@
+﻿<Window x:Class="SHCAIDA.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SHCAIDA"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Menu HorizontalAlignment="Left" Height="277" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
+            <Button Margin="10" Height="32" Content="Добавить источник данных реального времени" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280" Click="Button_Click"/>
+            <Button Margin="10" Height="32" Content="Загрузить данные из архивов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"/>
+            <Button Margin="10" Height="32" Content="Добавить датчик" Width="280" Click="Button_Click_2"/>
+            <Button Margin="10" Height="32" Content="Задать правило" Width="280" Click="Button_Click_3"/>
+            <Button Margin="10" Height="32" Content="Задать переменную состояния" Width="280" Click="Button_Click_4"/>
+        </Menu>
+
+    </Grid>
+</Window>

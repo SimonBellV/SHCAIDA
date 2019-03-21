@@ -1,0 +1,38 @@
+﻿<Window x:Class="SHCAIDA.SensorListSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SHCAIDA"
+        mc:Ignorable="d"
+        Title="SensorListSetup" Height="350" Width="300">
+    <Grid>
+        <StackPanel HorizontalAlignment="Right" Height="319" VerticalAlignment="Bottom" Width="292">
+            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
+                <Label Content="Тип источника данных"/>
+                <ComboBox x:Name="DataSourceTypeCB" Width="120" SelectionChanged="ComboBox_SelectionChanged" >
+                    <ComboBoxItem>Siemens</ComboBoxItem>
+                    <ComboBoxItem>Rockwell</ComboBoxItem>
+                    <ComboBoxItem>SQL Server</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
+                <Label Content="Источник данных"/>
+                <ComboBox x:Name="DataSourceNameCB" Width="145"/>
+            </StackPanel>
+            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
+                <Label Content="Название"/>
+                <TextBox x:Name="NameTB" Width="150"/>
+            </StackPanel>
+            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
+                <Label Content="Адрес"/>
+                <TextBox x:Name="AdressTB" Width="150"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10">
+                <Button Content="Проверить валидность" Margin="10" Click="Button_Click_1"/>
+                <Button Content="Добавить датчик" Margin="10" Click="Button_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -1,0 +1,23 @@
+﻿<Window x:Class="SHCAIDA.StatusListSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SHCAIDA"
+        mc:Ignorable="d"
+        Title="StatusListSetup" Height="450" Width="319.925">
+    <Grid>
+        <StackPanel Width="300" Height="400" Margin="0,0,0,19">
+            <StackPanel Height="36" Orientation="Horizontal" Margin="10">
+                <Label Content="Состояние"/>
+                <TextBox x:Name="StateTB" Width="200"/>
+            </StackPanel>
+            <StackPanel Width="250" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Клоц" Width="50" Height="50" Margin="10" Click="Button_Click"/>
+                <Button Content="Реверс" Width="50" Height="50" Margin="10" Click="Button_Click_1" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <ListBox x:Name="StatesLB" Width="257" Height="211" VerticalAlignment="Top" Margin="22,0"/>
+            <Button Content="Сохранить" Width="100" Height="50" Margin="10" Click="Button_Click_2"/>
+        </StackPanel>
+    </Grid>
+</Window>
