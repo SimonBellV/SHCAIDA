@@ -47,24 +47,12 @@ namespace SHCAIDA
             InitializeComponent();
             foreach (var val in RulerCreator.fuzzySensors)
                 SensorsCB.Items.Add(val.Name);
-            foreach (var val in ProgramMainframe.statusdb.CommonStatuses)
-                SensorsCB.Items.Add(val.Name);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Status t = new Status(ValueNameTB.Text, V1TB.Text, V2TB.Text, V3TB.Text, V4TB.Text, SensorsCB.SelectedItem.ToString());
-            int res = RulerCreator.FSContainsVar(t.sensor);
-            if (res != -1)
-            {
-                RulerCreator.fuzzySensors[res].AddLabel(t.GetFuzzy);
-            }
-            else
-            {
-                //RulerCreator.fuzzySensors.Add(new LinguisticVariable())
-            }
-            RulerCreator.fuzzySets.Add();
-           // RulerCreator.fuzzySetsSensorNames.Add(SensorCB.SelectedItem.ToString());
+            RulerCreator.AddLabel(t.sensor, t.GetFuzzy);
             someStr.Add(t);
             StatesLB.Items.Add(t.String);
         }
@@ -74,7 +62,7 @@ namespace SHCAIDA
             int pos = someStr.FindIndex(x => x.String == StatesLB.SelectedItem.ToString());
             someStr.RemoveAt(pos);
             StatesLB.Items.RemoveAt(pos);
-            RulerCreator.fuzzySets.RemoveAt(pos);
+            //RulerCreator.fuzzySets.RemoveAt(pos);
            // RulerCreator.fuzzySetsSensorNames.RemoveAt(pos);
         }
 
@@ -89,29 +77,12 @@ namespace SHCAIDA
             V4TB.Text = someStr[pos].V4.ToString();
             someStr.RemoveAt(pos);
             StatesLB.Items.RemoveAt(pos);
-            RulerCreator.fuzzySets.RemoveAt(pos);
+           // RulerCreator.fuzzySets.RemoveAt(pos);
            // RulerCreator.fuzzySetsSensorNames.RemoveAt(pos);            
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            List<string> usedSensors = new List<string>();
-            foreach (var status in someStr)
-                if (!usedSensors.Contains(status.sensor))
-                    usedSensors.Add(status.sensor);
-            foreach (var sensor in usedSensors)
-            {
-                if (ProgramMainframe.fuzzyDB.GetVariable(sensor) != null)
-                {                    
-                    //RulerCreator.fuzzySensors.Find(x => x.Name == sensor).AddLabel;
-
-                    //добавить лингвистические переменные в IS с состояниями
-                }
-                else
-                {
-                    MessageBox.Show("Переменная " + sensor + " уже описана в системе!");
-                }
-            }
             RuleWizard f = new RuleWizard();
             f.Show();
             this.Close();

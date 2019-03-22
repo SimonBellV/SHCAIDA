@@ -25,20 +25,38 @@ namespace SHCAIDA
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataSourceNameCB.Items.Clear();
-            if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "Siemens")
+            switch (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString())
             {
-                foreach (var plc in ProgramMainframe.siemensClients.SiemensClients)
-                    if (plc.Name != null)
-                        DataSourceNameCB.Items.Add(plc.Name);
+                case "Siemens":
+                    {
+                        foreach (var plc in ProgramMainframe.siemensClients.SiemensClients)
+                            if (plc.Name != null)
+                                DataSourceNameCB.Items.Add(plc.Name);
+                        DataSourceNameCB.IsEnabled = true;
+                        break;
+                    }
+
+                case "Rockwell":
+                    {
+                        MessageBox.Show("Will be ready soon");
+                        DataSourceNameCB.IsEnabled = true;
+                    }
+                    break;
+                case "SQL Server":
+                    {
+                        MessageBox.Show("Will be ready soon");
+                        DataSourceNameCB.IsEnabled = true;
+                    }
+                    break;
+                case "Общее":
+                    {
+                        foreach (var stat in ProgramMainframe.statusdb.CommonStatuses)
+                            if (stat.Name != null)
+                                SensorsCB.Items.Add(stat.Name);
+                        DataSourceNameCB.IsEnabled = false;
+                        break;
+                    }
             }
-            else if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "Rockwell")
-            {
-                MessageBox.Show("Will be ready soon");
-                /*foreach (var plc in ProgramMainframe.rockwellClients)
-                    DataSourceNameCB.Items.Add(plc.name);*/
-            }
-            else if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "SQL Server")
-                MessageBox.Show("Will be ready soon");
         }
 
         private void DataSourceNameCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,15 +71,16 @@ namespace SHCAIDA
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SensorsCB.SelectedItem != null && LeftBorderTB.Text != null && RightBorderTB.Text != null)
+            try
             {
-
                 UsingSensorsLV.Items.Add(SensorsCB.SelectedItem);
-                RulerCreator.fuzzySensors.Add(new LinguisticVariable(SensorsCB.SelectedItem.ToString(), Convert.ToSingle(LeftBorderTB.Text), Convert.ToSingle(RightBorderTB.Text)));
+                RulerCreator.AddLingVariable(SensorsCB.SelectedItem.ToString(), Convert.ToSingle(LeftBorderTB.Text), Convert.ToSingle(RightBorderTB.Text));
                 SensorsCB.Items.Remove(SensorsCB.SelectedItem);
             }
-            else
+            catch
+            {
                 MessageBox.Show("Проверьте корректность заполнения полей!");
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

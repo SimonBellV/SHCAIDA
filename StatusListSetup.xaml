@@ -5,19 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="StatusListSetup" Height="450" Width="319.925">
+        Title="StatusListSetup" Height="400" Width="319.925">
     <Grid>
-        <StackPanel Width="300" Height="400" Margin="0,0,0,19">
+        <StackPanel Width="300">
             <StackPanel Height="36" Orientation="Horizontal" Margin="10">
                 <Label Content="Состояние"/>
                 <TextBox x:Name="StateTB" Width="200"/>
             </StackPanel>
-            <StackPanel Width="250" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Клоц" Width="50" Height="50" Margin="10" Click="Button_Click"/>
-                <Button Content="Реверс" Width="50" Height="50" Margin="10" Click="Button_Click_1" HorizontalAlignment="Right"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Клоц" Width="80" Height="32" Margin="10" Click="Button_Click"/>
+                <Button Content="Реверс" Width="80" Height="32" Margin="10" Click="Button_Click_1" HorizontalAlignment="Right"/>
             </StackPanel>
             <ListBox x:Name="StatesLB" Width="257" Height="211" VerticalAlignment="Top" Margin="22,0"/>
-            <Button Content="Сохранить" Width="100" Height="50" Margin="10" Click="Button_Click_2"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Сохранить" Width="80" Height="32" Margin="10" Click="Button_Click_2"/>
+                <Button Content="Выйти" Width="80" Height="32" Margin="10" Click="Button_Click_3"/>
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </Window>

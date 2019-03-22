@@ -19,7 +19,7 @@ namespace SHCAIDA
     /// </summary>
     public partial class StatusListSetup : Window
     {
-        List<string> statuses = new List<string>();
+        private List<string> statuses = new List<string>();
         public StatusListSetup()
         {
             InitializeComponent();
@@ -56,6 +56,12 @@ namespace SHCAIDA
         {
             ProgramMainframe.UpdateStatuses(statuses);
             MessageBox.Show("Сохранено в базе данных");
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            //возможно добавить обработчик событий для измененных, но не сохраненных данных
         }
     }
 }

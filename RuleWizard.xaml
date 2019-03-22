@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
             <StackPanel Height="172" Orientation="Horizontal" HorizontalAlignment="Center">
-                <ListBox x:Name="SensorsLB" Width="300"/>
+                <ListBox x:Name="SensorsLB" Width="300" SelectionChanged="SensorsLB_SelectionChanged"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <CheckBox x:Name="NotCheck" HorizontalAlignment="Center" />
                     <Label Content="Не"/>

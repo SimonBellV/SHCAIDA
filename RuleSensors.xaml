@@ -15,6 +15,7 @@
                         <ComboBoxItem>Siemens</ComboBoxItem>
                         <ComboBoxItem>Rockwell</ComboBoxItem>
                         <ComboBoxItem>SQL Server</ComboBoxItem>
+                        <ComboBoxItem>Общее</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
@@ -22,7 +23,7 @@
                     <ComboBox x:Name="DataSourceNameCB" Width="120" SelectionChanged="DataSourceNameCB_SelectionChanged"/>
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
-                    <Label Content="Датчик"/>
+                    <Label Content="Параметр"/>
                     <ComboBox x:Name="SensorsCB" Width="120"/>
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
@@ -30,10 +31,6 @@
                     <TextBox x:Name="LeftBorderTB" TextWrapping="Wrap" Width="50"/>
                     <Label Content="Правая гр."/>
                     <TextBox x:Name="RightBorderTB" TextWrapping="Wrap" Width="50"/>
-                </StackPanel>
-                <StackPanel Margin="10" Orientation="Horizontal" Height="32">
-                    <Label Content="Включить выходную переменную статуса"/>
-                    <CheckBox x:Name="OutStatusCheck" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Button Content="Далее" Width="150" Height="32" Margin="10" Click="Button_Click_2"/>
             </StackPanel>
