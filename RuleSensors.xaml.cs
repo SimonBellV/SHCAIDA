@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Accord.Fuzzy;
 
 namespace SHCAIDA
 {
@@ -20,6 +9,9 @@ namespace SHCAIDA
         public RuleSensors()
         {
             InitializeComponent();
+            foreach (var val in ProgramMainframe.linguisticVariables)
+                if (!UsingSourceTypesLV.Items.Contains(val.sourceType))
+                    UsingSourceTypesLV.Items.Add(val.sourceType);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -69,17 +61,28 @@ namespace SHCAIDA
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)//add
         {
             try
             {
-                UsingSensorsLV.Items.Add(SensorsCB.SelectedItem);
-                RulerCreator.AddLingVariable(SensorsCB.SelectedItem.ToString(), Convert.ToSingle(LeftBorderTB.Text), Convert.ToSingle(RightBorderTB.Text));
+                if (!UsingSourceTypesLV.Items.Contains(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString()))
+                    UsingSourceTypesLV.Items.Add(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString());
+                if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() != "Общее"
+                    && !UsingSourcesLV.Items.Contains(DataSourceNameCB.SelectedItem.ToString())
+                    && UsingSourceTypesLV.SelectedItem!=null
+                    && ((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == UsingSourceTypesLV.SelectedItem.ToString()
+                    )
+                    UsingSourcesLV.Items.Add(DataSourceNameCB.SelectedItem.ToString());
+                UsingSensorsLV.Items.Add(SensorsCB.SelectedItem.ToString());
+                if (DataSourceNameCB.SelectedItem != null)
+                    ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), DataSourceNameCB.SelectedItem.ToString(), SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
+                else
+                    ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), "", SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
                 SensorsCB.Items.Remove(SensorsCB.SelectedItem);
             }
-            catch
+            catch (Exception exp)
             {
-                MessageBox.Show("Проверьте корректность заполнения полей!");
+                MessageBox.Show("Проверьте корректность заполнения полей! " + exp);
             }
         }
 
@@ -87,10 +90,8 @@ namespace SHCAIDA
         {
             if (UsingSensorsLV.SelectedItem != null)
             {
-                UsingSensorsLV.Items.Remove(UsingSensorsLV.SelectedItem);
-#pragma warning disable CS0253 // Возможно, использовано непреднамеренное сравнение ссылок: для правой стороны требуется приведение
-                _ = RulerCreator.fuzzySensors.Remove(RulerCreator.fuzzySensors.Find(x => x.Name == UsingSensorsLV.SelectedItem));
-#pragma warning restore CS0253 // Возможно, использовано непреднамеренное сравнение ссылок: для правой стороны требуется приведение
+                ProgramMainframe.RemoveLingVariable(UsingSensorsLV.SelectedItem.ToString());
+                UsingSensorsLV.Items.Remove(UsingSensorsLV.SelectedItem.ToString());
             }
         }
 
@@ -99,6 +100,35 @@ namespace SHCAIDA
             RuleVariablesSetup form = new RuleVariablesSetup();
             form.Show();
             this.Close();
+        }
+
+        private void UsingSourceTypesLV_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UsingSensorsLV.Items.Clear();
+            UsingSourcesLV.Items.Clear();
+            if (UsingSourceTypesLV.SelectedItem.ToString() != "Общее")
+            {
+                foreach (var val in ProgramMainframe.linguisticVariables)
+                    if (val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && !UsingSourcesLV.Items.Contains(val.source))
+                        UsingSourcesLV.Items.Add(val.source);
+            }
+            else
+            {
+                foreach (var val in ProgramMainframe.linguisticVariables)
+                    if (val.sourceType == "Общее")
+                        UsingSensorsLV.Items.Add(val.name);
+            }
+        }
+
+        private void UsingSourcesLV_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (UsingSourceTypesLV.SelectedItem.ToString() != "Общее")
+            {
+                UsingSensorsLV.Items.Clear();
+                foreach (var val in ProgramMainframe.linguisticVariables)
+                    if (val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && val.source == UsingSourcesLV.SelectedItem.ToString())
+                        UsingSensorsLV.Items.Add(val.name);
+            }
         }
     }
 }

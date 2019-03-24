@@ -48,7 +48,6 @@ namespace SHCAIDA
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            RulerCreator.InitRuleCreation();
             RuleSensors f = new RuleSensors();
             f.Show();
         }

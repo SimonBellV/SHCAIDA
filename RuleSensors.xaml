@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
+        xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="RuleSensors" Height="352.703" Width="610">
+        Title="RuleSensors" Height="350" Width="670" ResizeMode="NoResize">
     <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="600">
-            <StackPanel Width="276">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="651">
+            <StackPanel Width="276" VerticalAlignment="Center">
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
                     <Label Content="Тип источника"/>
                     <ComboBox x:Name="DataSourceTypeCB" Width="120" SelectionChanged="ComboBox_SelectionChanged">
@@ -28,18 +29,20 @@
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
                     <Label Content="Левая гр."/>
-                    <TextBox x:Name="LeftBorderTB" TextWrapping="Wrap" Width="50"/>
+                    <t:SingleUpDown x:Name="LeftBorderTB" Width="60"/>
                     <Label Content="Правая гр."/>
-                    <TextBox x:Name="RightBorderTB" TextWrapping="Wrap" Width="50"/>
+                    <t:SingleUpDown x:Name="RightBorderTB" Width="60"/>
                 </StackPanel>
                 <Button Content="Далее" Width="150" Height="32" Margin="10" Click="Button_Click_2"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                <Button Content="Клоц" Width="50" Height="50" Margin="10" Click="Button_Click"/>
-                <Button Content="Реверс" Width="50" Height="50" Margin="10" Click="Button_Click_1"/>
+                <Button Content="Добавить" Width="60" Height="50" Margin="10" Click="Button_Click"/>
+                <Button Content="Удалить" Width="60" Height="50" Margin="10" Click="Button_Click_1"/>
             </StackPanel>
-            
-            <ListBox x:Name="UsingSensorsLV" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="255"/>
+            <ListBox x:Name="UsingSourceTypesLV" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="100" SelectionChanged="UsingSourceTypesLV_SelectionChanged" ToolTip="Тип источника данных"/>
+            <ListBox x:Name="UsingSourcesLV" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="100" ToolTip="Источник данных" SelectionChanged="UsingSourcesLV_SelectionChanged"/>
+            <ListBox x:Name="UsingSensorsLV" HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="100" ToolTip="Датчик"/>
+
         </StackPanel>
 
 

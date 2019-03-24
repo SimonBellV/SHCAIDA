@@ -1,84 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
-using Accord.Fuzzy;
 
 namespace SHCAIDA
 {
-    public class Status
-    {
-        public string name;
-        public float V1;
-        public float V2;
-        public float V3;
-        public float V4;
-        public string sensor;
-
-        public string String => name + " - " + V1 + " ," + V2 + " ," + V3 + " ," + V4;
-
-        public FuzzySet GetFuzzy => new FuzzySet(name, new TrapezoidalFunction(V1, V2, V3, V4));
-
-        public Status(string name, string V1, string V2, string V3, string V4, string sensor)
-        {
-            this.name = name;
-            this.sensor = sensor;
-            try
-            {
-                this.V1 = Convert.ToSingle(V1);
-                this.V2 = Convert.ToSingle(V2);
-                this.V3 = Convert.ToSingle(V3);
-                this.V4 = Convert.ToSingle(V4);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-                this.V1 = 0;
-                this.V2 = 0;
-                this.V3 = 0;
-                this.V4 = 0;
-            }
-        }
-    }
     public partial class RuleVariablesSetup : Window
     {
-        private readonly List<Status> someStr = new List<Status>();
+        //private readonly List<Status> someStr = new List<Status>();
         public RuleVariablesSetup()
         {
             InitializeComponent();
-            foreach (var val in RulerCreator.fuzzySensors)
-                SensorsCB.Items.Add(val.Name);
+            foreach (var val in ProgramMainframe.linguisticVariables)
+            {
+                SensorsCB.Items.Add(val.name);
+                SensorsLB.Items.Add(val.name);
+            }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)//add
         {
-            Status t = new Status(ValueNameTB.Text, V1TB.Text, V2TB.Text, V3TB.Text, V4TB.Text, SensorsCB.SelectedItem.ToString());
-            RulerCreator.AddLabel(t.sensor, t.GetFuzzy);
-            someStr.Add(t);
-            StatesLB.Items.Add(t.String);
+            Status t = new Status(ValueNameTB.Text, V1TB.Text, V2TB.Text, V3TB.Text, V4TB.Text);
+            ProgramMainframe.AddLabel(SensorsCB.SelectedItem.ToString(), t);
+            if (!SensorsLB.Items.Contains(SensorsCB.SelectedItem.ToString()))
+                SensorsLB.Items.Add(SensorsCB.SelectedItem.ToString());
+            if (SensorsLB.SelectedItem != null && SensorsLB.SelectedItem.ToString() == SensorsCB.SelectedItem.ToString())
+                StatesLB.Items.Add(t.String);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)//delete
         {
-            int pos = someStr.FindIndex(x => x.String == StatesLB.SelectedItem.ToString());
-            someStr.RemoveAt(pos);
-            StatesLB.Items.RemoveAt(pos);
-            //RulerCreator.fuzzySets.RemoveAt(pos);
-           // RulerCreator.fuzzySetsSensorNames.RemoveAt(pos);
+            ProgramMainframe.RemoveSensorLabel(SensorsLB.SelectedItem.ToString(), StatesLB.SelectedItem.ToString());
+            StatesLB.Items.Remove(StatesLB.SelectedItem.ToString());
+            if (StatesLB.Items.Count == 0)
+                SensorsLB.Items.Remove(SensorsLB.SelectedItem.ToString());
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e)//edit
         {
-            int pos = someStr.FindIndex(x => x.String == StatesLB.SelectedItem.ToString());
-            //SensorCB.SelectedItem = RulerCreator.fuzzySetsSensorNames[pos];
-            ValueNameTB.Text = someStr[pos].name;
-            V1TB.Text = someStr[pos].V1.ToString();
-            V2TB.Text = someStr[pos].V2.ToString();
-            V3TB.Text = someStr[pos].V3.ToString();
-            V4TB.Text = someStr[pos].V4.ToString();
-            someStr.RemoveAt(pos);
-            StatesLB.Items.RemoveAt(pos);
-           // RulerCreator.fuzzySets.RemoveAt(pos);
-           // RulerCreator.fuzzySetsSensorNames.RemoveAt(pos);            
+            if (SensorsLB.SelectedItem != null && StatesLB.SelectedItem != null)
+            {
+                var variable = ProgramMainframe.linguisticVariables.Find(x => x.name == SensorsLB.SelectedItem.ToString());
+                var label = variable.labels.Find(x => x.name == StatesLB.SelectedItem.ToString());
+                SensorsCB.SelectedItem = SensorsLB.SelectedItem;
+                ValueNameTB.Text = label.name;
+                V1TB.Text = label.V1.ToString();
+                V2TB.Text = label.V2.ToString();
+                V3TB.Text = label.V3.ToString();
+                V4TB.Text = label.V4.ToString();
+                StatesLB.Items.Remove(StatesLB.SelectedItem);
+
+                ProgramMainframe.linguisticVariables.Remove(variable);
+                variable.labels.Remove(label);
+
+                if (variable.labels.Count == 0)
+                    SensorsCB.Items.Remove(SensorsLB.SelectedItem);
+
+                ProgramMainframe.linguisticVariables.Add(variable);
+            }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -86,6 +63,14 @@ namespace SHCAIDA
             RuleWizard f = new RuleWizard();
             f.Show();
             this.Close();
+        }
+
+        private void SensorLB_SensorChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            List<string> labels = ProgramMainframe.GetSensorLabels(SensorsLB.SelectedItem.ToString());
+            StatesLB.Items.Clear();
+            foreach (string state in labels)
+                StatesLB.Items.Add(state);
         }
     }
 }

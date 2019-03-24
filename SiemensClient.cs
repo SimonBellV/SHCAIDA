@@ -156,7 +156,7 @@ namespace SHCAIDA
             return data;
         }
 
-        public void WriteData(List<string> variables, List<double> values)
+        private void WriteData(List<string> variables, List<double> values)
         {
             if (variables.Count != values.Count)
                 throw new Exception("Ошибка при записи данных");
