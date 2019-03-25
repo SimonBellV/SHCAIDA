@@ -1,21 +1,21 @@
-﻿using Accord.Fuzzy;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 
 namespace SHCAIDA
 {
     public partial class RuleWizard : Window
     {
-        string rule;
         public RuleWizard()
         {
             InitializeComponent();
-            rule += "IF ";
-            foreach (var sensor in RulerCreator.fuzzySensors)
-                SensorsLB.Items.Add(sensor.Name);
+            Rule += "IF ";
+            foreach (var sensor in ProgramMainframe.linguisticVariables)
+                SensorsLB.Items.Add(sensor.name);
+            foreach (var rule in ProgramMainframe.rules)
+                CurrentRulesLB.Items.Add(rule.RuleStr);
         }
 
-        public string Rule { get => rule; set => rule = value; }
+        public string Rule { get; set; }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -24,9 +24,9 @@ namespace SHCAIDA
                 string t = " ";
                 if ((bool)NotCheck.IsChecked)
                     t = " Not ";
-                rule += SensorsLB.SelectedItem + " IS" + t + StatusLB.SelectedItem + " AND ";
+                Rule += SensorsLB.SelectedItem + " IS" + t + StatusLB.SelectedItem + " AND ";
             }
-            RuleTB.Text = rule;
+            RuleTB.Text = Rule;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -36,9 +36,9 @@ namespace SHCAIDA
                 string t = " ";
                 if ((bool)NotCheck.IsChecked)
                     t = " Not ";
-                rule += SensorsLB.SelectedItem + " IS" + t + StatusLB.SelectedItem + " OR ";
+                Rule += SensorsLB.SelectedItem + " IS" + t + StatusLB.SelectedItem + " OR ";
             }
-            RuleTB.Text = rule;
+            RuleTB.Text = Rule;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -48,8 +48,8 @@ namespace SHCAIDA
                 string t = " ";
                 if ((bool)NotCheck.IsChecked)
                     t = " Not ";
-                rule += SensorsLB.SelectedItem + " IS" + t + StatusLB.SelectedItem + " THEN ";
-                RuleTB.Text = rule;
+                Rule += SensorsLB.SelectedItem + " IS" + t + StatusLB.SelectedItem + " THEN ";
+                RuleTB.Text = Rule;
             }
         }
 
@@ -57,10 +57,12 @@ namespace SHCAIDA
         {
             if (RuleCollisionDetection())
             {
-                rule += SensorsLB.SelectedItem + " IS " + StatusLB.SelectedItem;
-                ProgramMainframe.IS.NewRule("", rule);
-                CurrentRulesLB.Items.Add(rule);
-                rule = "IF ";
+                
+                Rule += SensorsLB.SelectedItem + " IS " + StatusLB.SelectedItem;
+                CurrentRulesLB.Items.Add(Rule);
+                ProgramMainframe.rules.Add(new Rule(Rule));
+                Rule = "IF ";
+                RuleTB.Text = Rule;
             }
         }
 
@@ -73,9 +75,15 @@ namespace SHCAIDA
         {
             StatusLB.Items.Clear();
             string sensorName = SensorsLB.SelectedItem.ToString();
-            List<string> labels = new List<string>(RulerCreator.GetLabels(sensorName));
+            List<string> labels = new List<string>(ProgramMainframe.GetSensorLabels(sensorName));
             foreach (var val in labels)
                 StatusLB.Items.Add(val);
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            ProgramMainframe.UpdateFuzzyDBRuleDB();
+            MessageBox.Show("Обновление успешно завершено");
         }
     }
 }

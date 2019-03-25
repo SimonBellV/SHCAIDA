@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="RuleVariablesSetup" Height="397.5" Width="560">
+        Title="RuleVariablesSetup" Height="400" Width="750">
     <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="366" VerticalAlignment="Bottom" Width="552">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="366" VerticalAlignment="Bottom" Width="740">
             <StackPanel Width="224" Height="294" VerticalAlignment="Center" Margin="0,0,0,16">
                 <StackPanel Height="36" Orientation="Horizontal" Margin="10">
                     <Label Content="Имя параметра"/>
@@ -31,12 +31,13 @@
                 </StackPanel>
                 <Button Content="Далее" Width="100" Height="50" Margin="10" Click="Button_Click_3"/>
             </StackPanel>
-            <StackPanel Width="70" VerticalAlignment="Center">
-                <Button Content="Клоц" Width="50" Height="50" Margin="10" Click="Button_Click"/>
-                <Button Content="Реверс" Width="50" Height="50" Margin="10" Click="Button_Click_1"/>
-                <Button Content="Редакт" Width="50" Height="50" Margin="10" Click="Button_Click_2"/>
+            <StackPanel Width="80" VerticalAlignment="Center">
+                <Button Content="Добавить" Width="60" Height="50" Margin="10" Click="Button_Click"/>
+                <Button Content="Удалить" Width="60" Height="50" Margin="10" Click="Button_Click_1"/>
+                <Button Content="Редакт" Width="60" Height="50" Margin="10" Click="Button_Click_2"/>
             </StackPanel>
-            <ListBox x:Name="StatesLB" Width="257" Height="366" VerticalAlignment="Top"/>
+            <ListBox x:Name="SensorsLB" Width="220" Height="360" VerticalAlignment="Top" SelectionChanged="SensorLB_SensorChanged"/>
+            <ListBox x:Name="StatesLB" Width="220" Height="360" VerticalAlignment="Top" />
 
         </StackPanel>
 
