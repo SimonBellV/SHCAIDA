@@ -22,18 +22,11 @@ namespace SHCAIDA
     static class RulerCreator
     {
         public static List<LingVariable> variableTree;
-        //public static bool enableStatusVariable;
-        //public static List<FuzzySet> fuzzySets;
         public static List<LinguisticVariable> fuzzySensors;
-        //public static List<string> fuzzySetsSensorNames;
-        //public static List<RockwellSensor> rockwellSensors;
 
         public static void InitRuleCreation()
         {
             variableTree = new List<LingVariable>();
-            //enableStatusVariable = false;
-            //fuzzySets = new List<FuzzySet>();
-            //fuzzySetsSensorNames = new List<string>();
             fuzzySensors = new List<LinguisticVariable>();
         }
 

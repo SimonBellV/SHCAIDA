@@ -187,7 +187,6 @@ namespace SHCAIDA
         public DbSet<CommonStatus> CommonStatuses { get; set; }
     }
 
-
     static class ProgramMainframe
     {
         public static SiemensSensorsApplicationContext siemensSensors = new SiemensSensorsApplicationContext();
@@ -197,8 +196,7 @@ namespace SHCAIDA
         public static SiemensClientApplicationContext siemensClients = new SiemensClientApplicationContext();
         public static Accord.Fuzzy.Database fuzzyDB = new Accord.Fuzzy.Database();
         public static Accord.Fuzzy.InferenceSystem IS = new Accord.Fuzzy.InferenceSystem(fuzzyDB, new Accord.Fuzzy.CentroidDefuzzifier(1000));
-
-
+        
         public static bool IsSiemensClientAddedByIP(string IP)
         {
             foreach (SiemensClient client in siemensClients.SiemensClients)
@@ -260,6 +258,16 @@ namespace SHCAIDA
             foreach (var val in vals)
                 statusdb.CommonStatuses.Add(new CommonStatus(val));
             statusdb.SaveChanges();
+        }
+
+        public static void ReadFuzzyDatabase()
+        {
+
+        }
+
+        public static void WriteFuzzyDatabase()
+        {
+
         }
     }
 }

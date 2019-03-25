@@ -33,9 +33,10 @@ namespace SHCAIDA
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (!statuses.Contains(StateTB.Text))
-            {
+            {                
                 statuses.Add(StateTB.Text);
                 StatesLB.Items.Add(StateTB.Text);
+                StateTB.Clear();
             }
             else
                 MessageBox.Show("Уже есть такое состояние");
