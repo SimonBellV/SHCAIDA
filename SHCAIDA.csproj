@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="RockwellClient.cs" />
     <Compile Include="SiemensClient.cs" />
+    <Compile Include="SiemensSensor.cs" />
     <Compile Include="StatusListSetup.xaml.cs">
       <DependentUpon>StatusListSetup.xaml</DependentUpon>
     </Compile>

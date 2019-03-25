@@ -10,6 +10,17 @@ using System.Windows;
 
 namespace SHCAIDA
 {
+    public struct SiemensSensorsConnections
+    {
+        public SiemensSensor sensor;
+        public SiemensClient client;
+
+        public SiemensSensorsConnections(SiemensSensor sensor, SiemensClient client)
+        {
+            this.sensor = sensor;
+            this.client = client;
+        }
+    }
     public struct Rule
     {
         public string RuleStr { get; set; }
@@ -66,65 +77,6 @@ namespace SHCAIDA
             {
                 sensorID = value;
                 OnPropertyChanged("Value");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-    }
-
-    public class SiemensSensor : INotifyPropertyChanged
-    {
-        public int ID { get; set; }
-        private string source;
-        private string name;
-        private string adress;
-        public bool ruleType;
-
-        public SiemensSensor()
-        {
-            ID = 0;
-            source = "";
-            name = "";
-            adress = "";
-        }
-        public SiemensSensor(string source, string name, string adress)
-        {
-            this.source = source;
-            this.name = name;
-            this.adress = adress;
-        }
-
-        public string Source
-        {
-            get { return source; }
-            set
-            {
-                source = value;
-                OnPropertyChanged("Source");
-            }
-        }
-
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        public string Adress
-        {
-            get { return adress; }
-            set
-            {
-                adress = value;
-                OnPropertyChanged("Adress");
             }
         }
 
@@ -207,22 +159,37 @@ namespace SHCAIDA
 
     static class ProgramMainframe
     {
-        public static List<Rule> rules = new List<Rule>();
-        public static List<LingVariable> linguisticVariables = new List<LingVariable>();
-        public static SiemensSensorsApplicationContext siemensSensors = new SiemensSensorsApplicationContext();
-        public static SiemensValuesApplicationContext valuesdb = new SiemensValuesApplicationContext();
-        public static CommonStatusContext statusdb = new CommonStatusContext();
+        public static List<Rule> rules;
+        public static List<LingVariable> linguisticVariables;
+        public static SiemensSensorsApplicationContext siemensSensors;
+        public static SiemensValuesApplicationContext valuesdb;
+        public static CommonStatusContext statusdb;
         //public static List<RockwellClient> rockwellClients = new List<RockwellClient>();
-        public static SiemensClientApplicationContext siemensClients = new SiemensClientApplicationContext();
+        public static SiemensClientApplicationContext siemensClients;
         public static Accord.Fuzzy.Database fuzzyDB;
         public static Accord.Fuzzy.InferenceSystem IS;
         public static int rulesCount;
+        public static List<SiemensSensorsConnections> ssconnections;
 
         public static void InitMainframe()
         {
+            siemensSensors = new SiemensSensorsApplicationContext();
+            valuesdb = new SiemensValuesApplicationContext();
+            linguisticVariables = new List<LingVariable>();
+            siemensClients = new SiemensClientApplicationContext();
+            statusdb = new CommonStatusContext();
+            rules = new List<Rule>();
             ReadFuzzyDB();
             ReadRules();
             UpdateFuzzyDBRuleDB();
+            ssconnections = new List<SiemensSensorsConnections>();
+            foreach (var sensor in siemensSensors.SiemensSensors)
+                foreach (var client in siemensClients.SiemensClients)
+                    if (sensor.Source == client.Name)
+                    {
+                        ssconnections.Add(new SiemensSensorsConnections(sensor, client));
+                        break;
+                    }
         }
 
         public static void UpdateFuzzyDBRuleDB()
@@ -433,9 +400,27 @@ namespace SHCAIDA
         {
             foreach (var variable in linguisticVariables)
             {
-                /* if(variable.sourceType=="Siemens")
-                     IS.SetInput(variable.name, siemensClients.SiemensClients.*/
+                if (variable.sourceType == "Siemens")
+                {
+                    var var = ssconnections.Find(x => x.sensor.Name == variable.name);
+                    IS.SetInput(variable.name, var.client.ReadData(var.sensor.Adress));
+                }
+                else if (variable.sourceType == "Rockwell")
+                {
+                    //add like those
+                }
+                else if (variable.sourceType == "SQL Server")
+                {
+                    //add like those
+                }
             }
+            foreach (var variable in linguisticVariables)
+                if (variable.sourceType == "Общее")
+                {
+                    var list = IS.ExecuteInference(variable.name).OutputList;
+                    foreach (var outv in list)
+                        MessageBox.Show(variable.name + " is " + outv.Label);//вести запись куда-то
+                }
         }
     }
 }

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SHCAIDA
@@ -46,7 +43,8 @@ namespace SHCAIDA
         public string Name
         {
             get { return name; }
-            set {
+            set
+            {
                 name = value;
                 OnPropertyChanged("Name");
             }
@@ -55,7 +53,8 @@ namespace SHCAIDA
         public short Rack
         {
             get { return rack; }
-            set {
+            set
+            {
                 rack = value;
                 OnPropertyChanged("Rack");
             }
@@ -84,14 +83,15 @@ namespace SHCAIDA
         public string IP
         {
             get { return ip; }
-            set {
+            set
+            {
                 ip = value;
                 OnPropertyChanged("IP");
             }
         }
 
         public void ConnectToPlc()
-        {            
+        {
             try
             {
                 plc.Open();
@@ -119,8 +119,8 @@ namespace SHCAIDA
 
         private CpuType ParseCpuType(string cpu)
         {
-            switch(cpu)
-            { 
+            switch (cpu)
+            {
                 case "S7200":
                     return CpuType.S7200;
                 case "S7300":
@@ -154,6 +154,18 @@ namespace SHCAIDA
                 data.Add((double)plc.Read(var));
 
             return data;
+        }
+
+        public float ReadData(string variable)
+        {
+            try
+            {
+                return Convert.ToSingle(plc.Read(variable));
+            }
+            catch
+            {
+                return -1;
+            }
         }
 
         private void WriteData(List<string> variables, List<double> values)
