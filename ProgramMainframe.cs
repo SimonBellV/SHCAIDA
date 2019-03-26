@@ -157,6 +157,15 @@ namespace SHCAIDA
         public DbSet<CommonStatus> CommonStatuses { get; set; }
     }
 
+    public class MessageJournalContext : DbContext
+    {
+        public MessageJournalContext() : base("DefaultConnection")
+        {
+            Database.SetInitializer<MessageJournalContext>(null);
+        }
+        public DbSet<MessageJournal> MessageJournals { get; set; }
+    }
+
     static class ProgramMainframe
     {
         public static List<Rule> rules;
@@ -164,6 +173,7 @@ namespace SHCAIDA
         public static SiemensSensorsApplicationContext siemensSensors;
         public static SiemensValuesApplicationContext valuesdb;
         public static CommonStatusContext statusdb;
+        public static MessageJournalContext journaldb;
         //public static List<RockwellClient> rockwellClients = new List<RockwellClient>();
         public static SiemensClientApplicationContext siemensClients;
         public static Accord.Fuzzy.Database fuzzyDB;
@@ -177,6 +187,7 @@ namespace SHCAIDA
             valuesdb = new SiemensValuesApplicationContext();
             linguisticVariables = new List<LingVariable>();
             siemensClients = new SiemensClientApplicationContext();
+            journaldb = new MessageJournalContext();
             statusdb = new CommonStatusContext();
             rules = new List<Rule>();
             ReadFuzzyDB();
@@ -419,7 +430,7 @@ namespace SHCAIDA
                 {
                     var list = IS.ExecuteInference(variable.name).OutputList;
                     foreach (var outv in list)
-                        MessageBox.Show(variable.name + " is " + outv.Label);//вести запись куда-то
+                        journaldb.MessageJournals.Add(new MessageJournal(variable.name, outv.Label, DateTime.Now));
                 }
         }
     }

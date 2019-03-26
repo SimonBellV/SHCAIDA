@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="StatusListSetup" Height="430" Width="320">
+        Title="StatusListSetup" Height="366" Width="320">
     <Grid>
-        <StackPanel Width="300">
-            <StackPanel Height="36" Orientation="Horizontal" Margin="10">
+        <StackPanel Width="300" Margin="6,0,6,10">
+            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
                 <Label Content="Состояние"/>
                 <TextBox x:Name="StateTB" Width="200"/>
             </StackPanel>
@@ -16,7 +16,7 @@
                 <Button Content="Клоц" Width="80" Height="32" Margin="10" Click="Button_Click"/>
                 <Button Content="Реверс" Width="80" Height="32" Margin="10" Click="Button_Click_1" HorizontalAlignment="Right"/>
             </StackPanel>
-            <ListBox x:Name="StatesLB" Width="256" Height="211" VerticalAlignment="Top" Margin="10"/>
+            <ListBox x:Name="StatesLB" Width="256" Height="150" VerticalAlignment="Top" Margin="10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Сохранить" Width="80" Height="32" Margin="10" Click="Button_Click_2"/>
                 <Button Content="Выйти" Width="80" Height="32" Margin="10" Click="Button_Click_3"/>

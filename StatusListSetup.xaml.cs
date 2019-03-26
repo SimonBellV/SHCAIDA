@@ -3,9 +3,7 @@ using System.Windows;
 
 namespace SHCAIDA
 {
-    /// <summary>
-    /// Логика взаимодействия для StateListSetup.xaml
-    /// </summary>
+    
     public partial class StatusListSetup : Window
     {
         private readonly List<string> statuses = new List<string>();
@@ -19,7 +17,7 @@ namespace SHCAIDA
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e) // add to list
         {
             if (!statuses.Contains(StateTB.Text))
             {                
@@ -31,7 +29,7 @@ namespace SHCAIDA
                 MessageBox.Show("Уже есть такое состояние");
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e) // edit
         {
             if (StatesLB.SelectedItem != null)
             {
@@ -42,7 +40,7 @@ namespace SHCAIDA
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e) // save in db
         {
             ProgramMainframe.UpdateStatuses(statuses);
             MessageBox.Show("Сохранено в базе данных");

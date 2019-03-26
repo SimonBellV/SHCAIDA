@@ -119,7 +119,11 @@
       <DependentUpon>ChooseDataSourceToAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataSourceAdder.cs" />
+    <Compile Include="JournalEvent.xaml.cs">
+      <DependentUpon>JournalEvent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LingVariable.cs" />
+    <Compile Include="MessageJournal.cs" />
     <Compile Include="ProgramMainframe.cs" />
     <Compile Include="RuleSensors.xaml.cs">
       <DependentUpon>RuleSensors.xaml</DependentUpon>
@@ -147,6 +151,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ChooseDataSourceToAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JournalEvent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
