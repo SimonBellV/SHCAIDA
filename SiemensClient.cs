@@ -175,9 +175,7 @@ namespace SHCAIDA
             try
             {
                 for (var i = 0; i < variables.Count; i++)
-                {
                     plc.Write(variables[i], values[i]);
-                }
             }
             catch (Exception e)
             {

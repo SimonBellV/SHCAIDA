@@ -65,20 +65,24 @@ namespace SHCAIDA
         {
             try
             {
-                if (!UsingSourceTypesLV.Items.Contains(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString()))
-                    UsingSourceTypesLV.Items.Add(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString());
-                if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() != "Общее"
-                    && !UsingSourcesLV.Items.Contains(DataSourceNameCB.SelectedItem.ToString())
-                    && UsingSourceTypesLV.SelectedItem!=null
-                    && ((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == UsingSourceTypesLV.SelectedItem.ToString()
-                    )
-                    UsingSourcesLV.Items.Add(DataSourceNameCB.SelectedItem.ToString());
-                UsingSensorsLV.Items.Add(SensorsCB.SelectedItem.ToString());
-                if (DataSourceNameCB.SelectedItem != null)
-                    ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), DataSourceNameCB.SelectedItem.ToString(), SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
-                else
-                    ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), "", SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
-                SensorsCB.Items.Remove(SensorsCB.SelectedItem);
+                if (LeftBorderTB.Value.Value < RightBorderTB.Value.Value)
+                {
+                    if (!UsingSourceTypesLV.Items.Contains(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString()))
+                        UsingSourceTypesLV.Items.Add(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString());
+                    if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() != "Общее"
+                        && !UsingSourcesLV.Items.Contains(DataSourceNameCB.SelectedItem.ToString())
+                        && UsingSourceTypesLV.SelectedItem != null
+                        && ((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == UsingSourceTypesLV.SelectedItem.ToString()
+                        )
+                        UsingSourcesLV.Items.Add(DataSourceNameCB.SelectedItem.ToString());
+                    UsingSensorsLV.Items.Add(SensorsCB.SelectedItem.ToString());
+                    if (DataSourceNameCB.SelectedItem != null)
+                        ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), DataSourceNameCB.SelectedItem.ToString(), SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
+                    else
+                        ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), "", SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
+                    SensorsCB.Items.Remove(SensorsCB.SelectedItem);
+                }
+                else throw new Exception("Несоответствие по границам");
             }
             catch (Exception exp)
             {

@@ -385,7 +385,7 @@ namespace SHCAIDA
         public static void AddLabel(string varName, Status label)
         {
             int pos = FindLabelIndex(varName, label.name);
-            if (pos == -1 || pos != -1 && linguisticVariables.Find(x => x.name == varName).start <= label.GetFuzzy.LeftLimit && linguisticVariables.Find(x => x.name == varName).end >= label.GetFuzzy.RightLimit)
+            if (pos == -1 || pos != -1 && linguisticVariables.Find(x => x.name == varName).start <= label.GetGetFuzzy().LeftLimit && linguisticVariables.Find(x => x.name == varName).end >= label.GetGetFuzzy().RightLimit)
                 linguisticVariables.Find(x => x.name == varName).labels.Add(label);
             else
                 MessageBox.Show("Произошла ошибка при добавлении статуса переменной");

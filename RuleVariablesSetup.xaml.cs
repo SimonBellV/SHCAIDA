@@ -17,8 +17,9 @@ namespace SHCAIDA
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)//add
-        {
+        {            
             Status t = new Status(ValueNameTB.Text, V1TB.Text, V2TB.Text, V3TB.Text, V4TB.Text);
+            if(t.V1<t.V2 && t.V2<t.V3 && t.V3<t.V4 || t.V1 < t.V2 && (t.V3 == float.MinValue || t.V3 == float.MaxValue))
             ProgramMainframe.AddLabel(SensorsCB.SelectedItem.ToString(), t);
             if (!SensorsLB.Items.Contains(SensorsCB.SelectedItem.ToString()))
                 SensorsLB.Items.Add(SensorsCB.SelectedItem.ToString());
