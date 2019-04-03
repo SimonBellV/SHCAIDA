@@ -11,10 +11,14 @@
         <StackPanel HorizontalAlignment="Left" Height="419"  VerticalAlignment="Top" Width="700" Orientation="Horizontal">
             <DataGrid x:Name="DataTableDG" Width="500"/>
             <StackPanel Height="419" Width="200" Orientation="Vertical" VerticalAlignment="Center">
-                <Label Content="Источник состояния" Margin="0,10,0,0"/>
-                <ComboBox x:Name="StateTypeCB" Width="160"></ComboBox>
+                <Label Content="Тип источник данных" Margin="0,10,0,0"/>
+                <ComboBox x:Name="SensorSourceTypeCB" Width="160" SelectionChanged="SensorSourceTypeCB_SelectionChanged"></ComboBox>
+                <Label Content="Источник данных" Margin="0,10,0,0"/>
+                <ComboBox x:Name="SensorSourceCB" Width="160" SelectionChanged="SensorSourceCB_SelectionChanged"></ComboBox>
+                <Label Content="Датчик" Margin="0,10,0,0"/>
+                <ComboBox x:Name="SensorCB" Width="160" SelectionChanged="SensorCB_SelectionChanged"></ComboBox>
                 <Label Content="Состояние" Margin="0,10,0,0"/>
-                <ComboBox x:Name="StateCB" Width="160"></ComboBox>
+                <ComboBox x:Name="StateCB" Width="160" SelectionChanged="StateCB_SelectionChanged"></ComboBox>
                 <Label Content="Дата начала:" Margin="0,10,0,0"/>
                 <t:DateTimePicker x:Name="LeftTimeDTP" Width="160"></t:DateTimePicker >
                 <Label Content="Дата окончания:" Margin="0,10,0,0"/>

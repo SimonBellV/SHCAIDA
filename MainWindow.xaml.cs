@@ -57,5 +57,11 @@ namespace SHCAIDA
             StatusListSetup f = new StatusListSetup();
             f.Show();
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            JournalEvent f = new JournalEvent();
+            f.Show();
+        }
     }
 }
