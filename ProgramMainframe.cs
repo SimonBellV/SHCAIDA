@@ -209,7 +209,7 @@ namespace SHCAIDA
             foreach (var val in linguisticVariables)
             {
                 fuzzyDB.AddVariable(val.ConvertToLinguisticVariable);
-                MessageBox.Show(val.name);
+                //MessageBox.Show(val.name);
             }
             IS = new Accord.Fuzzy.InferenceSystem(fuzzyDB, new Accord.Fuzzy.CentroidDefuzzifier(1000));
             foreach (var val in rules)
