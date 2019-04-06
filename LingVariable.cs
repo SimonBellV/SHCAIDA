@@ -36,6 +36,10 @@ namespace SHCAIDA
                 return t;
             }
         }
+
+        public bool IsLoggingActive(string status) => labels.Find(x => x.name == status).isLogging;
+
+        public void UpdateLogging(string status, bool newWay) => labels.Find(x => x.name == status).isLogging = newWay;
     }
 
     public class Status
@@ -46,6 +50,7 @@ namespace SHCAIDA
         public float V2;
         public float V3;
         public float V4;
+        public bool isLogging;
 
         public string String => name + " - " + V1 + " ," + V2 + " ," + V3 + " ," + V4;
 
@@ -61,6 +66,7 @@ namespace SHCAIDA
 
         public Status(string name, string V1, string V2, string V3, string V4)
         {
+            isLogging = false;
             this.name = name;
             try
             {
@@ -103,6 +109,7 @@ namespace SHCAIDA
             V2 = 0;
             V3 = 0;
             V4 = 0;
+            isLogging = false;
         }
     }
 }

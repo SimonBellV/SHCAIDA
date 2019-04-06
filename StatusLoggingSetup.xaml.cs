@@ -1,54 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace SHCAIDA
 {
-    public partial class JournalEvent : Window
+    /// <summary>
+    /// Логика взаимодействия для StatusLoggingSetup.xaml
+    /// </summary>
+    public partial class StatusLoggingSetup : Window
     {
-        public JournalEvent()
+        public StatusLoggingSetup()
         {
             InitializeComponent();
             SensorSourceTypeCB.Items.Add("Siemens");
             SensorSourceTypeCB.Items.Add("Rockwell");
             SensorSourceTypeCB.Items.Add("SQL Server");
             SensorSourceTypeCB.Items.Add("Общее");
-        }
-        
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (AllFieldsNotNull())
-            {
-                DataTableDG.Items.Clear();
-                List<MessageJournal> journalSnapshot = new List<MessageJournal>();
-                SQLiteParameter left = new SQLiteParameter("@leftData", LeftTimeDTP.Value.Value.Ticks);
-                SQLiteParameter right = new SQLiteParameter("@rightData", RightTimeDTP.Value.Value.Ticks);
-                SQLiteParameter state = new SQLiteParameter("@state", StateCB.SelectedItem.ToString());
-                SQLiteParameter sensor = new SQLiteParameter("@sensor", SensorCB.SelectedItem.ToString());
-                SQLiteParameter[] a = new SQLiteParameter[4];
-                a[0] = left;
-                a[1] = right;
-                a[2] = state;
-                a[3] = sensor;
-                journalSnapshot = ProgramMainframe.journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournal WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
-                foreach (var message in journalSnapshot)
-                    DataTableDG.Items.Add(message.Sensor + " " + message.State + " " + Convert.ToDateTime(message.Time));
-            }
-            else
-                MessageBox.Show("Проверьте все ли поля заполнены!");
-        }
-
-        private bool AllFieldsNotNull()
-        {
-            if (LeftTimeDTP.Value.Value != null &&
-                RightTimeDTP.Value.Value != null &&
-                StateCB.SelectedItem != null &&
-                SensorCB.SelectedItem != null)
-                return true;
-            else
-                return false;
         }
 
         private void SensorSourceTypeCB_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -116,6 +93,18 @@ namespace SHCAIDA
                     MessageBox.Show("Для этого датчика нет заданных состояних");
             }
             catch { }
+        }
+
+        private void StateCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(StateCB.SelectedItem!=null)
+                LogStatusChB.IsChecked = ProgramMainframe.linguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).IsLoggingActive(StateCB.SelectedItem.ToString());
+        }
+
+        private void LogUpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (StateCB.SelectedItem != null)
+                ProgramMainframe.linguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).UpdateLogging(StateCB.SelectedItem.ToString(), LogStatusChB.IsChecked.Value);
         }
     }
 }

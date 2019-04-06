@@ -8,13 +8,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Menu HorizontalAlignment="Left" Height="330" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
+        <Menu HorizontalAlignment="Left" Height="383" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
             <Button Margin="10" Height="32" Content="Добавить источник данных реального времени" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280" Click="Button_Click"/>
             <Button Margin="10" Height="32" Content="Загрузить данные из архивов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"/>
             <Button Margin="10" Height="32" Content="Добавить датчик" Width="280" Click="Button_Click_2"/>
             <Button Margin="10" Height="32" Content="Задать правило" Width="280" Click="Button_Click_3"/>
             <Button Margin="10" Height="32" Content="Задать переменную состояния" Width="280" Click="Button_Click_4"/>
             <Button Margin="10" Height="32" Content="Открыть журнал событий" Width="280" Click="Button_Click_5"/>
+            <Button Margin="10" Height="32" Content="Настроить логирование состояний" Width="280" Click="Button_Click_6"/>
         </Menu>
 
     </Grid>

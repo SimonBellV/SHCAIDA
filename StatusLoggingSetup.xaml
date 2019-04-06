@@ -1,0 +1,24 @@
+﻿<Window x:Class="SHCAIDA.StatusLoggingSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SHCAIDA"
+        mc:Ignorable="d"
+        Title="StatusLoggingSetup" Height="350" Width="210">
+    <Grid>
+        <StackPanel Height="320" Width="200" Orientation="Vertical" VerticalAlignment="Center">
+            <Label Content="Тип источник данных" Margin="0,10,0,0"/>
+            <ComboBox x:Name="SensorSourceTypeCB" Width="160" SelectionChanged="SensorSourceTypeCB_SelectionChanged"></ComboBox>
+            <Label Content="Источник данных" Margin="0,10,0,0"/>
+            <ComboBox x:Name="SensorSourceCB" Width="160" SelectionChanged="SensorSourceCB_SelectionChanged"></ComboBox>
+            <Label Content="Датчик" Margin="0,10,0,0"/>
+            <ComboBox x:Name="SensorCB" Width="160" SelectionChanged="SensorCB_SelectionChanged"></ComboBox>
+            <Label Content="Состояние" Margin="0,10,0,0"/>
+            <ComboBox x:Name="StateCB" Width="160" SelectionChanged="StateCB_SelectionChanged"></ComboBox>
+            <CheckBox Content="Необходимость логирования" x:Name="LogStatusChB" Margin="0,10,0,0"/>
+            <Button Content="Обновить" Height="32" x:Name="LogUpdateButton" Margin="10" Click="LogUpdateButton_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace SHCAIDA
 {
+    /// <summary>
+    /// Ядро системы
+    /// </summary>
     public struct SiemensSensorsConnections
     {
         public SiemensSensor sensor;
@@ -21,6 +24,7 @@ namespace SHCAIDA
             this.client = client;
         }
     }
+
     public struct Rule
     {
         public string RuleStr { get; set; }
@@ -203,6 +207,9 @@ namespace SHCAIDA
                     }
         }
 
+        /// <summary>
+        ///Апдейт нечеткой базы данных и IS
+        /// </summary>
         public static void UpdateFuzzyDBRuleDB()
         {
             fuzzyDB = new Accord.Fuzzy.Database();
@@ -426,12 +433,14 @@ namespace SHCAIDA
                 }
             }
             foreach (var variable in linguisticVariables)
-                if (variable.sourceType == "Общее")
-                {
-                    var list = IS.ExecuteInference(variable.name).OutputList;
-                    foreach (var outv in list)
+            {
+                var list = IS.ExecuteInference(variable.name).OutputList;
+                foreach (var outv in list)
+                    if(linguisticVariables.Find(x=>x.name== variable.name).labels.Find(y=>y.name == outv.Label).isLogging)
                         journaldb.MessageJournals.Add(new MessageJournal(variable.name, outv.Label, DateTime.Now));
-                }
+            }
         }
+
+        public static void PostEvent(MessageJournal logEvent) => journaldb.MessageJournals.Add(logEvent);
     }
 }
