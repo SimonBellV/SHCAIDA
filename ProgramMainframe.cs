@@ -171,6 +171,15 @@ namespace SHCAIDA
         public DbSet<MessageJournal> MessageJournals { get; set; }
     }
 
+    public class MSSQLClientApplicationContext : DbContext
+    {
+        public MSSQLClientApplicationContext() : base("DefaultConnection")
+        {
+            Database.SetInitializer<MSSQLClientApplicationContext>(null);
+        }
+        public DbSet<MSSQLClient> MSSQLClients { get; set; }
+    }
+
     static class ProgramMainframe
     {
         public static List<Rule> rules;
@@ -187,6 +196,7 @@ namespace SHCAIDA
         public static List<SiemensSensorsConnections> ssconnections;
         private static bool iSRunning;
         public static long ISTimeout;
+        public static MSSQLClientApplicationContext mssqlClients;
 
         public static bool ISRunning
         {
@@ -209,6 +219,7 @@ namespace SHCAIDA
             siemensClients = new SiemensClientApplicationContext();
             journaldb = new MessageJournalContext();
             statusdb = new CommonStatusContext();
+            mssqlClients = new MSSQLClientApplicationContext();
             rules = new List<Rule>();
             ReadFuzzyDB();
             ReadRules();

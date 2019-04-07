@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
-    public class SiemensSensor : INotifyPropertyChanged
+    public class SiemensSensor : Sensor
     {
         public int ID { get; set; }
         private string source;
@@ -54,8 +54,8 @@ namespace SHCAIDA
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public new event PropertyChangedEventHandler PropertyChanged;
+        public new void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }

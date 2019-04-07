@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace SHCAIDA
 {
@@ -22,6 +10,38 @@ namespace SHCAIDA
         public SQLSourceConnectionPropertiesSetup()
         {
             InitializeComponent();
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataSourceTB.Text != null && InitCatalogTB.Text != null && UserTB.Text != null && PasswordTB.Password != null && CheckConnection())
+            {
+                ProgramMainframe.mssqlClients.MSSQLClients.Add(new MSSQLClient(DataSourceTB.Text, InitCatalogTB.Text, UserTB.Text, PasswordTB.Password));
+                ProgramMainframe.mssqlClients.SaveChanges();
+            }
+
+        }
+
+        private void CheckStatusButton_Click(object sender, RoutedEventArgs e)
+        {
+            CheckConnection();
+        }
+
+        /// <summary>
+        /// Проверяет успешность соединения - без этого клиент не подвяжется к БД
+        /// </summary>
+        private bool CheckConnection()
+        {
+            if (new MSSQLClient(DataSourceTB.Text, InitCatalogTB.Text, UserTB.Text, PasswordTB.Password).CheckConnection())
+            {
+                MessageBox.Show("Соединение успешно проверено");
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Соединение не установлено");
+                return false;
+            }
         }
     }
 }

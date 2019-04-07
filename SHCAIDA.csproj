@@ -138,6 +138,7 @@
     <Compile Include="RuleWizard.xaml.cs">
       <DependentUpon>RuleWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sensor.cs" />
     <Compile Include="SensorListSetup.xaml.cs">
       <DependentUpon>SensorListSetup.xaml</DependentUpon>
     </Compile>

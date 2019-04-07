@@ -3,10 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="SQLSourceConnectionPropertiesSetup" Height="450" Width="800">
+        Title="SQLSourceConnectionPropertiesSetup" Height="280" Width="320" ResizeMode="NoResize">
     <Grid>
-        
+        <StackPanel HorizontalAlignment="Left" Height="250" VerticalAlignment="Top" Width="300">
+            <StackPanel Orientation="Horizontal" Height="50">
+                <Label Content="Источник данных" Margin="10"/>
+                <TextBox x:Name="DataSourceTB" TextWrapping="Wrap" Text="" Width="120" Margin="10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="50">
+                <Label Content="Начальный каталог"  Margin="10"/>
+                <TextBox x:Name="InitCatalogTB" TextWrapping="Wrap" Text="" Width="120" Margin="10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="50">
+                <Label Content="Пользователь"  Margin="10"/>
+                <TextBox x:Name="UserTB" TextWrapping="Wrap" Text="" Width="120"  Margin="10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="50">
+                <Label Content="Пароль" Margin="10"/>
+                <PasswordBox x:Name="PasswordTB" Width="120"  Margin="10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50">
+                <Button x:Name="SaveButton" Content="Сохранить" Width="80"  Margin="10" Click="SaveButton_Click"/>
+                <Button x:Name="CheckStatusButton" Content="Проверить связь" Width="120"  Margin="10" Click="CheckStatusButton_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
