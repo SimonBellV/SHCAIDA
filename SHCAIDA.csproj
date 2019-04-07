@@ -115,57 +115,61 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ChooseArchiveDataSourceToAdd.xaml.cs">
+    <Compile Include="Forms\ChooseArchiveDataSourceToAdd.xaml.cs">
       <DependentUpon>ChooseArchiveDataSourceToAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChooseDataSourceToAdd.xaml.cs">
+    <Compile Include="Forms\ChooseDataSourceToAdd.xaml.cs">
       <DependentUpon>ChooseDataSourceToAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataSourceAdder.cs" />
-    <Compile Include="JournalEvent.xaml.cs">
+    <Compile Include="Forms\JournalEvent.xaml.cs">
       <DependentUpon>JournalEvent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MSSQLSensorAdd.xaml.cs">
+      <DependentUpon>MSSQLSensorAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="LingVariable.cs" />
     <Compile Include="MessageJournal.cs" />
     <Compile Include="MSSQLClient.cs" />
     <Compile Include="ProgramMainframe.cs" />
-    <Compile Include="RuleSensors.xaml.cs">
+    <Compile Include="Forms\RuleSensors.xaml.cs">
       <DependentUpon>RuleSensors.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RuleVariablesSetup.xaml.cs">
+    <Compile Include="Forms\RuleVariablesSetup.xaml.cs">
       <DependentUpon>RuleVariablesSetup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RuleWizard.xaml.cs">
+    <Compile Include="Forms\RuleWizard.xaml.cs">
       <DependentUpon>RuleWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sensor.cs" />
-    <Compile Include="SensorListSetup.xaml.cs">
-      <DependentUpon>SensorListSetup.xaml</DependentUpon>
+    <Compile Include="Forms\SiemensSensorAdd.xaml.cs">
+      <DependentUpon>SiemensSensorAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SiemensPLCSourceAdd.xaml.cs">
-      <DependentUpon>SiemensPLCSourceAdd.xaml</DependentUpon>
+    <Compile Include="Forms\SiemensSourceAdd.xaml.cs">
+      <DependentUpon>SiemensSourceAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="RockwellClient.cs" />
     <Compile Include="SiemensClient.cs" />
     <Compile Include="SiemensSensor.cs" />
-    <Compile Include="SQLSourceConnectionPropertiesSetup.xaml.cs">
-      <DependentUpon>SQLSourceConnectionPropertiesSetup.xaml</DependentUpon>
+    <Compile Include="MSSQLSensor.cs" />
+    <Compile Include="Forms\MSSQLSourceAdd.xaml.cs">
+      <DependentUpon>MSSQLSourceAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StatusListSetup.xaml.cs">
+    <Compile Include="Forms\StatusListSetup.xaml.cs">
       <DependentUpon>StatusListSetup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StatusLoggingSetup.xaml.cs">
+    <Compile Include="Forms\StatusLoggingSetup.xaml.cs">
       <DependentUpon>StatusLoggingSetup.xaml</DependentUpon>
     </Compile>
-    <Page Include="ChooseArchiveDataSourceToAdd.xaml">
+    <Page Include="Forms\ChooseArchiveDataSourceToAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ChooseDataSourceToAdd.xaml">
+    <Page Include="Forms\ChooseDataSourceToAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JournalEvent.xaml">
+    <Page Include="Forms\JournalEvent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,35 +185,39 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RuleSensors.xaml">
+    <Page Include="Forms\MSSQLSensorAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RuleVariablesSetup.xaml">
+    <Page Include="Forms\RuleSensors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RuleWizard.xaml">
+    <Page Include="Forms\RuleVariablesSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SensorListSetup.xaml">
+    <Page Include="Forms\RuleWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SiemensPLCSourceAdd.xaml">
+    <Page Include="Forms\SiemensSensorAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SQLSourceConnectionPropertiesSetup.xaml">
+    <Page Include="Forms\SiemensSourceAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StatusListSetup.xaml">
+    <Page Include="Forms\MSSQLSourceAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StatusLoggingSetup.xaml">
+    <Page Include="Forms\StatusListSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\StatusLoggingSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -244,6 +252,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

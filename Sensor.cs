@@ -10,8 +10,10 @@ namespace SHCAIDA
 {
     public class Sensor : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public int ID { get; set; }
+        public string name;
+        public virtual event PropertyChangedEventHandler PropertyChanged;
+        public virtual void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }

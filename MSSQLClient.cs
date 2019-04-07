@@ -68,6 +68,15 @@ namespace SHCAIDA
             this.password = password ?? throw new ArgumentNullException(nameof(password));
         }
 
+        public MSSQLClient()
+        {
+            ID = -1;
+            DataSource = "";
+            InitCatalog = "";
+            User = "";
+            Password = "";
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName]string prop = "")

@@ -17,29 +17,32 @@ namespace SHCAIDA
     /// <summary>
     /// Логика взаимодействия для SensorListSetup.xaml
     /// </summary>
-    public partial class SensorListSetup : Window
+    public partial class SiemensSensorAdd : Window
     {
-        public SensorListSetup()
+        public SiemensSensorAdd()
         {
             InitializeComponent();
+            DataSourceTypeCB.Items.Add("Siemens");
+            DataSourceTypeCB.Items.Add("Rockwell");
+            DataSourceTypeCB.Items.Add("SQL Server");
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataSourceNameCB.Items.Clear();
-            if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "Siemens")
+            if (DataSourceTypeCB.SelectedItem.ToString() == "Siemens")
             {
                 foreach (var plc in ProgramMainframe.siemensClients.SiemensClients)
                     if(plc.Name!=null)
                         DataSourceNameCB.Items.Add(plc.Name);
             }
-            else if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "Rockwell")
+            else if (DataSourceTypeCB.SelectedItem.ToString() == "Rockwell")
             {
                 MessageBox.Show("Will be ready soon");
                 /*foreach (var plc in ProgramMainframe.rockwellClients)
                     DataSourceNameCB.Items.Add(plc.name);*/
             }
-            else if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "SQL Server")
+            else if (DataSourceTypeCB.SelectedItem.ToString() == "SQL Server")
                 MessageBox.Show("Will be ready soon");
         }
 
@@ -47,7 +50,8 @@ namespace SHCAIDA
         {
             try
             {
-                ProgramMainframe.siemensSensors.SiemensSensors.Add(new SiemensSensor(((ComboBoxItem)DataSourceNameCB.SelectedItem).Content.ToString(), NameTB.Text, AdressTB.Text));
+                ProgramMainframe.siemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text));
+                ProgramMainframe.siemensSensors.SaveChanges();
             }
             catch (Exception exp)
             {

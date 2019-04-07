@@ -13,10 +13,6 @@
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
                     <Label Content="Тип источника"/>
                     <ComboBox x:Name="DataSourceTypeCB" Width="120" SelectionChanged="ComboBox_SelectionChanged">
-                        <ComboBoxItem>Siemens</ComboBoxItem>
-                        <ComboBoxItem>Rockwell</ComboBoxItem>
-                        <ComboBoxItem>SQL Server</ComboBoxItem>
-                        <ComboBoxItem>Общее</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">

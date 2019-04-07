@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SHCAIDA.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace SHCAIDA
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            SensorListSetup f = new SensorListSetup();
+            SiemensSensorAdd f = new SiemensSensorAdd();
             f.Show();
         }
 
@@ -86,6 +87,12 @@ namespace SHCAIDA
                     ProgramMainframe.ISRunning = false;
                 }
             }
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            MSSQLSensorAdd f = new MSSQLSensorAdd();
+            f.Show();
         }
     }
 }

@@ -9,6 +9,10 @@ namespace SHCAIDA
         public RuleSensors()
         {
             InitializeComponent();
+            DataSourceTypeCB.Items.Add("Siemens");
+            DataSourceTypeCB.Items.Add("Rockwell");
+            DataSourceTypeCB.Items.Add("SQL Server");
+            DataSourceTypeCB.Items.Add("Общее");
             foreach (var val in ProgramMainframe.linguisticVariables)
                 if (!UsingSourceTypesLV.Items.Contains(val.sourceType))
                     UsingSourceTypesLV.Items.Add(val.sourceType);
@@ -17,7 +21,7 @@ namespace SHCAIDA
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataSourceNameCB.Items.Clear();
-            switch (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString())
+            switch (DataSourceTypeCB.SelectedItem.ToString())
             {
                 case "Siemens":
                     {
@@ -54,7 +58,7 @@ namespace SHCAIDA
         private void DataSourceNameCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SensorsCB.Items.Clear();
-            if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == "Siemens")
+            if (DataSourceTypeCB.SelectedItem.ToString() == "Siemens")
                 foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
                     if (DataSourceNameCB.SelectedItem.ToString() == sensor.Source && !UsingSensorsLV.Items.Contains(sensor.Name))
                         SensorsCB.Items.Add(sensor.Name);
@@ -67,19 +71,19 @@ namespace SHCAIDA
             {
                 if (LeftBorderTB.Value.Value < RightBorderTB.Value.Value)
                 {
-                    if (!UsingSourceTypesLV.Items.Contains(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString()))
-                        UsingSourceTypesLV.Items.Add(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString());
-                    if (((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() != "Общее"
+                    if (!UsingSourceTypesLV.Items.Contains(DataSourceTypeCB.SelectedItem.ToString()))
+                        UsingSourceTypesLV.Items.Add(DataSourceTypeCB.SelectedItem.ToString());
+                    if (DataSourceTypeCB.SelectedItem.ToString() != "Общее"
                         && !UsingSourcesLV.Items.Contains(DataSourceNameCB.SelectedItem.ToString())
                         && UsingSourceTypesLV.SelectedItem != null
-                        && ((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString() == UsingSourceTypesLV.SelectedItem.ToString()
+                        && DataSourceTypeCB.SelectedItem.ToString() == UsingSourceTypesLV.SelectedItem.ToString()
                         )
                         UsingSourcesLV.Items.Add(DataSourceNameCB.SelectedItem.ToString());
                     UsingSensorsLV.Items.Add(SensorsCB.SelectedItem.ToString());
                     if (DataSourceNameCB.SelectedItem != null)
-                        ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), DataSourceNameCB.SelectedItem.ToString(), SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
+                        ProgramMainframe.AddLingVariable(DataSourceTypeCB.SelectedItem.ToString(), DataSourceNameCB.SelectedItem.ToString(), SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
                     else
-                        ProgramMainframe.AddLingVariable(((ComboBoxItem)DataSourceTypeCB.SelectedItem).Content.ToString(), "", SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
+                        ProgramMainframe.AddLingVariable(DataSourceTypeCB.SelectedItem.ToString(), "", SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
                     SensorsCB.Items.Remove(SensorsCB.SelectedItem);
                 }
                 else throw new Exception("Несоответствие по границам");

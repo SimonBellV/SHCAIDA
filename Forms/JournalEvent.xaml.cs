@@ -22,7 +22,7 @@ namespace SHCAIDA
             if (AllFieldsNotNull())
             {
                 DataTableDG.Items.Clear();
-                List<MessageJournal> journalSnapshot = new List<MessageJournal>();
+                //List<MessageJournal> journalSnapshot = new List<MessageJournal>();
                 SQLiteParameter left = new SQLiteParameter("@leftData", LeftTimeDTP.Value.Value.Ticks);
                 SQLiteParameter right = new SQLiteParameter("@rightData", RightTimeDTP.Value.Value.Ticks);
                 SQLiteParameter state = new SQLiteParameter("@state", StateCB.SelectedItem.ToString());
@@ -32,7 +32,8 @@ namespace SHCAIDA
                 a[1] = right;
                 a[2] = state;
                 a[3] = sensor;
-                journalSnapshot = ProgramMainframe.journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournal WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
+                //experimental
+                var journalSnapshot = ProgramMainframe.journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournal WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
                 foreach (var message in journalSnapshot)
                     DataTableDG.Items.Add(message.Sensor + " " + message.State + " " + Convert.ToDateTime(message.Time));
             }

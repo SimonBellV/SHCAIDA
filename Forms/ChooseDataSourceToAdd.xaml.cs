@@ -51,7 +51,7 @@ namespace SHCAIDA
             }
             else if (MSSQLRB.IsChecked == true)
             {
-                SQLSourceConnectionPropertiesSetup f = new SQLSourceConnectionPropertiesSetup();
+                MSSQLSourceAdd f = new MSSQLSourceAdd();
                 f.Show();
             }
         }

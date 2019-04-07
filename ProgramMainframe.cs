@@ -180,6 +180,15 @@ namespace SHCAIDA
         public DbSet<MSSQLClient> MSSQLClients { get; set; }
     }
 
+    public class MSSQLSensorApplicationContext : DbContext
+    {
+        public MSSQLSensorApplicationContext() : base("DefaultConnection")
+        {
+            Database.SetInitializer<MSSQLSensorApplicationContext>(null);
+        }
+        public DbSet<MSSQLSensor> MSSQLSensors { get; set; }
+    }
+
     static class ProgramMainframe
     {
         public static List<Rule> rules;
@@ -197,6 +206,7 @@ namespace SHCAIDA
         private static bool iSRunning;
         public static long ISTimeout;
         public static MSSQLClientApplicationContext mssqlClients;
+        public static MSSQLSensorApplicationContext mssqlSensors;
 
         public static bool ISRunning
         {
@@ -220,6 +230,7 @@ namespace SHCAIDA
             journaldb = new MessageJournalContext();
             statusdb = new CommonStatusContext();
             mssqlClients = new MSSQLClientApplicationContext();
+            mssqlSensors = new MSSQLSensorApplicationContext();
             rules = new List<Rule>();
             ReadFuzzyDB();
             ReadRules();
@@ -488,6 +499,14 @@ namespace SHCAIDA
         {
             journaldb.MessageJournals.Add(logEvent);
             journaldb.SaveChanges();
+        }
+
+        public static int GetMSSQLClientID(string dataSource)
+        {
+            foreach (var client in mssqlClients.MSSQLClients)
+                if (client.DataSource == dataSource)
+                    return client.ID;
+            return -1;
         }
     }
 }

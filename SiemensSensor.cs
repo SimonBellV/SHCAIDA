@@ -5,9 +5,7 @@ namespace SHCAIDA
 {
     public class SiemensSensor : Sensor
     {
-        public int ID { get; set; }
         private string source;
-        private string name;
         private string adress;
 
         public SiemensSensor()
@@ -54,8 +52,8 @@ namespace SHCAIDA
             }
         }
 
-        public new event PropertyChangedEventHandler PropertyChanged;
-        public new void OnPropertyChanged([CallerMemberName]string prop = "")
+        public override event PropertyChangedEventHandler PropertyChanged;
+        public override void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }

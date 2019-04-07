@@ -5,16 +5,17 @@ namespace SHCAIDA
     /// <summary>
     /// Логика взаимодействия для SQLSourceConnectionPropertiesSetup.xaml
     /// </summary>
-    public partial class SQLSourceConnectionPropertiesSetup : Window
+    public partial class MSSQLSourceAdd : Window
     {
-        public SQLSourceConnectionPropertiesSetup()
+        public MSSQLSourceAdd()
         {
             InitializeComponent();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DataSourceTB.Text != null && InitCatalogTB.Text != null && UserTB.Text != null && PasswordTB.Password != null && CheckConnection())
+            //uncomment additional condition on release
+            if (DataSourceTB.Text != null && InitCatalogTB.Text != null && UserTB.Text != null && PasswordTB.Password != null/* && CheckConnection()*/)
             {
                 ProgramMainframe.mssqlClients.MSSQLClients.Add(new MSSQLClient(DataSourceTB.Text, InitCatalogTB.Text, UserTB.Text, PasswordTB.Password));
                 ProgramMainframe.mssqlClients.SaveChanges();
