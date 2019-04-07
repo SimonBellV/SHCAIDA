@@ -49,6 +49,11 @@ namespace SHCAIDA
                 SiemensPLCSourceAdd siemensAdd = new SiemensPLCSourceAdd();
                 siemensAdd.Show();
             }
+            else if (MSSQLRB.IsChecked == true)
+            {
+                SQLSourceConnectionPropertiesSetup f = new SQLSourceConnectionPropertiesSetup();
+                f.Show();
+            }
         }
     }
 }

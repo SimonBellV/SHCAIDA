@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -347,6 +347,7 @@ namespace SHCAIDA
         /// </summary>
         public static void WriteFuzzyDB()
         {
+            string output = JsonConvert.SerializeObject(linguisticVariables);
             using (StreamWriter sw = new StreamWriter("fuzzyDB.txt"))
             {
                 sw.WriteLine(linguisticVariables.Count);
@@ -368,6 +369,10 @@ namespace SHCAIDA
                         sw.WriteLine(label.V4);
                     }
                 }
+            }
+            using (StreamWriter sw = new StreamWriter("fuzzyDBexperimental.txt"))
+            {
+                sw.WriteLine(output);
             }
         }//рассмотреть целесообразность записи в json
 
@@ -436,8 +441,7 @@ namespace SHCAIDA
             var timer = new System.Threading.Timer(async (e) =>
             {
                 await Task.Run(() => LoadIS());
-            }, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(ISTimeout));
-            
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(ISTimeout));
         }
 
         public static void LoadIS()
@@ -464,8 +468,7 @@ namespace SHCAIDA
                 foreach (var outv in list)
                     if (linguisticVariables.Find(x => x.name == variable.name).labels.Find(y => y.name == outv.Label).isLogging)
                     {
-                        //Task.Factory.StartNew(() => PostEvent(new MessageJournal(variable.name, outv.Label, DateTime.Now)));
-                        PostEvent(new MessageJournal(variable.name, outv.Label, DateTime.Now));                        
+                        PostEvent(new MessageJournal(variable.name, outv.Label, DateTime.Now));
                     }
             }
         }
