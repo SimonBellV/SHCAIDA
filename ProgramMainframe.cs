@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -184,6 +185,21 @@ namespace SHCAIDA
         public static Accord.Fuzzy.InferenceSystem IS;
         public static int rulesCount;
         public static List<SiemensSensorsConnections> ssconnections;
+        private static bool iSRunning;
+        public static long ISTimeout;
+
+        public static bool ISRunning
+        {
+            get => iSRunning;
+            set
+            {
+                iSRunning = value;
+                if (iSRunning)
+                {
+                    FuzzySystemOnlineAsync();
+                }
+            }
+        }
 
         public static void InitMainframe()
         {
@@ -205,6 +221,7 @@ namespace SHCAIDA
                         ssconnections.Add(new SiemensSensorsConnections(sensor, client));
                         break;
                     }
+            ISRunning = false;
         }
 
         /// <summary>
@@ -325,6 +342,9 @@ namespace SHCAIDA
             linguisticVariables.Remove(linguisticVariables.Find(x => x.name == name));
         }
 
+        /// <summary>
+        /// Записать в txt все значения листа <see cref="linguisticVariables"/>, являющегося отображением <see cref="fuzzyDB"/>
+        /// </summary>
         public static void WriteFuzzyDB()
         {
             using (StreamWriter sw = new StreamWriter("fuzzyDB.txt"))
@@ -340,6 +360,7 @@ namespace SHCAIDA
                     sw.WriteLine(val.labels.Count);
                     foreach (var label in val.labels)
                     {
+                        sw.WriteLine(label.isLogging);
                         sw.WriteLine(label.name);
                         sw.WriteLine(label.V1);
                         sw.WriteLine(label.V2);
@@ -365,6 +386,7 @@ namespace SHCAIDA
                         {
                             Status t1 = new Status
                             {
+                                isLogging = Convert.ToBoolean(sr.ReadLine()),
                                 name = sr.ReadLine(),
                                 V1 = Convert.ToInt32(sr.ReadLine()),
                                 V2 = Convert.ToInt32(sr.ReadLine()),
@@ -409,9 +431,13 @@ namespace SHCAIDA
                 MessageBox.Show("Произошла ошибка при добавлении статуса переменной");
         }
 
-        public static async void FuzzySystemOnlineAsync()
+        public static void FuzzySystemOnlineAsync()
         {
-            await Task.Run(() => LoadIS());
+            var timer = new System.Threading.Timer(async (e) =>
+            {
+                await Task.Run(() => LoadIS());
+            }, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(ISTimeout));
+            
         }
 
         public static void LoadIS()
@@ -436,11 +462,18 @@ namespace SHCAIDA
             {
                 var list = IS.ExecuteInference(variable.name).OutputList;
                 foreach (var outv in list)
-                    if(linguisticVariables.Find(x=>x.name== variable.name).labels.Find(y=>y.name == outv.Label).isLogging)
-                        journaldb.MessageJournals.Add(new MessageJournal(variable.name, outv.Label, DateTime.Now));
+                    if (linguisticVariables.Find(x => x.name == variable.name).labels.Find(y => y.name == outv.Label).isLogging)
+                    {
+                        //Task.Factory.StartNew(() => PostEvent(new MessageJournal(variable.name, outv.Label, DateTime.Now)));
+                        PostEvent(new MessageJournal(variable.name, outv.Label, DateTime.Now));                        
+                    }
             }
         }
 
-        public static void PostEvent(MessageJournal logEvent) => journaldb.MessageJournals.Add(logEvent);
+        public static void PostEvent(MessageJournal logEvent)
+        {
+            journaldb.MessageJournals.Add(logEvent);
+            journaldb.SaveChanges();
+        }
     }
 }

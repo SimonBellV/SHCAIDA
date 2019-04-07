@@ -16,7 +16,7 @@ namespace SHCAIDA
             SensorSourceTypeCB.Items.Add("SQL Server");
             SensorSourceTypeCB.Items.Add("Общее");
         }
-        
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (AllFieldsNotNull())

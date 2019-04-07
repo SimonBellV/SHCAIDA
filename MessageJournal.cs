@@ -9,7 +9,7 @@ namespace SHCAIDA
         public int ID { get; set; }
         private string sensor;
         private string state;
-        private long time;
+        private double time;
 
         public MessageJournal(string sensor, string state, DateTime time)
         {
@@ -35,7 +35,7 @@ namespace SHCAIDA
             }
         }
 
-        public long Time
+        public double Time
         {
             get { return time; }
             set

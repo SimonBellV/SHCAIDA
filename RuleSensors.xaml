@@ -25,7 +25,7 @@
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
                     <Label Content="Параметр"/>
-                    <ComboBox x:Name="SensorsCB" Width="120"/>
+                    <ComboBox x:Name="SensorsCB" Width="120" Height="32" VerticalAlignment="Top"/>
                 </StackPanel>
                 <StackPanel Margin="10" Orientation="Horizontal" Height="32">
                     <Label Content="Левая гр."/>

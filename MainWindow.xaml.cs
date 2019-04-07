@@ -69,5 +69,23 @@ namespace SHCAIDA
             StatusLoggingSetup f = new StatusLoggingSetup();
             f.Show();
         }
+
+        private void ISLaunchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SystemCooldownLUD.Value != null && SystemCooldownLUD.Value.Value > 0)
+            {
+                if (!ProgramMainframe.ISRunning)
+                {
+                    ISLaunchButton.Content = "Отключить СНП";
+                    ProgramMainframe.ISTimeout = SystemCooldownLUD.Value.Value;
+                    ProgramMainframe.ISRunning = true;
+                }
+                else
+                {
+                    ISLaunchButton.Content = "Включить СНП";
+                    ProgramMainframe.ISRunning = false;
+                }
+            }
+        }
     }
 }

@@ -89,7 +89,7 @@ namespace SHCAIDA
                     this.V3 = Convert.ToSingle(V3);
                     this.V4 = Convert.ToSingle(V4);
                     type = false;
-                }                
+                }
             }
             catch (Exception e)
             {
