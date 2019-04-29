@@ -21,10 +21,10 @@ namespace SHCAIDA
         {
             if (AllFieldsNotNull())
             {
-                DataTableDG.Items.Clear();
+                DataTableDG.ItemsSource = null;
                 //List<MessageJournal> journalSnapshot = new List<MessageJournal>();
-                SQLiteParameter left = new SQLiteParameter("@leftData", LeftTimeDTP.Value.Value.Ticks);
-                SQLiteParameter right = new SQLiteParameter("@rightData", RightTimeDTP.Value.Value.Ticks);
+                SQLiteParameter left = new SQLiteParameter("@leftData", LeftTimeDTP.Value.Value.ToOADate());
+                SQLiteParameter right = new SQLiteParameter("@rightData", RightTimeDTP.Value.Value.ToOADate());
                 SQLiteParameter state = new SQLiteParameter("@state", StateCB.SelectedItem.ToString());
                 SQLiteParameter sensor = new SQLiteParameter("@sensor", SensorCB.SelectedItem.ToString());
                 SQLiteParameter[] a = new SQLiteParameter[4];
@@ -32,10 +32,11 @@ namespace SHCAIDA
                 a[1] = right;
                 a[2] = state;
                 a[3] = sensor;
-                //experimental
-                var journalSnapshot = ProgramMainframe.journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournal WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
-                foreach (var message in journalSnapshot)
-                    DataTableDG.Items.Add(message.Sensor + " " + message.State + " " + Convert.ToDateTime(message.Time));
+                var journalSnapshot = ProgramMainframe.journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournals WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
+                var temp = new List<Message>();
+                foreach (var mes in journalSnapshot)
+                    temp.Add(mes.ConvertToMessage());
+                DataTableDG.ItemsSource = temp;
             }
             else
                 MessageBox.Show("Проверьте все ли поля заполнены!");
@@ -43,8 +44,8 @@ namespace SHCAIDA
 
         private bool AllFieldsNotNull()
         {
-            if (LeftTimeDTP.Value.Value != null &&
-                RightTimeDTP.Value.Value != null &&
+            if (LeftTimeDTP.Value != null &&
+                RightTimeDTP.Value != null &&
                 StateCB.SelectedItem != null &&
                 SensorCB.SelectedItem != null)
                 return true;
@@ -79,7 +80,7 @@ namespace SHCAIDA
                 case "Общее":
                     {
                         SensorSourceCB.IsEnabled = false;
-                        MessageBox.Show(ProgramMainframe.statusdb.CommonStatuses.Count().ToString());
+                        //MessageBox.Show(ProgramMainframe.statusdb.CommonStatuses.Count().ToString());
                         foreach (var stat in ProgramMainframe.statusdb.CommonStatuses)
                             if (stat.Name != null)
                                 SensorCB.Items.Add(stat.Name);

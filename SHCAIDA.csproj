@@ -115,6 +115,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommonStatus.cs" />
     <Compile Include="Forms\ChooseArchiveDataSourceToAdd.xaml.cs">
       <DependentUpon>ChooseArchiveDataSourceToAdd.xaml</DependentUpon>
     </Compile>
@@ -161,6 +162,7 @@
     <Compile Include="Forms\StatusLoggingSetup.xaml.cs">
       <DependentUpon>StatusLoggingSetup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Value.cs" />
     <Page Include="Forms\ChooseArchiveDataSourceToAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

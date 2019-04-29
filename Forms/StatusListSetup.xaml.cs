@@ -42,7 +42,7 @@ namespace SHCAIDA
 
         private void Button_Click_2(object sender, RoutedEventArgs e) // save in db
         {
-            ProgramMainframe.UpdateStatuses(statuses);
+            ProgramMainframe.UpdateStatuses(statuses, TypeOfDataSources.Common);
             MessageBox.Show("Сохранено в базе данных");
         }
 

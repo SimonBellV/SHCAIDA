@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,6 +12,13 @@ namespace SHCAIDA
     /// <summary>
     /// Ядро системы
     /// </summary>
+    public enum TypeOfDataSources
+    {
+        Siemens=0,
+        MSSQL,
+        Rockwell,
+        Common
+    }
     public struct SiemensSensorsConnections
     {
         public SiemensSensor sensor;
@@ -41,88 +46,6 @@ namespace SHCAIDA
         {
             RuleStr = rule;
             Name = "Rule " + num;
-        }
-    }
-
-    public class Value : INotifyPropertyChanged
-    {
-        private DateTime date;
-        private double sensorValue;
-        private int sensorID;
-        public int ID { get; set; }
-        public Value(DateTime date, double value, int sensorID)
-        {
-            this.sensorID = sensorID;
-            this.date = date;
-            sensorValue = value;
-        }
-
-        public DateTime Date
-        {
-            get { return date; }
-            set
-            {
-                date = value;
-                OnPropertyChanged("Date");
-            }
-        }
-        public double SensorValue
-        {
-            get { return sensorValue; }
-            set
-            {
-                sensorValue = value;
-                OnPropertyChanged("Value");
-            }
-        }
-        public int SensorID
-        {
-            get { return sensorID; }
-            set
-            {
-                sensorID = value;
-                OnPropertyChanged("Value");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-    }
-
-    public class CommonStatus
-    {
-        public int ID { get; set; }
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        public CommonStatus(string name)
-        {
-            ID = -1;
-            this.name = name;
-        }
-
-        public CommonStatus()
-        {
-            ID = -1;
-            name = "";
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 
@@ -308,12 +231,12 @@ namespace SHCAIDA
             return result;
         }
 
-        public static void UpdateStatuses(List<string> vals)
+        public static void UpdateStatuses(List<string> vals, TypeOfDataSources type)
         {
             foreach (var val in statusdb.CommonStatuses)
                 statusdb.CommonStatuses.Remove(val);
             foreach (var val in vals)
-                statusdb.CommonStatuses.Add(new CommonStatus(val));
+                statusdb.CommonStatuses.Add(new CommonStatus(val, type));
             statusdb.SaveChanges();
         }
 
