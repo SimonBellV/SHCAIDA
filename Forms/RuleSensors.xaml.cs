@@ -13,7 +13,7 @@ namespace SHCAIDA
             DataSourceTypeCB.Items.Add("Rockwell");
             DataSourceTypeCB.Items.Add("SQL Server");
             DataSourceTypeCB.Items.Add("Общее");
-            foreach (var val in ProgramMainframe.linguisticVariables)
+            foreach (var val in ProgramMainframe.LinguisticVariables)
                 if (!UsingSourceTypesLV.Items.Contains(val.sourceType))
                     UsingSourceTypesLV.Items.Add(val.sourceType);
         }
@@ -25,7 +25,7 @@ namespace SHCAIDA
             {
                 case "Siemens":
                     {
-                        foreach (var plc in ProgramMainframe.siemensClients.SiemensClients)
+                        foreach (var plc in ProgramMainframe.SiemensClients.SiemensClients)
                             if (plc.Name != null)
                                 DataSourceNameCB.Items.Add(plc.Name);
                         DataSourceNameCB.IsEnabled = true;
@@ -40,14 +40,14 @@ namespace SHCAIDA
                     break;
                 case "SQL Server":
                     {
-                        foreach (var sqlconnection in ProgramMainframe.mssqlClients.MSSQLClients)
+                        foreach (var sqlconnection in ProgramMainframe.MssqlClients.MSSQLClients)
                             DataSourceNameCB.Items.Add(sqlconnection.InitCatalog);
                         DataSourceNameCB.IsEnabled = true;
                     }
                     break;
                 case "Общее":
                     {
-                        foreach (var stat in ProgramMainframe.statusdb.CommonStatuses)
+                        foreach (var stat in ProgramMainframe.Statusdb.CommonStatuses)
                             if (stat.Name != null)
                                 SensorsCB.Items.Add(stat.Name);
                         DataSourceNameCB.IsEnabled = false;
@@ -63,7 +63,7 @@ namespace SHCAIDA
                 switch (DataSourceTypeCB.SelectedItem.ToString())
                 {
                     case "Siemens":
-                        foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
+                        foreach (var sensor in ProgramMainframe.SiemensSensors.SiemensSensors)
                             if (DataSourceNameCB.SelectedItem.ToString() == sensor.Source && !UsingSensorsLV.Items.Contains(sensor.Name))
                                 SensorsCB.Items.Add(sensor.Name);
                         break;
@@ -71,9 +71,9 @@ namespace SHCAIDA
                         MessageBox.Show("Not ready");
                         break;
                     case "SQL Server":
-                        foreach (var con in ProgramMainframe.mssqlconnections)
-                            if (con.client.InitCatalog == DataSourceNameCB.SelectedItem.ToString())
-                                SensorsCB.Items.Add(con.sensor.Name);
+                        foreach (var con in ProgramMainframe.Mssqlconnections)
+                            if (con.Client.InitCatalog == DataSourceNameCB.SelectedItem.ToString())
+                                SensorsCB.Items.Add(con.Sensor.Name);
                         break;
                 }
 
@@ -130,13 +130,13 @@ namespace SHCAIDA
             UsingSourcesLV.Items.Clear();
             if (UsingSourceTypesLV.SelectedItem.ToString() != "Общее")
             {
-                foreach (var val in ProgramMainframe.linguisticVariables)
+                foreach (var val in ProgramMainframe.LinguisticVariables)
                     if (val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && !UsingSourcesLV.Items.Contains(val.source))
                         UsingSourcesLV.Items.Add(val.source);
             }
             else
             {
-                foreach (var val in ProgramMainframe.linguisticVariables)
+                foreach (var val in ProgramMainframe.LinguisticVariables)
                     if (val.sourceType == "Общее")
                         UsingSensorsLV.Items.Add(val.name);
             }
@@ -147,7 +147,7 @@ namespace SHCAIDA
             if (UsingSourceTypesLV.SelectedItem.ToString() != "Общее")
             {
                 UsingSensorsLV.Items.Clear();
-                foreach (var val in ProgramMainframe.linguisticVariables)
+                foreach (var val in ProgramMainframe.LinguisticVariables)
                     if (UsingSourcesLV.SelectedItem!=null && val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && val.source == UsingSourcesLV.SelectedItem.ToString())
                         UsingSensorsLV.Items.Add(val.name);
             }

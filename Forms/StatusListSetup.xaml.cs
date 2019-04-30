@@ -10,7 +10,7 @@ namespace SHCAIDA
         public StatusListSetup()
         {
             InitializeComponent();
-            foreach (var val in ProgramMainframe.statusdb.CommonStatuses)
+            foreach (var val in ProgramMainframe.Statusdb.CommonStatuses)
             {
                 statuses.Add(val.Name);
                 StatesLB.Items.Add(val.Name);

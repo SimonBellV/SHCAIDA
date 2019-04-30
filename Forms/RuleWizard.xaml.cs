@@ -9,9 +9,9 @@ namespace SHCAIDA
         {
             InitializeComponent();
             Rule += "IF ";
-            foreach (var sensor in ProgramMainframe.linguisticVariables)
+            foreach (var sensor in ProgramMainframe.LinguisticVariables)
                 SensorsLB.Items.Add(sensor.name);
-            foreach (var rule in ProgramMainframe.rules)
+            foreach (var rule in ProgramMainframe.Rules)
                 CurrentRulesLB.Items.Add(rule.RuleStr);
         }
 
@@ -60,7 +60,7 @@ namespace SHCAIDA
                 
                 Rule += SensorsLB.SelectedItem + " IS " + StatusLB.SelectedItem;
                 CurrentRulesLB.Items.Add(Rule);
-                ProgramMainframe.rules.Add(new Rule(Rule));
+                ProgramMainframe.Rules.Add(new Rule(Rule));
                 Rule = "IF ";
                 RuleTB.Text = Rule;
             }
@@ -88,7 +88,7 @@ namespace SHCAIDA
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            ProgramMainframe.rules.RemoveAt(CurrentRulesLB.SelectedIndex);
+            ProgramMainframe.Rules.RemoveAt(CurrentRulesLB.SelectedIndex);
             CurrentRulesLB.Items.Remove(CurrentRulesLB.SelectedItem);
         }
     }

@@ -31,7 +31,7 @@ namespace SHCAIDA
                 a[1] = right;
                 a[2] = state;
                 a[3] = sensor;
-                var journalSnapshot = ProgramMainframe.journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournals WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
+                var journalSnapshot = ProgramMainframe.Journaldb.MessageJournals.SqlQuery("SELECT *  FROM MessageJournals WHERE State=@state AND Time >= @leftData AND Time <= @rightData AND Sensor = @sensor", a).ToList();
                 var temp = new List<Message>();
                 foreach (var mes in journalSnapshot)
                     temp.Add(mes.ConvertToMessage());
@@ -60,7 +60,7 @@ namespace SHCAIDA
                 case "Siemens":
                     {
                         SensorSourceCB.IsEnabled = true;
-                        foreach (var plc in ProgramMainframe.siemensClients.SiemensClients)
+                        foreach (var plc in ProgramMainframe.SiemensClients.SiemensClients)
                             if (plc.Name != null)
                                 SensorSourceCB.Items.Add(plc.Name);
                         break;
@@ -80,7 +80,7 @@ namespace SHCAIDA
                     {
                         SensorSourceCB.IsEnabled = false;
                         //MessageBox.Show(ProgramMainframe.statusdb.CommonStatuses.Count().ToString());
-                        foreach (var stat in ProgramMainframe.statusdb.CommonStatuses)
+                        foreach (var stat in ProgramMainframe.Statusdb.CommonStatuses)
                             if (stat.Name != null)
                                 SensorCB.Items.Add(stat.Name);
                     }
@@ -93,9 +93,9 @@ namespace SHCAIDA
             SensorCB.Items.Clear();
             if (SensorSourceTypeCB.SelectedItem.ToString() == "Siemens")
             {
-                if (ProgramMainframe.siemensSensors.SiemensSensors.Count() != 0)
+                if (ProgramMainframe.SiemensSensors.SiemensSensors.Count() != 0)
                 {
-                    foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
+                    foreach (var sensor in ProgramMainframe.SiemensSensors.SiemensSensors)
                         if (SensorSourceCB.SelectedItem.ToString() == sensor.Source)
                             SensorCB.Items.Add(sensor.Name);
                 }
@@ -109,7 +109,7 @@ namespace SHCAIDA
             StateCB.Items.Clear();
             try
             {
-                List<Status> statuses = ProgramMainframe.linguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).labels;
+                List<Status> statuses = ProgramMainframe.LinguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).labels;
                 if (statuses.Count != 0)
                     foreach (var status in statuses)
                         StateCB.Items.Add(status.name);

@@ -19,7 +19,7 @@ namespace SHCAIDA
         private void SensorSourceTypeCB_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             SensorSourceCB.Items.Clear();
-            var sources = ProgramMainframe.linguisticVariables.FindAll(x => x.sourceType == SensorSourceTypeCB.SelectedItem.ToString());
+            var sources = ProgramMainframe.LinguisticVariables.FindAll(x => x.sourceType == SensorSourceTypeCB.SelectedItem.ToString());
             if (SensorSourceTypeCB.SelectedItem.ToString() != "Общее")
             {
                 SensorSourceCB.IsEnabled = true;
@@ -43,9 +43,9 @@ namespace SHCAIDA
             {
                 case "Siemens":
                     {
-                        if (ProgramMainframe.siemensSensors.SiemensSensors.Count() != 0)
+                        if (ProgramMainframe.SiemensSensors.SiemensSensors.Count() != 0)
                         {
-                            foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
+                            foreach (var sensor in ProgramMainframe.SiemensSensors.SiemensSensors)
                                 if (SensorSourceCB.SelectedItem.ToString() == sensor.Source)
                                     SensorCB.Items.Add(sensor.Name);
                         }
@@ -55,11 +55,11 @@ namespace SHCAIDA
                     break;
                 case "SQL Server":
                     {
-                        if (ProgramMainframe.mssqlSensors.MSSQLSensors.Count() != 0)
+                        if (ProgramMainframe.MssqlSensors.MSSQLSensors.Count() != 0)
                         {
-                            foreach (var conn in ProgramMainframe.mssqlconnections)
-                                if (SensorSourceCB.SelectedItem.ToString() == conn.client.InitCatalog)
-                                    SensorCB.Items.Add(conn.sensor.Name);
+                            foreach (var conn in ProgramMainframe.Mssqlconnections)
+                                if (SensorSourceCB.SelectedItem.ToString() == conn.Client.InitCatalog)
+                                    SensorCB.Items.Add(conn.Sensor.Name);
                         }
                         else
                             MessageBox.Show("Для этого источника еще не заданы датчики");
@@ -75,7 +75,7 @@ namespace SHCAIDA
             StateCB.Items.Clear();
             try
             {
-                List<Status> statuses = ProgramMainframe.linguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).labels;
+                List<Status> statuses = ProgramMainframe.LinguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).labels;
                 if (statuses.Count != 0)
                     foreach (var status in statuses)
                     {
@@ -90,13 +90,13 @@ namespace SHCAIDA
         private void StateCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (StateCB.SelectedItem != null)
-                LogStatusChB.IsChecked = ProgramMainframe.linguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).IsLoggingActive(StateCB.SelectedItem.ToString());
+                LogStatusChB.IsChecked = ProgramMainframe.LinguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).IsLoggingActive(StateCB.SelectedItem.ToString());
         }
 
         private void LogUpdateButton_Click(object sender, RoutedEventArgs e)
         {
             if (StateCB.SelectedItem != null)
-                ProgramMainframe.linguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).UpdateLogging(StateCB.SelectedItem.ToString(), LogStatusChB.IsChecked.Value);
+                ProgramMainframe.LinguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).UpdateLogging(StateCB.SelectedItem.ToString(), LogStatusChB.IsChecked.Value);
             ProgramMainframe.WriteFuzzyDB();
         }
     }

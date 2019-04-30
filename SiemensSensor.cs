@@ -24,7 +24,7 @@ namespace SHCAIDA
 
         public string Source
         {
-            get { return source; }
+            get => source;
             set
             {
                 source = value;
@@ -34,7 +34,7 @@ namespace SHCAIDA
 
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 name = value;
@@ -44,7 +44,7 @@ namespace SHCAIDA
 
         public string Adress
         {
-            get { return adress; }
+            get => adress;
             set
             {
                 adress = value;

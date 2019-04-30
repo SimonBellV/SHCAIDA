@@ -17,8 +17,8 @@ namespace SHCAIDA
             //uncomment additional condition on release
             if (DataSourceTB.Text != null && InitCatalogTB.Text != null && UserTB.Text != null && PasswordTB.Password != null/* && CheckConnection()*/)
             {
-                ProgramMainframe.mssqlClients.MSSQLClients.Add(new MSSQLClient(DataSourceTB.Text, InitCatalogTB.Text, UserTB.Text, PasswordTB.Password));
-                ProgramMainframe.mssqlClients.SaveChanges();
+                ProgramMainframe.MssqlClients.MSSQLClients.Add(new MSSQLClient(DataSourceTB.Text, InitCatalogTB.Text, UserTB.Text, PasswordTB.Password));
+                ProgramMainframe.MssqlClients.SaveChanges();
             }
 
         }

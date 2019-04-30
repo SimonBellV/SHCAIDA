@@ -9,7 +9,7 @@ namespace SHCAIDA
         public RuleVariablesSetup()
         {
             InitializeComponent();
-            foreach (var val in ProgramMainframe.linguisticVariables)
+            foreach (var val in ProgramMainframe.LinguisticVariables)
             {
                 SensorsCB.Items.Add(val.name);
                 SensorsLB.Items.Add(val.name);
@@ -39,7 +39,7 @@ namespace SHCAIDA
         {
             if (SensorsLB.SelectedItem != null && StatesLB.SelectedItem != null)
             {
-                var variable = ProgramMainframe.linguisticVariables.Find(x => x.name == SensorsLB.SelectedItem.ToString());
+                var variable = ProgramMainframe.LinguisticVariables.Find(x => x.name == SensorsLB.SelectedItem.ToString());
                 var label = variable.labels.Find(x => x.name == StatesLB.SelectedItem.ToString());
                 SensorsCB.SelectedItem = SensorsLB.SelectedItem;
                 ValueNameTB.Text = label.name;
@@ -49,13 +49,13 @@ namespace SHCAIDA
                 V4TB.Text = label.V4.ToString();
                 StatesLB.Items.Remove(StatesLB.SelectedItem);
 
-                ProgramMainframe.linguisticVariables.Remove(variable);
+                ProgramMainframe.LinguisticVariables.Remove(variable);
                 variable.labels.Remove(label);
 
                 if (variable.labels.Count == 0)
                     SensorsCB.Items.Remove(SensorsLB.SelectedItem);
 
-                ProgramMainframe.linguisticVariables.Add(variable);
+                ProgramMainframe.LinguisticVariables.Add(variable);
             }
         }
 

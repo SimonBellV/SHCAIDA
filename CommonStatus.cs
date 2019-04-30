@@ -35,7 +35,7 @@ namespace SHCAIDA
             {
                 case TypeOfDataSources.Siemens:
                     return "Siemens";
-                case TypeOfDataSources.MSSQL:
+                case TypeOfDataSources.Mssql:
                     return "MSSQL";
                 case TypeOfDataSources.Rockwell:
                     return "Rockwell";

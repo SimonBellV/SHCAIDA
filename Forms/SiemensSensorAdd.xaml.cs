@@ -32,7 +32,7 @@ namespace SHCAIDA
             DataSourceNameCB.Items.Clear();
             if (DataSourceTypeCB.SelectedItem.ToString() == "Siemens")
             {
-                foreach (var plc in ProgramMainframe.siemensClients.SiemensClients)
+                foreach (var plc in ProgramMainframe.SiemensClients.SiemensClients)
                     if(plc.Name!=null)
                         DataSourceNameCB.Items.Add(plc.Name);
             }
@@ -50,8 +50,8 @@ namespace SHCAIDA
         {
             try
             {
-                ProgramMainframe.siemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text));
-                ProgramMainframe.siemensSensors.SaveChanges();
+                ProgramMainframe.SiemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text));
+                ProgramMainframe.SiemensSensors.SaveChanges();
             }
             catch (Exception exp)
             {

@@ -22,7 +22,7 @@ namespace SHCAIDA.Forms
         public MSSQLSensorAdd()
         {
             InitializeComponent();
-            foreach (var client in ProgramMainframe.mssqlClients.MSSQLClients)
+            foreach (var client in ProgramMainframe.MssqlClients.MSSQLClients)
                 SQLClientsCB.Items.Add(client.DataSource);
         }
 
@@ -35,8 +35,8 @@ namespace SHCAIDA.Forms
         {
             if (FieldsNotNull)
             {
-                ProgramMainframe.mssqlSensors.MSSQLSensors.Add(new MSSQLSensor(ProgramMainframe.GetMSSQLClientID(SQLClientsCB.SelectedItem.ToString()), DatabaseNameTB.Text, HeaderNameTB.Text, NameTB.Text));
-                ProgramMainframe.mssqlSensors.SaveChanges();
+                ProgramMainframe.MssqlSensors.MSSQLSensors.Add(new MSSQLSensor(ProgramMainframe.GetMssqlClientId(SQLClientsCB.SelectedItem.ToString()), DatabaseNameTB.Text, HeaderNameTB.Text, NameTB.Text));
+                ProgramMainframe.MssqlSensors.SaveChanges();
             }
         }
 

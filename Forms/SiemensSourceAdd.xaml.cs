@@ -27,7 +27,7 @@ namespace SHCAIDA
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             bool check = false;
-            foreach (SiemensClient client in ProgramMainframe.siemensClients.SiemensClients)
+            foreach (SiemensClient client in ProgramMainframe.SiemensClients.SiemensClients)
             {
                 if (client.IP == IPTB.Text)
                 {
@@ -37,7 +37,7 @@ namespace SHCAIDA
                 }
             }
             if (!check)
-                ProgramMainframe.AddSiemensPLCSource(
+                ProgramMainframe.AddSiemensPlcSource(
                     ((ComboBoxItem)PLCTypeCB.SelectedItem).Content.ToString(),
                     IPTB.Text,
                     RackNUD.Value.Value,
