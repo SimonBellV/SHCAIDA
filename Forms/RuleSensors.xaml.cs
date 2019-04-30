@@ -40,7 +40,8 @@ namespace SHCAIDA
                     break;
                 case "SQL Server":
                     {
-                        MessageBox.Show("Will be ready soon");
+                        foreach (var sqlconnection in ProgramMainframe.mssqlClients.MSSQLClients)
+                            DataSourceNameCB.Items.Add(sqlconnection.InitCatalog);
                         DataSourceNameCB.IsEnabled = true;
                     }
                     break;
@@ -58,10 +59,23 @@ namespace SHCAIDA
         private void DataSourceNameCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SensorsCB.Items.Clear();
-            if (DataSourceTypeCB.SelectedItem.ToString() == "Siemens")
-                foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
-                    if (DataSourceNameCB.SelectedItem.ToString() == sensor.Source && !UsingSensorsLV.Items.Contains(sensor.Name))
-                        SensorsCB.Items.Add(sensor.Name);
+            if (DataSourceNameCB.Items.Count != 0)
+                switch (DataSourceTypeCB.SelectedItem.ToString())
+                {
+                    case "Siemens":
+                        foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
+                            if (DataSourceNameCB.SelectedItem.ToString() == sensor.Source && !UsingSensorsLV.Items.Contains(sensor.Name))
+                                SensorsCB.Items.Add(sensor.Name);
+                        break;
+                    case "Rockwell":
+                        MessageBox.Show("Not ready");
+                        break;
+                    case "SQL Server":
+                        foreach (var con in ProgramMainframe.mssqlconnections)
+                            if (con.client.InitCatalog == DataSourceNameCB.SelectedItem.ToString())
+                                SensorsCB.Items.Add(con.sensor.Name);
+                        break;
+                }
 
         }
 
@@ -79,7 +93,7 @@ namespace SHCAIDA
                         && DataSourceTypeCB.SelectedItem.ToString() == UsingSourceTypesLV.SelectedItem.ToString()
                         )
                         UsingSourcesLV.Items.Add(DataSourceNameCB.SelectedItem.ToString());
-                    UsingSensorsLV.Items.Add(SensorsCB.SelectedItem.ToString());
+                    //UsingSensorsLV.Items.Add(SensorsCB.SelectedItem.ToString());
                     if (DataSourceNameCB.SelectedItem != null)
                         ProgramMainframe.AddLingVariable(DataSourceTypeCB.SelectedItem.ToString(), DataSourceNameCB.SelectedItem.ToString(), SensorsCB.SelectedItem.ToString(), LeftBorderTB.Value.Value, RightBorderTB.Value.Value);
                     else
@@ -134,7 +148,7 @@ namespace SHCAIDA
             {
                 UsingSensorsLV.Items.Clear();
                 foreach (var val in ProgramMainframe.linguisticVariables)
-                    if (val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && val.source == UsingSourcesLV.SelectedItem.ToString())
+                    if (UsingSourcesLV.SelectedItem!=null && val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && val.source == UsingSourcesLV.SelectedItem.ToString())
                         UsingSensorsLV.Items.Add(val.name);
             }
         }

@@ -85,5 +85,11 @@ namespace SHCAIDA
             ProgramMainframe.UpdateFuzzyDBRuleDB();
             MessageBox.Show("Обновление успешно завершено");
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            ProgramMainframe.rules.RemoveAt(CurrentRulesLB.SelectedIndex);
+            CurrentRulesLB.Items.Remove(CurrentRulesLB.SelectedItem);
+        }
     }
 }

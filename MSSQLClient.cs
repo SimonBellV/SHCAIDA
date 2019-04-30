@@ -97,5 +97,17 @@ namespace SHCAIDA
             }
             catch { return false;  }
         }
+
+        public float ReadData(MSSQLSensor sensor)
+        {
+            var cnn = new SqlConnection(ConnectionString);
+            try
+            {
+                cnn.Open();
+                //need add code that retrieve data
+            }
+            catch { }
+            return 0;
+        }
     }
 }

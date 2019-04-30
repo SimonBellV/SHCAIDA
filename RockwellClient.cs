@@ -43,9 +43,9 @@ namespace SHCAIDA
             }
         }
 
-        public List<double> ReadData(List<string> variables)
+        /*public List<double> ReadData(List<string> variables)
         {
             return new List<double>();
-        }
+        }*/
     }
 }

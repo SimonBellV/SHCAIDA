@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,17 +13,18 @@ namespace SHCAIDA
     /// </summary>
     public enum TypeOfDataSources
     {
-        Siemens=0,
+        Siemens = 0,
         MSSQL,
         Rockwell,
         Common
     }
-    public struct SiemensSensorsConnections
-    {
-        public SiemensSensor sensor;
-        public SiemensClient client;
 
-        public SiemensSensorsConnections(SiemensSensor sensor, SiemensClient client)
+    public struct SensorsConnections<T1, T2>
+    {
+        public T1 sensor;
+        public T2 client;
+
+        public SensorsConnections(T1 sensor, T2 client)
         {
             this.sensor = sensor;
             this.client = client;
@@ -125,7 +125,8 @@ namespace SHCAIDA
         public static Accord.Fuzzy.Database fuzzyDB;
         public static Accord.Fuzzy.InferenceSystem IS;
         public static int rulesCount;
-        public static List<SiemensSensorsConnections> ssconnections;
+        public static List<SensorsConnections<SiemensSensor, SiemensClient>> ssconnections;
+        public static List<SensorsConnections<MSSQLSensor, MSSQLClient>> mssqlconnections;
         private static bool iSRunning;
         public static long ISTimeout;
         public static MSSQLClientApplicationContext mssqlClients;
@@ -158,12 +159,20 @@ namespace SHCAIDA
             ReadFuzzyDB();
             ReadRules();
             UpdateFuzzyDBRuleDB();
-            ssconnections = new List<SiemensSensorsConnections>();
+            ssconnections = new List<SensorsConnections<SiemensSensor, SiemensClient>>();
+            mssqlconnections = new List<SensorsConnections<MSSQLSensor, MSSQLClient>>();
             foreach (var sensor in siemensSensors.SiemensSensors)
                 foreach (var client in siemensClients.SiemensClients)
                     if (sensor.Source == client.Name)
                     {
-                        ssconnections.Add(new SiemensSensorsConnections(sensor, client));
+                        ssconnections.Add(new SensorsConnections<SiemensSensor, SiemensClient>(sensor, client));
+                        break;
+                    }
+            foreach (var sensor in mssqlSensors.MSSQLSensors)
+                foreach (var client in mssqlClients.MSSQLClients)
+                    if (sensor.ClientID == client.ID)
+                    {
+                        mssqlconnections.Add(new SensorsConnections<MSSQLSensor, MSSQLClient>(sensor, client));
                         break;
                     }
             ISRunning = false;
@@ -183,52 +192,13 @@ namespace SHCAIDA
             IS = new Accord.Fuzzy.InferenceSystem(fuzzyDB, new Accord.Fuzzy.CentroidDefuzzifier(1000));
             foreach (var val in rules)
                 IS.NewRule(val.Name, val.RuleStr);
+            WriteFuzzyDB();
         }
 
         public static void AddSiemensPLCSource(string cpuType, string ip, short rack, short slot, string name)
         {
             siemensClients.SiemensClients.Add(new SiemensClient(cpuType, ip, rack, slot, name));
             siemensClients.SaveChanges();
-        }
-
-        public static void AddValueToSQLite(Value val)
-        {
-            valuesdb.Values.Add(val);
-            valuesdb.SaveChanges();
-        }
-
-        public static void AddSensorToSQLite(SiemensSensor sensor)
-        {
-            siemensSensors.SiemensSensors.Add(sensor);
-            siemensSensors.SaveChanges();
-        }
-
-        public static void AddValueToSQLite(List<Value> vals)
-        {
-            foreach (Value val in vals)
-                valuesdb.Values.Add(val);
-            valuesdb.SaveChanges();
-        }
-
-        public static List<Value> GetValuesFromSQLite(int sensorID)
-        {
-            List<Value> result = new List<Value>();
-            result = valuesdb.Values.Where(x => x.SensorID == sensorID).ToList();
-            return result;
-        } /*all data by sensor name*/
-
-        public static List<Value> GetValuesFromSQLite(int sensorID, DateTime start) /*from start date to now and by sensor name*/
-        {
-            List<Value> result = new List<Value>();
-            result = valuesdb.Values.Where(x => x.SensorID == sensorID && x.Date >= start).ToList();
-            return result;
-        }
-
-        public static List<Value> GetValuesFromSQLite(int sensorID, DateTime start, DateTime end) /*from start date to end date and by sensor name*/
-        {
-            List<Value> result = new List<Value>();
-            result = valuesdb.Values.Where(x => x.SensorID == sensorID && x.Date >= start && x.Date <= end).ToList();
-            return result;
         }
 
         public static void UpdateStatuses(List<string> vals, TypeOfDataSources type)
@@ -253,9 +223,7 @@ namespace SHCAIDA
         public static void AddLingVariable(string sourceType, string source, string name, float start, float end)
         {
             if (linguisticVariables.FindIndex(x => x.name == name) == -1)
-            {
                 linguisticVariables.Add(new LingVariable(sourceType, source, name, start, end));
-            }
         }
 
         public static List<string> GetSensorLabels(string sensor)
@@ -400,11 +368,12 @@ namespace SHCAIDA
                 }
                 else if (variable.sourceType == "Rockwell")
                 {
-                    //add like those
+                    MessageBox.Show("Not ready");
                 }
                 else if (variable.sourceType == "SQL Server")
                 {
-                    //add like those
+                    var var = mssqlconnections.Find(x => x.sensor.Name == variable.name);
+                    IS.SetInput(variable.name, var.client.ReadData(var.sensor));
                 }
             }
             foreach (var variable in linguisticVariables)
@@ -413,15 +382,10 @@ namespace SHCAIDA
                 foreach (var outv in list)
                     if (linguisticVariables.Find(x => x.name == variable.name).labels.Find(y => y.name == outv.Label).isLogging)
                     {
-                        PostEvent(new MessageJournal(variable.name, outv.Label, DateTime.Now));
+                        journaldb.MessageJournals.Add(new MessageJournal(variable.name, outv.Label, DateTime.Now));
+                        journaldb.SaveChanges();
                     }
             }
-        }
-
-        public static void PostEvent(MessageJournal logEvent)
-        {
-            journaldb.MessageJournals.Add(logEvent);
-            journaldb.SaveChanges();
         }
 
         public static int GetMSSQLClientID(string dataSource)

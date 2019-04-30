@@ -39,16 +39,34 @@ namespace SHCAIDA
         private void SensorSourceCB_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             SensorCB.Items.Clear();
-            if (SensorSourceTypeCB.SelectedItem.ToString() == "Siemens")
+            switch (SensorSourceTypeCB.SelectedItem.ToString())
             {
-                if (ProgramMainframe.siemensSensors.SiemensSensors.Count() != 0)
-                {
-                    foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
-                        if (SensorSourceCB.SelectedItem.ToString() == sensor.Source)
-                            SensorCB.Items.Add(sensor.Name);
-                }
-                else
-                    MessageBox.Show("Для этого источника еще не заданы датчики");
+                case "Siemens":
+                    {
+                        if (ProgramMainframe.siemensSensors.SiemensSensors.Count() != 0)
+                        {
+                            foreach (var sensor in ProgramMainframe.siemensSensors.SiemensSensors)
+                                if (SensorSourceCB.SelectedItem.ToString() == sensor.Source)
+                                    SensorCB.Items.Add(sensor.Name);
+                        }
+                        else
+                            MessageBox.Show("Для этого источника еще не заданы датчики");
+                    }
+                    break;
+                case "SQL Server":
+                    {
+                        if (ProgramMainframe.mssqlSensors.MSSQLSensors.Count() != 0)
+                        {
+                            foreach (var conn in ProgramMainframe.mssqlconnections)
+                                if (SensorSourceCB.SelectedItem.ToString() == conn.client.InitCatalog)
+                                    SensorCB.Items.Add(conn.sensor.Name);
+                        }
+                        else
+                            MessageBox.Show("Для этого источника еще не заданы датчики");
+                    }
+                    break;
+                default:
+                    throw new System.Exception("Not ready!");
             }
         }
 
