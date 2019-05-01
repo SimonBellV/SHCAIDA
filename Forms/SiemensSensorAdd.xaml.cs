@@ -11,6 +11,8 @@ namespace SHCAIDA
         public SiemensSensorAdd()
         {
             InitializeComponent();
+            foreach (var client in ProgramMainframe.SiemensClients.SiemensClients)
+                DataSourceNameCB.Items.Add(client.Name);
             InputDeviceTypeCB.Items.Add("Датчик");
             InputDeviceTypeCB.Items.Add("Регулятор");
         }

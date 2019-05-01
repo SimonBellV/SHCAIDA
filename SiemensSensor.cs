@@ -5,41 +5,38 @@ namespace SHCAIDA
 {
     public class SiemensSensor : Sensor
     {
-        private string source;
-        private string adress;
-
         public SiemensSensor()
         {
             ID = 0;
-            source = "";
-            name = "";
-            adress = "";
+            SourceName = "";
+            base.Name = "";
+            SourcePath = "";
             deviceType = 0;
         }
         public SiemensSensor(string source, string name, string adress, InputDeviceType deviceType)
         {
-            this.source = source;
-            this.name = name;
-            this.adress = adress;
+            SourceName = source;
+            this.Name = name;
+            this.SourcePath = adress;
             this.deviceType = deviceType;
         }
 
         public string Source
         {
-            get => source;
+            get => SourceName;
             set
             {
-                source = value;
+                SourceName = value;
                 OnPropertyChanged("Source");
             }
         }
 
-        public string Name
+        public new string Name
         {
-            get => name;
+            get => base.Name;
             set
             {
-                name = value;
+                base.Name = value;
                 OnPropertyChanged("Name");
             }
         }
@@ -55,10 +52,10 @@ namespace SHCAIDA
 
         public string Adress
         {
-            get => adress;
+            get => SourcePath;
             set
             {
-                adress = value;
+                SourcePath = value;
                 OnPropertyChanged("Adress");
             }
         }

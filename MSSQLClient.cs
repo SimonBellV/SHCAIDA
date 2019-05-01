@@ -100,6 +100,11 @@ namespace SHCAIDA
 
         public float ReadData(MSSQLSensor sensor)
         {
+            if (sensor == null)
+            {
+                throw new ArgumentNullException(nameof(sensor));
+            }
+
             var cnn = new SqlConnection(ConnectionString);
             try
             {

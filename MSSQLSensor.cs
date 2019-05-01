@@ -7,53 +7,51 @@ namespace SHCAIDA
     public class MSSQLSensor : Sensor
     {
         private int clientID;
-        private string databaseName;
-        private string headerName;
 
         public MSSQLSensor()
         {
             ID = -1;
             clientID = -1;
-            name = "";
-            databaseName = "";
-            headerName = "";
+            base.Name = "";
+            SourceName = "";
+            SourcePath = "";
         }
 
         public MSSQLSensor(int clientID, string databaseName, string headerName, string name)
         {
             ID = -1;
             this.clientID = clientID;
-            this.databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
-            this.headerName = headerName ?? throw new ArgumentNullException(nameof(headerName));
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            SourceName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
+            SourcePath = headerName ?? throw new ArgumentNullException(nameof(headerName));
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         public string DatabaseName
         {
-            get => databaseName;
+            get => SourceName;
             set
             {
-                databaseName = value;
+                SourceName = value;
                 OnPropertyChanged("DatabaseName");
             }
         }
 
         public string HeaderName
         {
-            get => headerName;
+            get => SourcePath;
             set
             {
-                headerName = value;
+                SourcePath = value;
                 OnPropertyChanged("HeaderName");
             }
         }
 
-        public string Name
+        public new string Name
         {
-            get => name;
+            get => base.Name;
             set
             {
-                name = value;
+                base.Name = value;
                 OnPropertyChanged("Name");
             }
         }

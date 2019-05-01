@@ -117,7 +117,7 @@ namespace SHCAIDA
         public static List<Rule> Rules;
         public static List<LingVariable> LinguisticVariables;
         public static SiemensSensorsApplicationContext SiemensSensors;
-        public static SiemensValuesApplicationContext Valuesdb;
+        //public static SiemensValuesApplicationContext Valuesdb;
         public static CommonStatusContext Statusdb;
         public static MessageJournalContext Journaldb;
         //public static List<RockwellClient> rockwellClients = new List<RockwellClient>();
@@ -148,7 +148,7 @@ namespace SHCAIDA
         public static void InitMainframe()
         {
             SiemensSensors = new SiemensSensorsApplicationContext();
-            Valuesdb = new SiemensValuesApplicationContext();
+            //Valuesdb = new SiemensValuesApplicationContext();
             LinguisticVariables = new List<LingVariable>();
             SiemensClients = new SiemensClientApplicationContext();
             Journaldb = new MessageJournalContext();
