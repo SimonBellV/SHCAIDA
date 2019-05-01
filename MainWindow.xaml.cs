@@ -87,5 +87,11 @@ namespace SHCAIDA
             GameDevicesSetup f = new GameDevicesSetup();
             f.Show();
         }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            GameNodesControlRoom f = new GameNodesControlRoom();
+            f.Show();
+        }
     }
 }

@@ -98,5 +98,23 @@ namespace SHCAIDA
                 SelectedOutputSensorsLB.Items.RemoveAt(SelectedOutputSensorsLB.SelectedIndex);
             }
         }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            if (nodeNameTB.Text != null && nodeDescriptionTB.Text != null && RegulatorsIntervalsIUD.Value != null && StateSensorsIntervalsIUD.Value != null && SelectedOutputSensorsLB.Items.Count != 0 && SelectedRegulatorsLB.Items.Count != 0 && SelectedStateSensorsLB.Items.Count != 0)
+            {
+                GameNode node = new GameNode(nodeNameTB.Text.ToString(), nodeDescriptionTB.Text.ToString(), RegulatorsIntervalsIUD.Value.Value, StateSensorsIntervalsIUD.Value.Value);
+                foreach (var item in SelectedRegulatorsLB.Items)
+                    node.usedSensors.Add(new RoledSiemensSensor(ProgramMainframe.GetSensorIDByName(item.ToString()), GameRole.Regulator));
+                foreach(var item in SelectedStateSensorsLB.Items)
+                    node.usedSensors.Add(new RoledSiemensSensor(ProgramMainframe.GetSensorIDByName(item.ToString()), GameRole.StateSensor));
+                foreach (var item in SelectedOutputSensorsLB.Items)
+                    node.usedSensors.Add(new RoledSiemensSensor(ProgramMainframe.GetSensorIDByName(item.ToString()), GameRole.OutputSensor));
+                ProgramMainframe.gameTheoryController.Add(node);
+                ProgramMainframe.WriteGameNodes();
+            }
+            else
+                MessageBox.Show("Проверьте корректность полей");
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -131,6 +132,7 @@ namespace SHCAIDA
         public static long ISTimeout;
         public static MSSQLClientApplicationContext MssqlClients;
         public static MSSQLSensorApplicationContext MssqlSensors;
+        public static List<GameNode> gameTheoryController;
 
         public static bool ISRunning
         {
@@ -176,6 +178,7 @@ namespace SHCAIDA
                         break;
                     }
             ISRunning = false;
+            ReadGameNodes();
         }
 
         /// <summary>
@@ -286,7 +289,7 @@ namespace SHCAIDA
             }
         }//рассмотреть целесообразность записи в json
 
-        public static void ReadFuzzyDB()
+        private static void ReadFuzzyDB()
         {
             LinguisticVariables = new List<LingVariable>();
             if (!File.Exists("fuzzyDB.txt")) return;
@@ -325,7 +328,7 @@ namespace SHCAIDA
             }
         }
 
-        public static void ReadRules()
+        private static void ReadRules()
         {
             Rules = new List<Rule>();
             if (!File.Exists("rules.txt")) return;
@@ -395,6 +398,42 @@ namespace SHCAIDA
                 if (client.DataSource == dataSource)
                     return client.ID;
             return -1;
+        }
+
+        private static void ReadGameNodes()
+        {
+            gameTheoryController = new List<GameNode>();
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("gamenodes.dat", FileMode.OpenOrCreate))
+            {
+                if(fs.Length!=0)
+                    gameTheoryController = (List<GameNode>)formatter.Deserialize(fs);
+            }
+        }
+
+        public static void WriteGameNodes()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (var sw = new FileStream("gamenodes.dat", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(sw, gameTheoryController);
+            }
+        }
+
+        public static int GetSensorIDByName(string name)
+        {
+            foreach (var sensor in SiemensSensors.SiemensSensors)
+                if (name == sensor.Name)
+                    return sensor.ID;
+            throw new Exception("Этот датчик не найден");
+        }
+
+        public static string GetSensorNameById(int ID)
+        {
+            foreach (var sensor in SiemensSensors.SiemensSensors)
+                if (ID == sensor.ID)
+                    return sensor.Name;
+            throw new Exception("Этот датчик не найден");
         }
     }
 }

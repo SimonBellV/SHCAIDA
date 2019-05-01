@@ -1,0 +1,20 @@
+﻿<Window x:Class="SHCAIDA.Forms.GameNodesControlRoom"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:SHCAIDA.Forms"
+        mc:Ignorable="d"
+        Title="GameNodesControlRoom" Height="450" Width="446.53">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="439" Orientation="Horizontal">
+            <StackPanel Width="200">
+                <ListBox x:Name="NodeListLB" Height="204" SelectionChanged="NodeListLB_SelectionChanged"/>
+            </StackPanel>
+            <TextBlock x:Name="NodeStatsTB" TextWrapping="Wrap" Text="TextBlock" Width="239"/>
+
+        </StackPanel>
+
+    </Grid>
+</Window>
