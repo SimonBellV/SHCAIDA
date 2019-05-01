@@ -14,12 +14,14 @@ namespace SHCAIDA
             source = "";
             name = "";
             adress = "";
+            deviceType = 0;
         }
-        public SiemensSensor(string source, string name, string adress)
+        public SiemensSensor(string source, string name, string adress, InputDeviceType deviceType)
         {
             this.source = source;
             this.name = name;
             this.adress = adress;
+            this.deviceType = deviceType;
         }
 
         public string Source
@@ -39,6 +41,15 @@ namespace SHCAIDA
             {
                 name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+
+        public InputDeviceType DeviceType
+        {
+            get => deviceType;
+            set {
+                deviceType = value;
+                OnPropertyChanged("DeviceType");
             }
         }
 

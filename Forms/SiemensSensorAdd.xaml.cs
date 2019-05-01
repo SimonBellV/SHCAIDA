@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SHCAIDA
 {
@@ -22,35 +11,27 @@ namespace SHCAIDA
         public SiemensSensorAdd()
         {
             InitializeComponent();
-            DataSourceTypeCB.Items.Add("Siemens");
-            DataSourceTypeCB.Items.Add("Rockwell");
-            DataSourceTypeCB.Items.Add("SQL Server");
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataSourceNameCB.Items.Clear();
-            if (DataSourceTypeCB.SelectedItem.ToString() == "Siemens")
-            {
-                foreach (var plc in ProgramMainframe.SiemensClients.SiemensClients)
-                    if(plc.Name!=null)
-                        DataSourceNameCB.Items.Add(plc.Name);
-            }
-            else if (DataSourceTypeCB.SelectedItem.ToString() == "Rockwell")
-            {
-                MessageBox.Show("Will be ready soon");
-                /*foreach (var plc in ProgramMainframe.rockwellClients)
-                    DataSourceNameCB.Items.Add(plc.name);*/
-            }
-            else if (DataSourceTypeCB.SelectedItem.ToString() == "SQL Server")
-                MessageBox.Show("Will be ready soon");
+            InputDeviceTypeCB.Items.Add("Датчик");
+            InputDeviceTypeCB.Items.Add("Регулятор");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            InputDeviceType input;
             try
             {
-                ProgramMainframe.SiemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text));
+                switch (InputDeviceTypeCB.SelectedItem.ToString())
+                {
+                    case "Датчик":
+                        input = InputDeviceType.Sensor;
+                        break;
+                    case "Регулятор":
+                        input = InputDeviceType.Regulator;
+                        break;
+                    default:
+                        throw new Exception("Ошибка по выбранному типу устройста");
+                }
+                ProgramMainframe.SiemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text, input));
                 ProgramMainframe.SiemensSensors.SaveChanges();
             }
             catch (Exception exp)

@@ -5,14 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="SensorListSetup" Height="355.521" Width="300" ResizeMode="NoResize">
+        Title="SensorListSetup" Height="353.867" Width="300" ResizeMode="NoResize">
     <Grid>
-        <StackPanel HorizontalAlignment="Right" Height="319" VerticalAlignment="Top" Width="292">
-            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
-                <Label Content="Тип источника данных"/>
-                <ComboBox x:Name="DataSourceTypeCB" Width="120" SelectionChanged="ComboBox_SelectionChanged" >
-                </ComboBox>
-            </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Height="325" VerticalAlignment="Top" Width="292">
+            
             <StackPanel Height="32" Orientation="Horizontal" Margin="10">
                 <Label Content="Источник данных"/>
                 <ComboBox x:Name="DataSourceNameCB" Width="145"/>
@@ -24,6 +20,10 @@
             <StackPanel Height="32" Orientation="Horizontal" Margin="10">
                 <Label Content="Адрес"/>
                 <TextBox x:Name="AdressTB" Width="150"/>
+            </StackPanel>
+            <StackPanel Height="32" Orientation="Horizontal" Margin="10">
+                <Label Content="Тип устройства"/>
+                <ComboBox x:Name="InputDeviceTypeCB" Width="145"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="10">
                 <Button Content="Проверить валидность" Height="32" Margin="10" Click="Button_Click_1"/>

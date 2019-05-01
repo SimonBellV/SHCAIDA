@@ -25,6 +25,7 @@
                     <Label Margin="0, 10, 10, 10" Content="c"></Label>
                 </StackPanel>
                 <Button Margin="10" Height="32" Content="Добавить датчик SQL" Width="280" Click="Button_Click_7"/>
+                <Button Margin="10" Height="32" Content="Neurotest" Width="280" Click="Button_Click_8"/>
             </Menu>
         </StackPanel>
 
