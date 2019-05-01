@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace SHCAIDA
 {
-    public class MSSQLClient :INotifyPropertyChanged
+    public class MSSQLClient : INotifyPropertyChanged
     {
         public int ID { get; set; }
 
@@ -91,11 +86,11 @@ namespace SHCAIDA
             var cnn = new SqlConnection(ConnectionString);
             try
             {
-                cnn.Open();                
+                cnn.Open();
                 cnn.Close();
                 return true;
             }
-            catch { return false;  }
+            catch { return false; }
         }
 
         public float ReadData(MSSQLSensor sensor)

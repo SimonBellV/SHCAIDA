@@ -6,18 +6,23 @@ namespace SHCAIDA
 {
     public class Value : INotifyPropertyChanged
     {
-        private DateTime date;
-        private double sensorValue;
-        private int sensorID;
         public int ID { get; set; }
-        public Value(DateTime date, double value, int sensorID)
+        private double date;
+        private TypeOfDataSources dataSourceType;
+        private int clientID;
+        private int deviceID;
+        private double deviceValue;
+
+        public Value(DateTime date, TypeOfDataSources dataSource, int clientID, int deviceID, double deviceValue)
         {
-            this.sensorID = sensorID;
-            this.date = date;
-            sensorValue = value;
+            this.date = date.ToOADate();
+            this.dataSourceType = dataSource;
+            this.clientID = clientID;
+            this.deviceID = deviceID;
+            this.deviceValue = deviceValue;
         }
 
-        public DateTime Date
+        public double Date
         {
             get { return date; }
             set
@@ -26,22 +31,44 @@ namespace SHCAIDA
                 OnPropertyChanged("Date");
             }
         }
-        public double SensorValue
+
+        public TypeOfDataSources DataSourceType
         {
-            get { return sensorValue; }
+            get { return dataSourceType; }
             set
             {
-                sensorValue = value;
-                OnPropertyChanged("Value");
+                dataSourceType = value;
+                OnPropertyChanged("DataSourceType");
             }
         }
-        public int SensorID
+
+        public int ClientID
         {
-            get { return sensorID; }
+            get { return clientID; }
             set
             {
-                sensorID = value;
-                OnPropertyChanged("Value");
+                clientID = value;
+                OnPropertyChanged("ClientID");
+            }
+        }
+
+        public int DeviceID
+        {
+            get { return deviceID; }
+            set
+            {
+                deviceID = value;
+                OnPropertyChanged("DeviceID");
+            }
+        }
+
+        public double DeviceValue
+        {
+            get { return deviceValue; }
+            set
+            {
+                deviceValue = value;
+                OnPropertyChanged("DeviceValue");
             }
         }
 

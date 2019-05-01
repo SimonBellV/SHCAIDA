@@ -31,7 +31,7 @@ namespace SHCAIDA
                         input = InputDeviceType.Regulator;
                         break;
                     default:
-                        throw new Exception("Ошибка по выбранному типу устройста");
+                        throw new Exception("Ошибка по выбранному типу устройства");
                 }
                 ProgramMainframe.SiemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text, input));
                 ProgramMainframe.SiemensSensors.SaveChanges();

@@ -49,11 +49,11 @@ namespace SHCAIDA
         }
     }
 
-    public class SiemensValuesApplicationContext : DbContext
+    public class ValuesApplicationContext : DbContext
     {
-        public SiemensValuesApplicationContext() : base("DefaultConnection")
+        public ValuesApplicationContext() : base("DefaultConnection")
         {
-            Database.SetInitializer<SiemensValuesApplicationContext>(null);
+            Database.SetInitializer<ValuesApplicationContext>(null);
         }
         public DbSet<Value> Values { get; set; }
     }
@@ -117,7 +117,7 @@ namespace SHCAIDA
         public static List<Rule> Rules;
         public static List<LingVariable> LinguisticVariables;
         public static SiemensSensorsApplicationContext SiemensSensors;
-        //public static SiemensValuesApplicationContext Valuesdb;
+        public static ValuesApplicationContext Valuesdb;
         public static CommonStatusContext Statusdb;
         public static MessageJournalContext Journaldb;
         //public static List<RockwellClient> rockwellClients = new List<RockwellClient>();
@@ -148,7 +148,7 @@ namespace SHCAIDA
         public static void InitMainframe()
         {
             SiemensSensors = new SiemensSensorsApplicationContext();
-            //Valuesdb = new SiemensValuesApplicationContext();
+            Valuesdb = new ValuesApplicationContext();
             LinguisticVariables = new List<LingVariable>();
             SiemensClients = new SiemensClientApplicationContext();
             Journaldb = new MessageJournalContext();

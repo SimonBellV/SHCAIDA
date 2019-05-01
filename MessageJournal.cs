@@ -24,7 +24,6 @@ namespace SHCAIDA
         private string sensor;
         private string state;
         private double time;
-        public string timeStr;
 
         public MessageJournal(string sensor, string state, DateTime time)
         {

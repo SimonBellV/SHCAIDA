@@ -130,6 +130,9 @@
     <Compile Include="Forms\MSSQLSensorAdd.xaml.cs">
       <DependentUpon>MSSQLSensorAdd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GameDevicesSetup.xaml.cs">
+      <DependentUpon>GameDevicesSetup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LingVariable.cs" />
     <Compile Include="MessageJournal.cs" />
     <Compile Include="MSSQLClient.cs" />
@@ -173,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\JournalEvent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\GameDevicesSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -84,7 +84,8 @@ namespace SHCAIDA
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("tests");
+            GameDevicesSetup f = new GameDevicesSetup();
+            f.Show();
         }
     }
 }
