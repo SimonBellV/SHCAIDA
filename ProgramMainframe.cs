@@ -32,6 +32,7 @@ namespace SHCAIDA
         }
     }
 
+    [Serializable]
     public struct Rule
     {
         public string RuleStr { get; set; }
@@ -320,23 +321,21 @@ namespace SHCAIDA
 
         public static void WriteRules()
         {
-            using (var sw = new StreamWriter("rules.txt"))
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (var sw = new FileStream("rules.dat", FileMode.OpenOrCreate))
             {
-                sw.WriteLine(Rules.Count);
-                foreach (var val in Rules)
-                    sw.WriteLine(val.RuleStr);
+                formatter.Serialize(sw, Rules);
             }
         }
 
         private static void ReadRules()
         {
             Rules = new List<Rule>();
-            if (!File.Exists("rules.txt")) return;
-            using (var sr = new StreamReader("rules.txt"))
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("rules.dat", FileMode.OpenOrCreate))
             {
-                RulesCount = Convert.ToInt32(sr.ReadLine());
-                for (var i = 0; i < RulesCount; i++)
-                    Rules.Add(new Rule(sr.ReadLine(), i + 1));
+                if (fs.Length != 0)
+                    Rules = (List<Rule>)formatter.Deserialize(fs);
             }
         }
 
