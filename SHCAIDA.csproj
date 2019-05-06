@@ -136,7 +136,9 @@
     <Compile Include="Forms\GameDevicesSetup.xaml.cs">
       <DependentUpon>GameDevicesSetup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameMainframe.cs" />
     <Compile Include="GameNode.cs" />
+    <Compile Include="GameResultCluster.cs" />
     <Compile Include="LingVariable.cs" />
     <Compile Include="MessageJournal.cs" />
     <Compile Include="MSSQLClient.cs" />
