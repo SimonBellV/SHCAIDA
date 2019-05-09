@@ -363,21 +363,21 @@ namespace SHCAIDA
                 switch (variable.sourceType)
                 {
                     case "Siemens":
-                    {
-                        var var = Ssconnections.Find(x => x.Sensor.Name == variable.name);
-                        if(var.Sensor!=null && var.Client!=null)
-                            IS.SetInput(variable.name, var.Client.ReadData(var.Sensor.Adress));
-                        break;
-                    }
+                        {
+                            var var = Ssconnections.Find(x => x.Sensor.Name == variable.name);
+                            if (var.Sensor != null && var.Client != null)
+                                IS.SetInput(variable.name, var.Client.ReadData(var.Sensor.Adress));
+                            break;
+                        }
                     case "Rockwell":
                         MessageBox.Show("Not ready");
                         break;
                     case "SQL Server":
-                    {
-                        var var = Mssqlconnections.Find(x => x.Sensor.Name == variable.name);
-                        IS.SetInput(variable.name, var.Client.ReadData(var.Sensor));
-                        break;
-                    }
+                        {
+                            var var = Mssqlconnections.Find(x => x.Sensor.Name == variable.name);
+                            IS.SetInput(variable.name, var.Client.ReadData(var.Sensor));
+                            break;
+                        }
                 }
             }
             foreach (var variable in LinguisticVariables)
@@ -406,7 +406,7 @@ namespace SHCAIDA
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream fs = new FileStream("gamenodes.dat", FileMode.OpenOrCreate))
             {
-                if(fs.Length!=0)
+                if (fs.Length != 0)
                     gameTheoryController = (List<GameNode>)formatter.Deserialize(fs);
             }
         }
@@ -420,19 +420,51 @@ namespace SHCAIDA
             }
         }
 
-        public static int GetSensorIDByName(string name)
+        public static int GetSensorIDByName(string name, TypeOfDataSources type)
         {
-            foreach (var sensor in SiemensSensors.SiemensSensors)
-                if (name == sensor.Name)
-                    return sensor.ID;
+            switch (type)
+            {
+                case TypeOfDataSources.Siemens:
+                    {
+                        foreach (var sensor in SiemensSensors.SiemensSensors)
+                            if (name == sensor.Name)
+                                return sensor.ID;
+                    }
+                    break;
+                case TypeOfDataSources.Mssql:
+                    {
+                        foreach (var sensor in MssqlSensors.MSSQLSensors)
+                            if (name == sensor.Name)
+                                return sensor.ID;
+                    }
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
             throw new Exception("Этот датчик не найден");
         }
 
-        public static string GetSensorNameById(int ID)
+        public static string GetSensorNameById(int ID, TypeOfDataSources type)
         {
-            foreach (var sensor in SiemensSensors.SiemensSensors)
-                if (ID == sensor.ID)
-                    return sensor.Name;
+            switch (type)
+            {
+                case TypeOfDataSources.Siemens:
+                    {
+                        foreach (var sensor in SiemensSensors.SiemensSensors)
+                            if (ID == sensor.ID)
+                                return sensor.Name;
+                    }
+                    break;
+                case TypeOfDataSources.Mssql:
+                    {
+                        foreach (var sensor in MssqlSensors.MSSQLSensors)
+                            if (ID == sensor.ID)
+                                return sensor.Name;
+                    }
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
             throw new Exception("Этот датчик не найден");
         }
     }

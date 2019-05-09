@@ -123,7 +123,6 @@
     <Compile Include="Forms\ChooseDataSourceToAdd.xaml.cs">
       <DependentUpon>ChooseDataSourceToAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataSourceAdder.cs" />
     <Compile Include="Forms\GameNodesControlRoom.xaml.cs">
       <DependentUpon>GameNodesControlRoom.xaml</DependentUpon>
     </Compile>
@@ -136,9 +135,7 @@
     <Compile Include="Forms\GameDevicesSetup.xaml.cs">
       <DependentUpon>GameDevicesSetup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GameMainframe.cs" />
     <Compile Include="GameNode.cs" />
-    <Compile Include="GameResultCluster.cs" />
     <Compile Include="LingVariable.cs" />
     <Compile Include="MessageJournal.cs" />
     <Compile Include="MSSQLClient.cs" />
@@ -152,6 +149,7 @@
     <Compile Include="Forms\RuleWizard.xaml.cs">
       <DependentUpon>RuleWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RoledDevice.cs" />
     <Compile Include="Sensor.cs" />
     <Compile Include="Forms\SiemensSensorAdd.xaml.cs">
       <DependentUpon>SiemensSensorAdd.xaml</DependentUpon>

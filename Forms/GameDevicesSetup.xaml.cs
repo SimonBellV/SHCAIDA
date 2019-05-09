@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SHCAIDA
 {
+    public struct DeviceType
+    {
+        public string name;
+        public TypeOfDataSources type;
+
+        public DeviceType(string name, TypeOfDataSources type)
+        {
+            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            this.type = type;
+        }
+    }
     /// <summary>
     /// Логика взаимодействия для GameDevicesSetup.xaml
     /// </summary>
     public partial class GameDevicesSetup : Window
     {
+        private readonly List<DeviceType> allDevices;
+        private List<DeviceType> usedDevices;
         public GameDevicesSetup()
         {
             InitializeComponent();
+            allDevices = new List<DeviceType>();
+            usedDevices = new List<DeviceType>();
             foreach (var device in ProgramMainframe.SiemensSensors.SiemensSensors)
             {
                 switch (device.DeviceType)
@@ -38,6 +43,7 @@ namespace SHCAIDA
                     default:
                         throw new Exception("Ошибка типов устройств");
                 }
+                allDevices.Add(new DeviceType(device.Name, TypeOfDataSources.Siemens));
             }
         }
 
@@ -46,6 +52,7 @@ namespace SHCAIDA
             if (RegulatorsToSelectLB.SelectedItem != null)
             {
                 SelectedRegulatorsLB.Items.Add(RegulatorsToSelectLB.SelectedItem.ToString());
+                usedDevices.Add(allDevices.Find(x => x.name == RegulatorsToSelectLB.SelectedItem.ToString()));
                 RegulatorsToSelectLB.Items.RemoveAt(RegulatorsToSelectLB.SelectedIndex);
             }
         }
@@ -55,6 +62,7 @@ namespace SHCAIDA
             if (SelectedRegulatorsLB.SelectedItem != null)
             {
                 RegulatorsToSelectLB.Items.Add(SelectedRegulatorsLB.SelectedItem.ToString());
+                usedDevices.Remove(allDevices.Find(x => x.name == SelectedRegulatorsLB.SelectedItem.ToString()));
                 SelectedRegulatorsLB.Items.RemoveAt(SelectedRegulatorsLB.SelectedIndex);
             }
         }
@@ -63,7 +71,8 @@ namespace SHCAIDA
         {
             if (StateSensorsToSelectLB.SelectedItem != null)
             {
-                SelectedStateSensorsLB.Items.Add(StateSensorsToSelectLB.SelectedItem.ToString());                
+                SelectedStateSensorsLB.Items.Add(StateSensorsToSelectLB.SelectedItem.ToString());
+                usedDevices.Add(allDevices.Find(x => x.name == StateSensorsToSelectLB.SelectedItem.ToString()));
                 OutputSensorsToSelectLB.Items.Remove(StateSensorsToSelectLB.SelectedItem);
                 StateSensorsToSelectLB.Items.Remove(StateSensorsToSelectLB.SelectedItem);
             }
@@ -74,6 +83,7 @@ namespace SHCAIDA
             if (OutputSensorsToSelectLB.SelectedItem != null)
             {
                 SelectedOutputSensorsLB.Items.Add(OutputSensorsToSelectLB.SelectedItem.ToString());
+                usedDevices.Add(allDevices.Find(x => x.name == OutputSensorsToSelectLB.SelectedItem.ToString()));
                 StateSensorsToSelectLB.Items.Remove(OutputSensorsToSelectLB.SelectedItem);
                 OutputSensorsToSelectLB.Items.Remove(OutputSensorsToSelectLB.SelectedItem);
             }
@@ -85,6 +95,7 @@ namespace SHCAIDA
             {
                 StateSensorsToSelectLB.Items.Add(SelectedStateSensorsLB.SelectedItem.ToString());
                 OutputSensorsToSelectLB.Items.Add(SelectedStateSensorsLB.SelectedItem.ToString());
+                usedDevices.Remove(allDevices.Find(x => x.name == SelectedStateSensorsLB.SelectedItem.ToString()));
                 SelectedStateSensorsLB.Items.RemoveAt(SelectedStateSensorsLB.SelectedIndex);
             }
         }
@@ -95,6 +106,7 @@ namespace SHCAIDA
             {
                 StateSensorsToSelectLB.Items.Add(SelectedOutputSensorsLB.SelectedItem.ToString());
                 OutputSensorsToSelectLB.Items.Add(SelectedOutputSensorsLB.SelectedItem.ToString());
+                usedDevices.Remove(allDevices.Find(x => x.name == SelectedOutputSensorsLB.SelectedItem.ToString()));
                 SelectedOutputSensorsLB.Items.RemoveAt(SelectedOutputSensorsLB.SelectedIndex);
             }
         }
@@ -105,11 +117,20 @@ namespace SHCAIDA
             {
                 GameNode node = new GameNode(nodeNameTB.Text.ToString(), nodeDescriptionTB.Text.ToString(), RegulatorsIntervalsIUD.Value.Value, StateSensorsIntervalsIUD.Value.Value);
                 foreach (var item in SelectedRegulatorsLB.Items)
-                    node.usedSensors.Add(new RoledSiemensSensor(ProgramMainframe.GetSensorIDByName(item.ToString()), GameRole.Regulator));
-                foreach(var item in SelectedStateSensorsLB.Items)
-                    node.usedSensors.Add(new RoledSiemensSensor(ProgramMainframe.GetSensorIDByName(item.ToString()), GameRole.StateSensor));
+                {
+                    var type = usedDevices.Find(x => x.name == item.ToString()).type;
+                    node.usedSensors.Add(new RoledDevice(ProgramMainframe.GetSensorIDByName(item.ToString(), type), GameRole.Regulator, type));
+                }
+                foreach (var item in SelectedStateSensorsLB.Items)
+                {
+                    var type = usedDevices.Find(x => x.name == item.ToString()).type;
+                    node.usedSensors.Add(new RoledDevice(ProgramMainframe.GetSensorIDByName(item.ToString(), type), GameRole.StateSensor, type));
+                }
                 foreach (var item in SelectedOutputSensorsLB.Items)
-                    node.usedSensors.Add(new RoledSiemensSensor(ProgramMainframe.GetSensorIDByName(item.ToString()), GameRole.OutputSensor));
+                {
+                    var type = usedDevices.Find(x => x.name == item.ToString()).type;
+                    node.usedSensors.Add(new RoledDevice(ProgramMainframe.GetSensorIDByName(item.ToString(), type), GameRole.OutputSensor, type));
+                }
                 ProgramMainframe.gameTheoryController.Add(node);
                 ProgramMainframe.WriteGameNodes();
             }

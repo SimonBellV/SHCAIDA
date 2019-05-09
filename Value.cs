@@ -4,25 +4,27 @@ using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
-    public class Value : INotifyPropertyChanged
+    public class BasicValue : INotifyPropertyChanged
     {
-        public int ID { get; set; }
-        private double date;
-        private TypeOfDataSources dataSourceType;
-        private int clientID;
-        private int deviceID;
-        private double deviceValue;
-
-        public Value(DateTime date, TypeOfDataSources dataSource, int clientID, int deviceID, double deviceValue)
+        protected DateTime date;
+        protected double deviceValue;
+        public virtual event PropertyChangedEventHandler PropertyChanged;
+        public virtual void OnPropertyChanged([CallerMemberName]string prop = "")
         {
-            this.date = date.ToOADate();
-            this.dataSourceType = dataSource;
-            this.clientID = clientID;
-            this.deviceID = deviceID;
-            this.deviceValue = deviceValue;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        public double Date
+        public double DeviceValue
+        {
+            get { return deviceValue; }
+            set
+            {
+                deviceValue = value;
+                OnPropertyChanged("DeviceValue");
+            }
+        }
+
+        public DateTime Date
         {
             get { return date; }
             set
@@ -31,6 +33,27 @@ namespace SHCAIDA
                 OnPropertyChanged("Date");
             }
         }
+
+        public BasicValue(double value, DateTime date)
+        {
+            deviceValue = value;
+            this.date = date;
+        }
+    }
+    public class Value : BasicValue
+    {
+        public int ID { get; set; }        
+        private TypeOfDataSources dataSourceType;
+        private int clientID;
+        private int deviceID;        
+
+        public Value(DateTime date, TypeOfDataSources dataSource, int clientID, int deviceID, double deviceValue) : base(deviceValue, date)
+        {
+            this.dataSourceType = dataSource;
+            this.clientID = clientID;
+            this.deviceID = deviceID;
+        }
+
 
         public TypeOfDataSources DataSourceType
         {
@@ -62,18 +85,10 @@ namespace SHCAIDA
             }
         }
 
-        public double DeviceValue
-        {
-            get { return deviceValue; }
-            set
-            {
-                deviceValue = value;
-                OnPropertyChanged("DeviceValue");
-            }
-        }
+        
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public override event PropertyChangedEventHandler PropertyChanged;
+        public override void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
