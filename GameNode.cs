@@ -24,6 +24,20 @@ namespace SHCAIDA
             this.deviceID = deviceID;
             this.role = role;
         }
+
+        public string SensorName(int id) => ProgramMainframe.GetSensorNameById(id);
+    }
+
+    public struct ValueHeap
+    {
+        public RoledSiemensSensor device;
+        public double value;
+
+        public ValueHeap(RoledSiemensSensor device, double value)
+        {
+            this.device = device;
+            this.value = value;
+        }
     }
 
     [Serializable]
@@ -34,6 +48,21 @@ namespace SHCAIDA
         public string nodeDescription;
         public int regulatorIntervalCount;
         public int stateSensorIntervalCount;
+        public List<DeviceInterval>[] outputColumns;
+        public List<DeviceInterval>[] regulatorRows;
+        public List<double>[][] outputValues;
+        public List<ValueHeap> bareValues;
+
+        private int RegulatorsCount => usedSensors.FindAll(x => x.role == GameRole.Regulator).Count;
+
+        private int StatesCount => usedSensors.FindAll(x => x.role == GameRole.StateSensor).Count;
+
+        private bool CheckOutputsCount()
+        {
+            if (usedSensors.FindAll(x => x.role == GameRole.OutputSensor).Count == 1)
+                return true;
+            else throw new ArgumentOutOfRangeException();
+        }
 
         public GameNode(string nodeName, string nodeDescription, int regulatorIntervalCount, int stateSensorIntervalCount)
         {
@@ -58,6 +87,19 @@ namespace SHCAIDA
                 foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.OutputSensor).Select(sensor => sensor))
                     res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
                 return res;
+            }
+        }
+
+        public void BuildGameNode()
+        {
+
+        }
+
+        public void GetNodeDevicesValues(List<ValueHeap> values)
+        {
+            foreach (var value in values)
+            {
+
             }
         }
     }
