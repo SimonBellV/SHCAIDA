@@ -365,7 +365,8 @@ namespace SHCAIDA
                     case "Siemens":
                     {
                         var var = Ssconnections.Find(x => x.Sensor.Name == variable.name);
-                        IS.SetInput(variable.name, var.Client.ReadData(var.Sensor.Adress));
+                        if(var.Sensor!=null && var.Client!=null)
+                            IS.SetInput(variable.name, var.Client.ReadData(var.Sensor.Adress));
                         break;
                     }
                     case "Rockwell":

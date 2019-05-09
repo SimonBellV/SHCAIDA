@@ -32,7 +32,7 @@ namespace SHCAIDA.Forms
                 if (node.nodeName == NodeListLB.SelectedItem.ToString())
                 {
                     NodeStatsTB.Text = "";
-                    NodeStatsTB.Text = node.NodeStats();
+                    NodeStatsTB.Text = node.NodeStats;
                 }
         }
     }

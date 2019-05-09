@@ -44,24 +44,21 @@ namespace SHCAIDA
             this.stateSensorIntervalCount = stateSensorIntervalCount;
         }
 
-        public string NodeStats()
+        public string NodeStats
         {
-            string res = "Название: " + nodeName + "\nКоличество интервалов регуляторов: " + regulatorIntervalCount + "\nРегуляторы, которые входят в узел:\n";
-            foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.Regulator).Select(sensor => sensor))
+            get
             {
-                res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
+                var res = "Название: " + nodeName + "\nКоличество интервалов регуляторов: " + regulatorIntervalCount + "\nРегуляторы, которые входят в узел:\n";
+                foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.Regulator).Select(sensor => sensor))
+                    res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
+                res += "Количество интервалов датчиков состояний: " + stateSensorIntervalCount + "\nДатчики состояний:\n";
+                foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.StateSensor).Select(sensor => sensor))
+                    res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
+                res += "Оцениваемые датчики:\n";
+                foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.OutputSensor).Select(sensor => sensor))
+                    res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
+                return res;
             }
-            res += "Количество интервалов датчиков состояний: " + stateSensorIntervalCount + "\nДатчики состояний:\n";
-            foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.StateSensor).Select(sensor => sensor))
-            {
-                res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
-            }
-            res += "Оцениваемые датчики:\n";
-            foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.OutputSensor).Select(sensor => sensor))
-            {
-                res += (ProgramMainframe.GetSensorNameById(sensor.deviceID) + "\n");
-            }
-            return res;
         }
     }
 }

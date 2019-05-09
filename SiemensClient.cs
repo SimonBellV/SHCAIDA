@@ -158,14 +158,20 @@ namespace SHCAIDA
 
         public float ReadData(string variable)
         {
-            try
+            object result;
+            if (plc != null)
             {
-                return Convert.ToSingle(plc.Read(variable));
+                try
+                {
+                    result = plc.Read(variable);
+                }
+                catch (NullReferenceException)
+                {
+                    return -1;
+                }
+                return Convert.ToSingle(result);
             }
-            catch
-            {
-                return -1;
-            }
+            else return 0;
         }
 
         private void WriteData(List<string> variables, List<double> values)
