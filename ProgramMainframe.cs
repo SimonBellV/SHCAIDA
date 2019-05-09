@@ -20,15 +20,17 @@ namespace SHCAIDA
         Common
     }
 
-    public struct SensorsConnections<T1, T2>
+    public class SensorsConnections<T1, T2>
     {
         public T1 Sensor;
         public T2 Client;
+        public bool isStoringInDB;
 
         public SensorsConnections(T1 sensor, T2 client)
         {
             this.Sensor = sensor;
             this.Client = client;
+            isStoringInDB = false;
         }
     }
 
@@ -134,6 +136,8 @@ namespace SHCAIDA
         public static MSSQLClientApplicationContext MssqlClients;
         public static MSSQLSensorApplicationContext MssqlSensors;
         public static List<GameNode> gameTheoryController;
+        private static bool storagingRunning;
+        public static long StoragingTimeout;
 
         public static bool ISRunning
         {
@@ -148,7 +152,30 @@ namespace SHCAIDA
             }
         }
 
-        public static void InitMainframe()
+        public static bool StoragingRunning
+        {
+            get => storagingRunning;
+            set
+            {
+                storagingRunning = value;
+                if (storagingRunning)
+                {
+                    StoreDataOnline();
+                }
+            }
+        }
+
+        public static void StoreDataOnline()
+        {
+            foreach (var sconnection in Ssconnections)
+                if (sconnection.isStoringInDB)
+                    Valuesdb.Values.Add(new Value(DateTime.Now, TypeOfDataSources.Siemens, sconnection.Client.ID, sconnection.Sensor.ID, sconnection.Client.ReadData(sconnection.Sensor.Name)));
+            foreach (var mssqlcon in Mssqlconnections)
+                if (mssqlcon.isStoringInDB)
+                    Valuesdb.Values.Add(new Value(DateTime.Now, TypeOfDataSources.Siemens, mssqlcon.Client.ID, mssqlcon.Sensor.ID, mssqlcon.Client.ReadData(mssqlcon.Sensor)));
+        }
+
+            public static void InitMainframe()
         {
             SiemensSensors = new SiemensSensorsApplicationContext();
             Valuesdb = new ValuesApplicationContext();

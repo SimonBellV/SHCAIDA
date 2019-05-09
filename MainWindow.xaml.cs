@@ -93,5 +93,23 @@ namespace SHCAIDA
             GameNodesControlRoom f = new GameNodesControlRoom();
             f.Show();
         }
+
+        private void StorageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SystemCooldownLUD.Value != null && SystemCooldownLUD.Value.Value > 0)
+            {
+                if (!ProgramMainframe.ISRunning)
+                {
+                    ISLaunchButton.Content = "Отключить запись данных в БД";
+                    ProgramMainframe.StoragingTimeout = SystemStoringCooldownLUD.Value.Value;
+                    ProgramMainframe.StoragingRunning = true;
+                }
+                else
+                {
+                    ISLaunchButton.Content = "Включить запись данных в БД";
+                    ProgramMainframe.StoragingRunning = false;
+                }
+            }
+        }
     }
 }
