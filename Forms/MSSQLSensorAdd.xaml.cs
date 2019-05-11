@@ -37,6 +37,7 @@ namespace SHCAIDA.Forms
             {
                 ProgramMainframe.MssqlSensors.MSSQLSensors.Add(new MSSQLSensor(ProgramMainframe.GetMssqlClientId(SQLClientsCB.SelectedItem.ToString()), DatabaseNameTB.Text, HeaderNameTB.Text, NameTB.Text));
                 ProgramMainframe.MssqlSensors.SaveChanges();
+                MessageBox.Show("Устройство успешно добавлено");
             }
         }
 

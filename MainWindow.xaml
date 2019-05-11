@@ -6,29 +6,28 @@
         xmlns:local="clr-namespace:SHCAIDA"
         xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="388.959" Width="680.757" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <Menu HorizontalAlignment="Left" Height="383" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
+            <Menu HorizontalAlignment="Left" Height="335" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
                 <Button Margin="10" Height="32" Content="Добавить источник данных реального времени" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280" Click="Button_Click"/>
-                <Button Margin="10" Height="32" Content="Загрузить данные из архивов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"/>
                 <Button Margin="10" Height="32" Content="Добавить датчик Siemens" Width="280" Click="Button_Click_2"/>
                 <Button Margin="10" Height="32" Content="Задать правило" Width="280" Click="Button_Click_3"/>
                 <Button Margin="10" Height="32" Content="Задать переменную состояния" Width="280" Click="Button_Click_4"/>
                 <Button Margin="10" Height="32" Content="Открыть журнал событий" Width="280" Click="Button_Click_5"/>
                 <Button Margin="10" Height="32" Content="Настроить логирование состояний" Width="280" Click="Button_Click_6"/>
             </Menu>
-            <Menu HorizontalAlignment="Left" Height="383" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
+            <Menu HorizontalAlignment="Left" Height="335" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
                 <StackPanel Orientation="Horizontal">
                     <Button Margin="10" x:Name="ISLaunchButton" Content="Включить СНП" Height="32" Width="180" Click="ISLaunchButton_Click"/>
-                    <t:LongUpDown x:Name="SystemCooldownLUD" Margin="10" Width="50" Value="0" Text="c" Minimum="1" DefaultValue="1"></t:LongUpDown>
+                    <t:LongUpDown x:Name="SystemCooldownLUD" Margin="10" Width="50" Value="1" Text="c" Minimum="1" DefaultValue="1"></t:LongUpDown>
                     <Label Margin="0, 10, 10, 10" Content="c"></Label>
                 </StackPanel>
                 <Button Margin="10" Height="32" Content="Добавить датчик SQL" Width="280" Click="Button_Click_7"/>
-                <Button Margin="10" Height="32" Content="Добавить новый узел" Width="280" Click="Button_Click_8"/>
+                <Button Margin="10" Height="32" Content="Добавить новую ноду" Width="280" Click="Button_Click_8"/>
                 <StackPanel Orientation="Horizontal">
                     <Button Margin="10" x:Name="StorageButton" Content="Включить запись данных в БД" Height="32" Width="180" Click="StorageButton_Click"/>
-                    <t:LongUpDown x:Name="SystemStoringCooldownLUD" Margin="10" Width="50" Value="0" Text="c" Minimum="1" DefaultValue="1"></t:LongUpDown>
+                    <t:LongUpDown x:Name="SystemStoringCooldownLUD" Margin="10" Width="50" Value="1" Text="c" Minimum="1" DefaultValue="1"></t:LongUpDown>
                     <Label Margin="0, 10, 10, 10" Content="c"></Label>
                 </StackPanel>
                 <Button Margin="10" Height="32" Content="Управление игровыми нодами" Width="280" Click="Button_Click_9"/>

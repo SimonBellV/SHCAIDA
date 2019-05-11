@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="StatusListSetup" Height="366" Width="320">
+        Title="StatusListSetup" Height="366" Width="320" ResizeMode="NoResize">
     <Grid>
         <StackPanel Width="300" Margin="6,0,6,10">
             <StackPanel Height="32" Orientation="Horizontal" Margin="10">

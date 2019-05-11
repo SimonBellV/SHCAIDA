@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="RuleWizard" Height="450" Width="800">
+        Title="RuleWizard" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
             <StackPanel Height="150" Orientation="Horizontal" HorizontalAlignment="Center">

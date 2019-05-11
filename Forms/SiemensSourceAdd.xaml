@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SHCAIDA"
         xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="PLCSourceAdd" Height="342" Width="338.643">
+        Title="PLCSourceAdd" Height="342" Width="338.643" ResizeMode="NoResize">
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="306" VerticalAlignment="Top" Width="331">
             <StackPanel Orientation="Horizontal" Height="50">

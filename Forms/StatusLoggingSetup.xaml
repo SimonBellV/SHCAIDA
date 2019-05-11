@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="StatusLoggingSetup" Height="373.186" Width="210">
+        Title="StatusLoggingSetup" Height="373.186" Width="210" ResizeMode="NoResize">
     <Grid>
         <StackPanel Height="342" Width="200" Orientation="Vertical" VerticalAlignment="Center" Margin="1,0">
             <Label Content="Тип источник данных" Margin="0,10,0,0"/>

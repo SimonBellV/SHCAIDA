@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SHCAIDA"
         xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="JournalEvent" Height="450" Width="710">
+        Title="JournalEvent" Height="450" Width="710" ResizeMode="NoResize">
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="419"  VerticalAlignment="Top" Width="700" Orientation="Horizontal">
             <DataGrid x:Name="DataTableDG" Width="500"/>

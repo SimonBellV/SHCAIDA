@@ -6,7 +6,7 @@
         xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="GameDevicesSetup" Height="475" Width="900">
+        Title="GameDevicesSetup" Height="475" Width="900" ResizeMode="NoResize">
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="435" VerticalAlignment="Top" Width="900" Orientation="Horizontal">
             <StackPanel Width="221" Margin="10,0,0,0">

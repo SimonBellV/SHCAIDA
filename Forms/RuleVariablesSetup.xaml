@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="RuleVariablesSetup" Height="400" Width="750">
+        Title="RuleVariablesSetup" Height="400" Width="750" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="366" VerticalAlignment="Bottom" Width="740">
             <StackPanel Width="224" Height="294" VerticalAlignment="Center" Margin="0,0,0,16">

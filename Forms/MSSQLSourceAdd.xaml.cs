@@ -19,6 +19,7 @@ namespace SHCAIDA
             {
                 ProgramMainframe.MssqlClients.MSSQLClients.Add(new MSSQLClient(DataSourceTB.Text, InitCatalogTB.Text, UserTB.Text, PasswordTB.Password));
                 ProgramMainframe.MssqlClients.SaveChanges();
+                MessageBox.Show("Новый клиент добавлен");
             }
 
         }

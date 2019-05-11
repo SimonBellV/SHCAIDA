@@ -35,6 +35,7 @@ namespace SHCAIDA
                 }
                 ProgramMainframe.SiemensSensors.SiemensSensors.Add(new SiemensSensor(DataSourceNameCB.SelectedItem.ToString(), NameTB.Text, AdressTB.Text, input));
                 ProgramMainframe.SiemensSensors.SaveChanges();
+                MessageBox.Show("Добавлено новое устройство");
             }
             catch (Exception exp)
             {

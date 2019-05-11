@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="ChooseDataSourceToAdd" Height="300" Width="300">
+        Title="ChooseDataSourceToAdd" Height="300" Width="300" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Height="269" VerticalAlignment="Top" Width="292">
             <RadioButton x:Name="RockwellRB" Content="Rockwell PLC" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" Checked="RockwellRB_Checked"/>

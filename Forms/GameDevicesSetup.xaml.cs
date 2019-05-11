@@ -80,7 +80,7 @@ namespace SHCAIDA
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (OutputSensorsToSelectLB.SelectedItem != null)
+            if (OutputSensorsToSelectLB.SelectedItem != null && SelectedOutputSensorsLB.Items.Count <= 1)
             {
                 SelectedOutputSensorsLB.Items.Add(OutputSensorsToSelectLB.SelectedItem.ToString());
                 usedDevices.Add(allDevices.Find(x => x.name == OutputSensorsToSelectLB.SelectedItem.ToString()));
@@ -133,6 +133,7 @@ namespace SHCAIDA
                 }
                 ProgramMainframe.gameTheoryController.Add(node);
                 ProgramMainframe.WriteGameNodes();
+                MessageBox.Show("Нода успешно добавлена");
             }
             else
                 MessageBox.Show("Проверьте корректность полей");

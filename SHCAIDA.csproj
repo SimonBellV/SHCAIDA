@@ -132,9 +132,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommonStatus.cs" />
-    <Compile Include="Forms\ChooseArchiveDataSourceToAdd.xaml.cs">
-      <DependentUpon>ChooseArchiveDataSourceToAdd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ChooseDataSourceToAdd.xaml.cs">
       <DependentUpon>ChooseDataSourceToAdd.xaml</DependentUpon>
     </Compile>
@@ -148,7 +145,7 @@
       <DependentUpon>GameDevicesSetup.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameNode.cs" />
-    <Compile Include="GameNodesControlRoom.xaml.cs">
+    <Compile Include="Forms\GameNodesControlRoom.xaml.cs">
       <DependentUpon>GameNodesControlRoom.xaml</DependentUpon>
     </Compile>
     <Compile Include="LingVariable.cs" />
@@ -186,10 +183,6 @@
       <DependentUpon>StatusLoggingSetup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Value.cs" />
-    <Page Include="Forms\ChooseArchiveDataSourceToAdd.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Forms\ChooseDataSourceToAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,7 +195,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GameNodesControlRoom.xaml">
+    <Page Include="Forms\GameNodesControlRoom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
