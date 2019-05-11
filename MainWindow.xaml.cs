@@ -96,17 +96,17 @@ namespace SHCAIDA
 
         private void StorageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SystemCooldownLUD.Value != null && SystemCooldownLUD.Value.Value > 0)
+            if (SystemStoringCooldownLUD.Value != null && SystemStoringCooldownLUD.Value.Value > 0)
             {
-                if (!ProgramMainframe.ISRunning)
+                if (!ProgramMainframe.StoragingRunning)
                 {
-                    ISLaunchButton.Content = "Отключить запись данных в БД";
+                    StorageButton.Content = "Отключить запись данных в БД";
                     ProgramMainframe.StoragingTimeout = SystemStoringCooldownLUD.Value.Value;
                     ProgramMainframe.StoragingRunning = true;
                 }
                 else
                 {
-                    ISLaunchButton.Content = "Включить запись данных в БД";
+                    StorageButton.Content = "Включить запись данных в БД";
                     ProgramMainframe.StoragingRunning = false;
                 }
             }

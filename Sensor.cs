@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System;
 
 namespace SHCAIDA
 {
@@ -8,6 +9,7 @@ namespace SHCAIDA
         Sensor = 0,
         Regulator
     }
+    [Serializable]
     public class Sensor : INotifyPropertyChanged
     {
         public InputDeviceType deviceType;
@@ -15,6 +17,7 @@ namespace SHCAIDA
         public string Name;
         public string SourceName;
         public string SourcePath;
+        public bool isStoragingEnable;
         public virtual event PropertyChangedEventHandler PropertyChanged;
         public virtual void OnPropertyChanged([CallerMemberName]string prop = "")
         {

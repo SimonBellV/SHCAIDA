@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
+    [Serializable]
     public class BasicValue : INotifyPropertyChanged
     {
         protected DateTime date;

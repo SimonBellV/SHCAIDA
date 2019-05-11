@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace SHCAIDA
 {
@@ -99,10 +101,25 @@ namespace SHCAIDA
                 ProgramMainframe.LinguisticVariables.Find(x => x.name == SensorCB.SelectedItem.ToString()).UpdateLogging(StateCB.SelectedItem.ToString(), LogStatusChB.IsChecked.Value);
             ProgramMainframe.WriteFuzzyDB();
             if (SensorSourceTypeCB.SelectedItem.ToString() == "Siemens")
-                ProgramMainframe.Ssconnections.Find(x => x.Sensor.Name == SensorCB.SelectedItem.ToString() &&  x.Client.Name == SensorSourceCB.SelectedItem.ToString()).isStoringInDB = StoreInDBStatusChB.IsChecked.Value;
+            {
+                foreach (var sensor in ProgramMainframe.SiemensSensors.SiemensSensors)
+                    if (sensor.Name == SensorCB.SelectedItem.ToString() && sensor.Source == SensorSourceCB.SelectedItem.ToString())
+                    {
+                        sensor.IsStoragingEnable = StoreInDBStatusChB.IsChecked.Value;
+                        break;
+                    }
+                ProgramMainframe.SiemensSensors.SaveChangesAsync();
+            }
             if (SensorSourceTypeCB.SelectedItem.ToString() == "SQL Server")
-                ProgramMainframe.Mssqlconnections.Find(x => x.Sensor.Name == SensorCB.SelectedItem.ToString() && x.Client.DataSource == SensorSourceCB.SelectedItem.ToString()).isStoringInDB = StoreInDBStatusChB.IsChecked.Value;
-
+            {
+                foreach (var sensor in ProgramMainframe.MssqlSensors.MSSQLSensors)
+                    if (sensor.Name == SensorCB.SelectedItem.ToString())
+                    {
+                        sensor.IsStoragingEnable = StoreInDBStatusChB.IsChecked.Value;
+                        break;
+                    }
+                ProgramMainframe.MssqlSensors.SaveChanges();
+            }
         }
     }
 }

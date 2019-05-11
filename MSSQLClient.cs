@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
+    [Serializable]
     public class MSSQLClient : INotifyPropertyChanged
     {
         public int ID { get; set; }

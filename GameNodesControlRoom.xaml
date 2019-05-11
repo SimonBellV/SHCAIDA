@@ -6,23 +6,26 @@
         xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SHCAIDA"
         mc:Ignorable="d"
-        Title="GameNodesControlRoom" Height="275.394" Width="277.603" ResizeMode="NoResize">
+        Title="GameNodesControlRoom" Height="325.078" Width="535.962" ResizeMode="NoResize">
     <Grid>
-        <StackPanel HorizontalAlignment="Left" Height="229" Margin="10,10,0,0" VerticalAlignment="Top" Width="252">
+        <StackPanel Orientation="Horizontal">
+        <StackPanel HorizontalAlignment="Left" Height="276" Margin="10,10,0,0" VerticalAlignment="Top" Width="252">
             <StackPanel Height="36" Orientation="Horizontal"  Margin="10">
                 <Label Content="Выберите ноду"/>
-                <ComboBox Width="120"/>
+                    <ComboBox Width="120" x:Name="NodeListCB" SelectionChanged="ComboBox_SelectionChanged"/>
             </StackPanel>
             <StackPanel Height="36" Orientation="Horizontal" Margin="10">
                 <Label Content="Начальная дата"/>
-                <t:DateTimePicker Width="120"/>
+                <t:DateTimePicker x:Name="leftData" Width="120"/>
             </StackPanel>
             <StackPanel Height="36" Orientation="Horizontal" Margin="10">
                 <Label Content="Конечная дата"/>
-                <t:DateTimePicker Width="120"/>
+                <t:DateTimePicker x:Name="rightData" Width="120"/>
             </StackPanel>
-            <Button Content="Моделирование" Margin="10" Height="32"/>
+                <Button Content="Удалить ноду" Margin="10" Height="32" Click="Button_Click"/>
+                <Button Content="Моделирование" Margin="10" Height="32" Click="Button_Click_1"/>
         </StackPanel>
-
+        <TextBlock x:Name="NodeStatsTB" TextWrapping="Wrap" Text="TextBlock" Width="239"/>
+        </StackPanel>
     </Grid>
 </Window>

@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using NPOI;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace SHCAIDA
 {
+    [Serializable]
     public struct Vector2
     {
         public double leftBorder;
@@ -70,13 +75,6 @@ namespace SHCAIDA
 
         private int StatesCount => usedSensors.FindAll(x => x.role == GameRole.StateSensor).Count;
 
-        private bool CheckOutputsCount()
-        {
-            if (usedSensors.FindAll(x => x.role == GameRole.OutputSensor).Count == 1)
-                return true;
-            else throw new ArgumentOutOfRangeException();
-        }
-
         public GameNode(string nodeName, string nodeDescription, int regulatorIntervalCount, int stateSensorIntervalCount)
         {
             usedSensors = new List<RoledDevice>();
@@ -84,7 +82,7 @@ namespace SHCAIDA
             this.nodeDescription = nodeDescription ?? throw new ArgumentNullException(nameof(nodeDescription));
             this.regulatorIntervalCount = regulatorIntervalCount;
             this.stateSensorIntervalCount = stateSensorIntervalCount;
-
+            dataUnits = new List<DataUnit>();
         }
 
         public string NodeStats
@@ -120,7 +118,16 @@ namespace SHCAIDA
                 {
                     case TypeOfDataSources.Siemens:
                         {
-                            SQLiteParameter clientID = new SQLiteParameter("@client", ProgramMainframe.Ssconnections.Find(x => x.Sensor.ID == device.deviceID).Client.ID);
+                            SQLiteParameter clientID = new SQLiteParameter();
+                            try
+                            {
+                                clientID = new SQLiteParameter("@client", ProgramMainframe.Ssconnections.Find(x => x.Sensor.ID == device.deviceID).Client.ID);
+                            }
+                            catch (NullReferenceException)
+                            {
+                                MessageBox.Show("Игра не может быть начата по причине отсутствия данных по датчику " + ProgramMainframe.GetSensorNameById(device.deviceID, TypeOfDataSources.Siemens));
+                                return;
+                            }
                             a[3] = clientID;
                             var result = ProgramMainframe.Valuesdb.Values.SqlQuery("SELECT *  FROM Values WHERE DeviceID=@device AND Date >= @leftData AND Date <= @rightData AND ClientID = @client", a).ToList();
                             foreach (var res in result)
@@ -129,7 +136,16 @@ namespace SHCAIDA
                         break;
                     case TypeOfDataSources.Mssql:
                         {
-                            SQLiteParameter clientID = new SQLiteParameter("@client", ProgramMainframe.Mssqlconnections.Find(x => x.Sensor.ID == device.deviceID).Client.ID);
+                            SQLiteParameter clientID = new SQLiteParameter();
+                            try
+                            {
+                                clientID = new SQLiteParameter("@client", ProgramMainframe.Mssqlconnections.Find(x => x.Sensor.ID == device.deviceID).Client.ID);
+                            }
+                            catch (NullReferenceException)
+                            {
+                                MessageBox.Show("Игра не может быть начата по причине отсутствия данных по датчику " + ProgramMainframe.GetSensorNameById(device.deviceID, TypeOfDataSources.Siemens));
+                                return;
+                            }
                             a[3] = clientID;
                             var result = ProgramMainframe.Valuesdb.Values.SqlQuery("SELECT *  FROM Values WHERE DeviceID=@device AND Date >= @leftData AND Date <= @rightData AND ClientID = @client", a).ToList();
                             foreach (var res in result)
@@ -140,10 +156,8 @@ namespace SHCAIDA
                         throw new ArgumentException();
                 }
             }
-
             dataUnits = new List<DataUnit>();
             var output = usedSensors.Find(x => x.role == GameRole.OutputSensor);
-
             foreach (var value in output.values)
             {
                 DateTime someDate = (value.Date);
@@ -167,7 +181,7 @@ namespace SHCAIDA
                 MessageBox.Show("Поиск пригодных к анализу данных по выбраным устройствам не дал результатов");
         }
 
-        public Tuple<List<TableUnit>, List<TableUnit>, double[,]> PlayGame()
+        public void PlayGame()
         {
             if (DataConsistent)
             {
@@ -175,7 +189,6 @@ namespace SHCAIDA
                 DeviceParameters[,] stateSensorsCombos = new DeviceParameters[StatesCount, stateSensorIntervalCount];
                 List<TableUnit> regRows = new List<TableUnit>();//комбинации этих самих интервалов
                 List<TableUnit> stateColumns = new List<TableUnit>();
-
                 foreach (var device in usedSensors)
                 {
                     int deviceIndex = usedSensors.Where(x => x.role == device.role).ToList().IndexOf(device);
@@ -199,15 +212,12 @@ namespace SHCAIDA
                             break;
                     }
                 }
-
                 regRows = ConvertToTable(regulatorsCombos, RegulatorsCount, regulatorIntervalCount);
                 stateColumns = ConvertToTable(stateSensorsCombos, StatesCount, stateSensorIntervalCount);
-
                 List<double>[,] outputTableValues = new List<double>[regRows.Count, stateColumns.Count];
                 for (var i = 0; i < regRows.Count; i++)
                     for (var j = 0; j < stateColumns.Count; j++)
                         outputTableValues[i, j] = new List<double>();
-
                 foreach (var unit in dataUnits)//для каждого unit находим соответствие в таблице значений
                 {
                     int regRowIndex = -1;
@@ -245,7 +255,6 @@ namespace SHCAIDA
                     else
                         outputTableValues[regRowIndex, stateColumnIndex].Add(unit.values[unit.devices.FindIndex(x => x.role == GameRole.OutputSensor)]);
                 }
-
                 //процедура очистки таблицы
                 //выбираем те строки и столбцы, в которых есть значения
                 bool[] appropriateRows = new bool[regRows.Count];
@@ -265,7 +274,6 @@ namespace SHCAIDA
                     appropriateRows[i] = check;
                     appropriateRowsCount++;
                 }
-
                 for (var j = 0; j < stateColumns.Count; j++)
                 {
                     bool check = false;
@@ -278,11 +286,9 @@ namespace SHCAIDA
                     appropriateColumns[j] = check;
                     appropriateColumnsCount++;
                 }
-
                 double[,] finaleMatrix = new double[appropriateRowsCount, appropriateColumnsCount];
-
                 int i1;
-                int j1 = 0;
+                int j1;
                 for (var i = 0; i < regRows.Count; i++)
                 {
                     i1 = 0;
@@ -290,6 +296,7 @@ namespace SHCAIDA
                     {
                         for (var j = 0; j < stateColumns.Count; j++)
                         {
+                            j1 = 0;
                             if (appropriateColumns[j])
                             {
                                 finaleMatrix[i1, j1] = MidValInList(outputTableValues[i, j]);
@@ -309,9 +316,39 @@ namespace SHCAIDA
                         i--;
                     }
                 }
-                return Tuple.Create(regRows, stateColumns, finaleMatrix);
+                //export to Excel
+                var newFile = nodeName + DateTime.Now + ".xlsx";
+                IWorkbook workbook = new XSSFWorkbook();
+                ISheet sheet = workbook.CreateSheet("Результаты игры");
+                IRow firstRow = sheet.CreateRow(0);
+                foreach (var columnHeader in stateColumns)
+                {
+                    var i = 1;
+                    string intervals = "";
+                    for (var t = 0; t < columnHeader.devices.Count; t++)
+                        intervals += (ProgramMainframe.GetSensorNameById(columnHeader.devices[t].deviceID, columnHeader.devices[t].deviceType) + ": " + Math.Truncate(columnHeader.intervals[t].leftBorder * 1000) / 1000 + "-" + Math.Truncate(columnHeader.intervals[t].rightBorder * 1000) / 1000 + "\n");
+                    firstRow.CreateCell(i).SetCellValue(intervals);
+                    i++;
+                }
+                for (var i = 1; i <= appropriateRowsCount; i++)
+                {
+                    IRow row = sheet.CreateRow(i);
+
+                    string intervals = "";
+                    for (var t = 0; t < regRows[i-1].devices.Count; t++)
+                        intervals += (ProgramMainframe.GetSensorNameById(regRows[i - 1].devices[t].deviceID, regRows[i - 1].devices[t].deviceType) + ": " + Math.Truncate(regRows[i - 1].intervals[t].leftBorder * 1000) / 1000 + "-" + Math.Truncate(regRows[i - 1].intervals[t].rightBorder * 1000) / 1000 + "\n");
+                    row.CreateCell(0).SetCellValue(intervals);
+                    for (var j = 1; j <= appropriateColumnsCount; j++)
+                    {
+                        row.CreateCell(j).SetCellValue(finaleMatrix[i - 1, j - 1]);
+                    }
+                }
+                FileStream sw = File.Create(newFile);
+                workbook.Write(sw);
+                sw.Close();
+                MessageBox.Show("Результаты записаны в файл " + newFile);
+                dataUnits.Clear();
             }
-            else throw new ApplicationException();
         }
 
         private double MidValInList(List<double> list)
@@ -366,7 +403,7 @@ namespace SHCAIDA
                 foreach (var device in usedSensors)
                     if (device.values.Count != valuesCount)
                         return false;
-                if (dataUnits.Count == 0)
+                if (dataUnits==null || dataUnits.Count == 0)
                     return false;
                 return true;
             }

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
+    [Serializable]
     public class MSSQLSensor : Sensor
     {
         private int clientID;
@@ -24,6 +25,17 @@ namespace SHCAIDA
             SourceName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
             SourcePath = headerName ?? throw new ArgumentNullException(nameof(headerName));
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            isStoragingEnable = false;
+        }
+
+        public bool IsStoragingEnable
+        {
+            get { return isStoragingEnable; }
+            set
+            {
+                isStoragingEnable = value;
+                OnPropertyChanged("IsStoragingEnable");
+            }
         }
 
         public string DatabaseName

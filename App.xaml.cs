@@ -22,6 +22,7 @@ namespace SHCAIDA
         {
             ProgramMainframe.WriteRules();
             ProgramMainframe.WriteFuzzyDB();
+            ProgramMainframe.WriteGameNodes();
         }
     }    
 }

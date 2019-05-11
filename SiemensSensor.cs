@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
+    [Serializable]
     public class SiemensSensor : Sensor
     {
         public SiemensSensor()
@@ -19,6 +21,17 @@ namespace SHCAIDA
             this.Name = name;
             this.SourcePath = adress;
             this.deviceType = deviceType;
+            isStoragingEnable = false;
+        }
+
+        public bool IsStoragingEnable
+        {
+            get { return isStoragingEnable; }
+            set
+            {
+                isStoragingEnable = value;
+                OnPropertyChanged("IsStoragingEnable");
+            }
         }
 
         public string Source
