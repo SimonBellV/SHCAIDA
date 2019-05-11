@@ -30,17 +30,16 @@ namespace SHCAIDA
         OutputSensor
     }
 
+    [Serializable]
     public struct DataUnit
     {
-        public DateTime time;
         public List<DeviceParameters> devices;
         public List<double> values;
 
-        public DataUnit(DateTime time, List<DeviceParameters> devices, List<double> values)
+        public DataUnit(List<DeviceParameters> devices, List<double> values)
         {
             this.devices = new List<DeviceParameters>();
             this.values = new List<double>();
-            this.time = time;
             this.devices = devices ?? throw new ArgumentNullException(nameof(devices));
             this.values = values ?? throw new ArgumentNullException(nameof(values));
         }
@@ -106,13 +105,13 @@ namespace SHCAIDA
         {
             foreach (var device in usedSensors)
             {
-                SQLiteParameter left = new SQLiteParameter("@leftData", begin.ToOADate());
-                SQLiteParameter right = new SQLiteParameter("@rightData", end.ToOADate());
+                SQLiteParameter left = new SQLiteParameter("@leftData", begin);
+                SQLiteParameter right = new SQLiteParameter("@rightData", end);
                 SQLiteParameter deviceID = new SQLiteParameter("@device", device.deviceID);
                 SQLiteParameter[] a = new SQLiteParameter[4];
-                a[0] = left;
-                a[1] = right;
-                a[2] = deviceID;
+                a[0] = deviceID;
+                a[1] = left;
+                a[2] = right;
                 device.values = new List<BasicValue>();
                 switch (device.deviceType)
                 {
@@ -129,7 +128,7 @@ namespace SHCAIDA
                                 return;
                             }
                             a[3] = clientID;
-                            var result = ProgramMainframe.Valuesdb.Values.SqlQuery("SELECT *  FROM Values WHERE DeviceID=@device AND Date >= @leftData AND Date <= @rightData AND ClientID = @client", a).ToList();
+                            var result = ProgramMainframe.Valuesdb.Values.SqlQuery("SELECT * FROM [Values] WHERE DeviceID = @device AND Date >= @leftData AND Date <= @rightData AND ClientID = @client", a).ToList();
                             foreach (var res in result)
                                 device.values.Add(new BasicValue(res.DeviceValue, (res.Date)));
                         }
@@ -147,7 +146,7 @@ namespace SHCAIDA
                                 return;
                             }
                             a[3] = clientID;
-                            var result = ProgramMainframe.Valuesdb.Values.SqlQuery("SELECT *  FROM Values WHERE DeviceID=@device AND Date >= @leftData AND Date <= @rightData AND ClientID = @client", a).ToList();
+                            var result = ProgramMainframe.Valuesdb.Values.SqlQuery("SELECT * FROM Values WHERE (DeviceID = @device) AND (Date >= @leftData) AND (Date <= @rightData) AND (ClientID) = @client", a).ToList();
                             foreach (var res in result)
                                 device.values.Add(new BasicValue(res.DeviceValue, (res.Date)));
                         }
@@ -162,17 +161,26 @@ namespace SHCAIDA
             {
                 DateTime someDate = (value.Date);
                 DataUnit someData = new DataUnit();
-                someData.devices.Add(output);
-                someData.values.Add(output.values.Find(x => x.Date == someDate).DeviceValue);
+                someData.devices = new List<DeviceParameters>
+                {
+                    output
+                };
+                someData.values = new List<double>
+                {
+                    output.values.Find(x => x.Date <= someDate.AddSeconds(0.4) &&  x.Date >= someDate.AddSeconds(-0.4)).DeviceValue
+                };
                 foreach (var device in usedSensors)
                 {
-                    var a = device.values.Find(x => (x.Date) == someDate);
-                    if (a == null)
-                        break;
-                    else
+                    if (device.role != GameRole.OutputSensor)
                     {
-                        someData.devices.Add(device);
-                        someData.values.Add(a.DeviceValue);
+                        var a = device.values.Find(x => x.Date <= someDate.AddSeconds(0.4) && x.Date >= someDate.AddSeconds(-0.4));
+                        if (a == null)
+                            break;
+                        else
+                        {
+                            someData.devices.Add(device);
+                            someData.values.Add(a.DeviceValue);
+                        }
                     }
                 }
                 dataUnits.Add(someData);
@@ -227,11 +235,19 @@ namespace SHCAIDA
                         bool check = true;
                         foreach (var device in unit.devices)
                         {
-                            var comparableToUnitDeviceIndexInCombos = combo.devices.FindIndex(x => x == device);
-                            var comparableToUnitDeviceIndexInUnit = unit.devices.FindIndex(x => x == device);
-                            if (!(unit.values[comparableToUnitDeviceIndexInUnit] <= combo.intervals[comparableToUnitDeviceIndexInCombos].rightBorder &&
-                                unit.values[comparableToUnitDeviceIndexInUnit] >= combo.intervals[comparableToUnitDeviceIndexInCombos].leftBorder))
-                                check = false;
+                            if (device.role == GameRole.Regulator)
+                            {
+                                var comparableToUnitDeviceIndexInCombos = combo.devices.FindIndex(x => x.deviceID == device.deviceID && x.deviceType == device.deviceType);
+                                var comparableToUnitDeviceIndexInUnit = unit.devices.FindIndex(x => x.deviceID == device.deviceID && x.deviceType == device.deviceType);
+                                if (!(unit.values[comparableToUnitDeviceIndexInUnit] <= combo.intervals[comparableToUnitDeviceIndexInCombos].rightBorder &&
+                                    unit.values[comparableToUnitDeviceIndexInUnit] >= combo.intervals[comparableToUnitDeviceIndexInCombos].leftBorder))
+                                    check = false;
+                                else
+                                {
+                                    check = true;
+                                    break;
+                                }
+                            }
                         }
                         if (check == true)
                             regRowIndex = regRows.IndexOf(combo);
@@ -241,14 +257,22 @@ namespace SHCAIDA
                         bool check = true;
                         foreach (var device in unit.devices)
                         {
-                            var comparableToUnitDeviceIndexInCombos = combo.devices.FindIndex(x => x == device);
-                            var comparableToUnitDeviceIndexInUnit = unit.devices.FindIndex(x => x == device);
-                            if (!(unit.values[comparableToUnitDeviceIndexInUnit] <= combo.intervals[comparableToUnitDeviceIndexInCombos].rightBorder &&
-                                unit.values[comparableToUnitDeviceIndexInUnit] >= combo.intervals[comparableToUnitDeviceIndexInCombos].leftBorder))
-                                check = false;
+                            if (device.role == GameRole.StateSensor)
+                            {
+                                var comparableToUnitDeviceIndexInCombos = combo.devices.FindIndex(x => x.deviceID == device.deviceID && x.deviceType == device.deviceType);
+                                var comparableToUnitDeviceIndexInUnit = unit.devices.FindIndex(x => x.deviceID == device.deviceID && x.deviceType == device.deviceType);
+                                if (!(unit.values[comparableToUnitDeviceIndexInUnit] <= combo.intervals[comparableToUnitDeviceIndexInCombos].rightBorder &&
+                                    unit.values[comparableToUnitDeviceIndexInUnit] >= combo.intervals[comparableToUnitDeviceIndexInCombos].leftBorder))
+                                    check = false;
+                                else
+                                {
+                                    check = true;
+                                    break;
+                                }
+                            }
                         }
                         if (check == true)
-                            stateColumnIndex = regRows.IndexOf(combo);
+                            stateColumnIndex = stateColumns.IndexOf(combo);
                     }
                     if (regRowIndex == -1 || stateColumnIndex == -1) // проверка на то, что система отработала норм и значения попали в интервал
                         throw new ApplicationException();
@@ -257,8 +281,8 @@ namespace SHCAIDA
                 }
                 //процедура очистки таблицы
                 //выбираем те строки и столбцы, в которых есть значения
-                bool[] appropriateRows = new bool[regRows.Count];
-                bool[] appropriateColumns = new bool[stateColumns.Count];
+                List<bool> appropriateRows = new List<bool>();
+                List<bool> appropriateColumns = new List<bool>();
                 int appropriateRowsCount = 0;
                 int appropriateColumnsCount = 0;
 
@@ -271,8 +295,9 @@ namespace SHCAIDA
                             check = true;
                             break;
                         }
-                    appropriateRows[i] = check;
-                    appropriateRowsCount++;
+                    appropriateRows.Add(check);
+                    if (check)
+                        appropriateRowsCount++;
                 }
                 for (var j = 0; j < stateColumns.Count; j++)
                 {
@@ -283,65 +308,68 @@ namespace SHCAIDA
                             check = true;
                             break;
                         }
-                    appropriateColumns[j] = check;
-                    appropriateColumnsCount++;
+                    appropriateColumns.Add(check);
+                    if (check)
+                        appropriateColumnsCount++;
                 }
                 double[,] finaleMatrix = new double[appropriateRowsCount, appropriateColumnsCount];
-                int i1;
+                int i1 = 0;
+                int isdv = 0;
+                int jsdv = 0;
                 int j1;
                 for (var i = 0; i < regRows.Count; i++)
                 {
-                    i1 = 0;
                     if (appropriateRows[i])
                     {
+                        j1 = 0;
                         for (var j = 0; j < stateColumns.Count; j++)
                         {
-                            j1 = 0;
                             if (appropriateColumns[j])
                             {
-                                finaleMatrix[i1, j1] = MidValInList(outputTableValues[i, j]);
+                                finaleMatrix[i1, j1] = MidValInList(outputTableValues[i+ isdv, j+ jsdv]);
                                 j1++;
                             }
                             else
                             {
+                                appropriateColumns.RemoveAt(j);
                                 stateColumns.RemoveAt(j);
                                 j--;
+                                jsdv++;
                             }
                         }
                         i1++;
                     }
                     else
                     {
+                        appropriateRows.RemoveAt(i);
                         regRows.RemoveAt(i);
                         i--;
+                        isdv++;
                     }
                 }
                 //export to Excel
-                var newFile = nodeName + DateTime.Now + ".xlsx";
+                var newFile = nodeName + "-" + ProgramMainframe.GetSensorNameById(usedSensors.Find(x => x.role == GameRole.OutputSensor).deviceID, usedSensors.Find(x => x.role == GameRole.OutputSensor).deviceType) + "-" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".xlsx";
                 IWorkbook workbook = new XSSFWorkbook();
                 ISheet sheet = workbook.CreateSheet("Результаты игры");
                 IRow firstRow = sheet.CreateRow(0);
+                var iter = 1;
                 foreach (var columnHeader in stateColumns)
                 {
-                    var i = 1;
                     string intervals = "";
                     for (var t = 0; t < columnHeader.devices.Count; t++)
                         intervals += (ProgramMainframe.GetSensorNameById(columnHeader.devices[t].deviceID, columnHeader.devices[t].deviceType) + ": " + Math.Truncate(columnHeader.intervals[t].leftBorder * 1000) / 1000 + "-" + Math.Truncate(columnHeader.intervals[t].rightBorder * 1000) / 1000 + "\n");
-                    firstRow.CreateCell(i).SetCellValue(intervals);
-                    i++;
+                    firstRow.CreateCell(iter).SetCellValue(intervals);
+                    iter++;
                 }
                 for (var i = 1; i <= appropriateRowsCount; i++)
                 {
                     IRow row = sheet.CreateRow(i);
-
                     string intervals = "";
-                    for (var t = 0; t < regRows[i-1].devices.Count; t++)
+                    for (var t = 0; t < regRows[i - 1].devices.Count; t++)
                         intervals += (ProgramMainframe.GetSensorNameById(regRows[i - 1].devices[t].deviceID, regRows[i - 1].devices[t].deviceType) + ": " + Math.Truncate(regRows[i - 1].intervals[t].leftBorder * 1000) / 1000 + "-" + Math.Truncate(regRows[i - 1].intervals[t].rightBorder * 1000) / 1000 + "\n");
                     row.CreateCell(0).SetCellValue(intervals);
                     for (var j = 1; j <= appropriateColumnsCount; j++)
-                    {
                         row.CreateCell(j).SetCellValue(finaleMatrix[i - 1, j - 1]);
-                    }
                 }
                 FileStream sw = File.Create(newFile);
                 workbook.Write(sw);
@@ -399,11 +427,7 @@ namespace SHCAIDA
             {
                 if (usedSensors.Count == 0)
                     return false;
-                int valuesCount = usedSensors[0].values.Count;
-                foreach (var device in usedSensors)
-                    if (device.values.Count != valuesCount)
-                        return false;
-                if (dataUnits==null || dataUnits.Count == 0)
+                if (dataUnits == null || dataUnits.Count == 0)
                     return false;
                 return true;
             }

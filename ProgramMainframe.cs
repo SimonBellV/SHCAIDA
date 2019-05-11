@@ -159,19 +159,41 @@ namespace SHCAIDA
                 storagingRunning = value;
                 if (storagingRunning)
                 {
-                    StoreDataOnline();
+                    StartValueExtraction();
                 }
             }
+        }
+
+        private static void StartValueExtraction()
+        {
+            var timer = new System.Threading.Timer(async (e) =>
+            {
+                await Task.Run(StoreDataOnline);
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(StoragingTimeout));
         }
 
         public static void StoreDataOnline()
         {
             foreach (var device in SiemensSensors.SiemensSensors)
                 if (device.isStoragingEnable)
-                    Valuesdb.Values.Add(new Value(DateTime.Now, TypeOfDataSources.Siemens, Ssconnections.Find(x=>x.Sensor == device).Client.ID, device.ID, Ssconnections.Find(x => x.Sensor == device).Client.ReadData(device.Name)));
+                {
+                    var client = Ssconnections.Find(x => x.Sensor == device).Client;
+                    Valuesdb.Values.Add(new Value(
+                        DateTime.Now,
+                        TypeOfDataSources.Siemens,
+                        client.ID,
+                        device.ID,
+                        client.ReadData(device.Name)));
+                }
             foreach (var device in MssqlSensors.MSSQLSensors)
                 if (device.isStoragingEnable)
-                    Valuesdb.Values.Add(new Value(DateTime.Now, TypeOfDataSources.Siemens, Mssqlconnections.Find(x => x.Sensor == device).Client.ID, device.ID, Mssqlconnections.Find(x => x.Sensor == device).Client.ReadData(device)));
+                    Valuesdb.Values.Add(new Value(
+                        DateTime.Now, 
+                        TypeOfDataSources.Siemens, 
+                        Mssqlconnections.Find(x => x.Sensor == device).Client.ID, 
+                        device.ID, 
+                        Mssqlconnections.Find(x => x.Sensor == device).Client.ReadData(device)));
+            Valuesdb.SaveChangesAsync();
         }
 
         public static void InitMainframe()
@@ -190,6 +212,20 @@ namespace SHCAIDA
             UpdateFuzzyDBRuleDB();
             Ssconnections = new List<SensorsConnections<SiemensSensor, SiemensClient>>();
             Mssqlconnections = new List<SensorsConnections<MSSQLSensor, MSSQLClient>>();
+            foreach (var sensor in SiemensSensors.SiemensSensors)
+                foreach (var client in SiemensClients.SiemensClients)
+                    if (sensor.Source == client.Name)
+                    {
+                        Ssconnections.Add(new SensorsConnections<SiemensSensor, SiemensClient>(sensor, client));
+                        break;
+                    }
+            foreach (var sensor in MssqlSensors.MSSQLSensors)
+                foreach (var client in MssqlClients.MSSQLClients)
+                    if (sensor.ClientID == client.ID)
+                    {
+                        Mssqlconnections.Add(new SensorsConnections<MSSQLSensor, MSSQLClient>(sensor, client));
+                        break;
+                    }
             ISRunning = false;
             storagingRunning = false;
             ReadGameNodes();

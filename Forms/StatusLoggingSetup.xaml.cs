@@ -41,35 +41,39 @@ namespace SHCAIDA
         private void SensorSourceCB_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             SensorCB.Items.Clear();
-            switch (SensorSourceTypeCB.SelectedItem.ToString())
-            {
-                case "Siemens":
-                    {
-                        if (ProgramMainframe.SiemensSensors.SiemensSensors.Count() != 0)
+            if (SensorSourceCB.SelectedItem != null)
+                switch (SensorSourceTypeCB.SelectedItem.ToString())
+                {
+                    case "Siemens":
                         {
-                            foreach (var sensor in ProgramMainframe.SiemensSensors.SiemensSensors)
-                                if (SensorSourceCB.SelectedItem.ToString() == sensor.Source)
-                                    SensorCB.Items.Add(sensor.Name);
+                            if (ProgramMainframe.SiemensSensors.SiemensSensors.Count() != 0)
+                            {
+
+                                foreach (var sensor in ProgramMainframe.SiemensSensors.SiemensSensors)
+                                {
+                                    if (SensorSourceCB.SelectedItem.ToString() == sensor.Source)
+                                        SensorCB.Items.Add(sensor.Name);
+                                }
+                            }
+                            else
+                                MessageBox.Show("Для этого источника еще не заданы датчики");
                         }
-                        else
-                            MessageBox.Show("Для этого источника еще не заданы датчики");
-                    }
-                    break;
-                case "SQL Server":
-                    {
-                        if (ProgramMainframe.MssqlSensors.MSSQLSensors.Count() != 0)
+                        break;
+                    case "SQL Server":
                         {
-                            foreach (var conn in ProgramMainframe.Mssqlconnections)
-                                if (SensorSourceCB.SelectedItem.ToString() == conn.Client.InitCatalog)
-                                    SensorCB.Items.Add(conn.Sensor.Name);
+                            if (ProgramMainframe.MssqlSensors.MSSQLSensors.Count() != 0)
+                            {
+                                foreach (var conn in ProgramMainframe.Mssqlconnections)
+                                    if (SensorSourceCB.SelectedItem.ToString() == conn.Client.InitCatalog)
+                                        SensorCB.Items.Add(conn.Sensor.Name);
+                            }
+                            else
+                                MessageBox.Show("Для этого источника еще не заданы датчики");
                         }
-                        else
-                            MessageBox.Show("Для этого источника еще не заданы датчики");
-                    }
-                    break;
-                default:
-                    throw new System.Exception("Not ready!");
-            }
+                        break;
+                    default:
+                        throw new System.Exception("Not ready!");
+                }
         }
 
         private void SensorCB_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

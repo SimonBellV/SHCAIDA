@@ -40,6 +40,10 @@ namespace SHCAIDA
             deviceValue = value;
             this.date = date;
         }
+
+        public BasicValue()
+        {
+        }
     }
     public class Value : BasicValue
     {
@@ -55,6 +59,9 @@ namespace SHCAIDA
             this.deviceID = deviceID;
         }
 
+        public Value()
+        {
+        }
 
         public TypeOfDataSources DataSourceType
         {
