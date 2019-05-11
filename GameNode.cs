@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SHCAIDA
@@ -169,7 +167,7 @@ namespace SHCAIDA
                 MessageBox.Show("Поиск пригодных к анализу данных по выбраным устройствам не дал результатов");
         }
 
-        public void PlayGame()
+        public Tuple<List<TableUnit>, List<TableUnit>, double[,]> PlayGame()
         {
             if (DataConsistent)
             {
@@ -180,7 +178,7 @@ namespace SHCAIDA
 
                 foreach (var device in usedSensors)
                 {
-                    int deviceIndex = usedSensors.Where(x=>x.role==device.role).ToList().IndexOf(device);
+                    int deviceIndex = usedSensors.Where(x => x.role == device.role).ToList().IndexOf(device);
                     switch (device.role)
                     {
                         case GameRole.Regulator:
@@ -210,27 +208,118 @@ namespace SHCAIDA
                     for (var j = 0; j < stateColumns.Count; j++)
                         outputTableValues[i, j] = new List<double>();
 
-                foreach (var unit in dataUnits)
+                foreach (var unit in dataUnits)//для каждого unit находим соответствие в таблице значений
+                {
+                    int regRowIndex = -1;
+                    int stateColumnIndex = -1;
                     foreach (var combo in regRows)
                     {
-                        bool checkIntervals = true;
+                        bool check = true;
                         foreach (var device in unit.devices)
                         {
-                            var interval = combo.devices.Find(x => x.deviceID == device.deviceID).interval;
-                            var value = unit.values[dataUnits.IndexOf(unit)];
-                            if (!(value >= interval.leftBorder && value <= interval.rightBorder))
+                            var comparableToUnitDeviceIndexInCombos = combo.devices.FindIndex(x => x == device);
+                            var comparableToUnitDeviceIndexInUnit = unit.devices.FindIndex(x => x == device);
+                            if (!(unit.values[comparableToUnitDeviceIndexInUnit] <= combo.intervals[comparableToUnitDeviceIndexInCombos].rightBorder &&
+                                unit.values[comparableToUnitDeviceIndexInUnit] >= combo.intervals[comparableToUnitDeviceIndexInCombos].leftBorder))
+                                check = false;
+                        }
+                        if (check == true)
+                            regRowIndex = regRows.IndexOf(combo);
+                    }
+                    foreach (var combo in stateColumns)
+                    {
+                        bool check = true;
+                        foreach (var device in unit.devices)
+                        {
+                            var comparableToUnitDeviceIndexInCombos = combo.devices.FindIndex(x => x == device);
+                            var comparableToUnitDeviceIndexInUnit = unit.devices.FindIndex(x => x == device);
+                            if (!(unit.values[comparableToUnitDeviceIndexInUnit] <= combo.intervals[comparableToUnitDeviceIndexInCombos].rightBorder &&
+                                unit.values[comparableToUnitDeviceIndexInUnit] >= combo.intervals[comparableToUnitDeviceIndexInCombos].leftBorder))
+                                check = false;
+                        }
+                        if (check == true)
+                            stateColumnIndex = regRows.IndexOf(combo);
+                    }
+                    if (regRowIndex == -1 || stateColumnIndex == -1) // проверка на то, что система отработала норм и значения попали в интервал
+                        throw new ApplicationException();
+                    else
+                        outputTableValues[regRowIndex, stateColumnIndex].Add(unit.values[unit.devices.FindIndex(x => x.role == GameRole.OutputSensor)]);
+                }
+
+                //процедура очистки таблицы
+                //выбираем те строки и столбцы, в которых есть значения
+                bool[] appropriateRows = new bool[regRows.Count];
+                bool[] appropriateColumns = new bool[stateColumns.Count];
+                int appropriateRowsCount = 0;
+                int appropriateColumnsCount = 0;
+
+                for (var i = 0; i < regRows.Count; i++)
+                {
+                    bool check = false;
+                    for (var j = 0; j < stateColumns.Count; j++)
+                        if (outputTableValues[i, j].Count != 0)
+                        {
+                            check = true;
+                            break;
+                        }
+                    appropriateRows[i] = check;
+                    appropriateRowsCount++;
+                }
+
+                for (var j = 0; j < stateColumns.Count; j++)
+                {
+                    bool check = false;
+                    for (var i = 0; i < regRows.Count; i++)
+                        if (outputTableValues[i, j].Count != 0)
+                        {
+                            check = true;
+                            break;
+                        }
+                    appropriateColumns[j] = check;
+                    appropriateColumnsCount++;
+                }
+
+                double[,] finaleMatrix = new double[appropriateRowsCount, appropriateColumnsCount];
+
+                int i1;
+                int j1 = 0;
+                for (var i = 0; i < regRows.Count; i++)
+                {
+                    i1 = 0;
+                    if (appropriateRows[i])
+                    {
+                        for (var j = 0; j < stateColumns.Count; j++)
+                        {
+                            if (appropriateColumns[j])
                             {
-                                checkIntervals = false;
-                                break;
+                                finaleMatrix[i1, j1] = MidValInList(outputTableValues[i, j]);
+                                j1++;
+                            }
+                            else
+                            {
+                                stateColumns.RemoveAt(j);
+                                j--;
                             }
                         }
-                        if (checkIntervals)
-                        {
-                            
-                        }
+                        i1++;
                     }
+                    else
+                    {
+                        regRows.RemoveAt(i);
+                        i--;
+                    }
+                }
+                return Tuple.Create(regRows, stateColumns, finaleMatrix);
             }
             else throw new ApplicationException();
+        }
+
+        private double MidValInList(List<double> list)
+        {
+            double sum = 0;
+            foreach (var value in list)
+                sum += value;
+            return sum / list.Count;
         }
 
         private List<TableUnit> ConvertToTable(DeviceParameters[,] devices, int deviceCount, int intervalsCount) // сразу составляем полный перечень возможных комбинаций

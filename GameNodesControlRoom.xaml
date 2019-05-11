@@ -1,0 +1,28 @@
+﻿<Window x:Class="SHCAIDA.GameNodesControlRoom"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:t="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:SHCAIDA"
+        mc:Ignorable="d"
+        Title="GameNodesControlRoom" Height="275.394" Width="277.603" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="229" Margin="10,10,0,0" VerticalAlignment="Top" Width="252">
+            <StackPanel Height="36" Orientation="Horizontal"  Margin="10">
+                <Label Content="Выберите ноду"/>
+                <ComboBox Width="120"/>
+            </StackPanel>
+            <StackPanel Height="36" Orientation="Horizontal" Margin="10">
+                <Label Content="Начальная дата"/>
+                <t:DateTimePicker Width="120"/>
+            </StackPanel>
+            <StackPanel Height="36" Orientation="Horizontal" Margin="10">
+                <Label Content="Конечная дата"/>
+                <t:DateTimePicker Width="120"/>
+            </StackPanel>
+            <Button Content="Моделирование" Margin="10" Height="32"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

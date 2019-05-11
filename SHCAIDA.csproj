@@ -136,6 +136,9 @@
       <DependentUpon>GameDevicesSetup.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameNode.cs" />
+    <Compile Include="GameNodesControlRoom.xaml.cs">
+      <DependentUpon>GameNodesControlRoom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LingVariable.cs" />
     <Compile Include="MessageJournal.cs" />
     <Compile Include="MSSQLClient.cs" />
@@ -188,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\GameDevicesSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameNodesControlRoom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
