@@ -1,9 +1,13 @@
-﻿using SHCAIDA.Forms;
+﻿using BPMN;
+using SHCAIDA.Forms;
 using System.Windows;
+using System.Drawing.Imaging;
+using Microsoft.Win32;
+using System.Diagnostics;
+using System;
 
 namespace SHCAIDA
 {
-
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
@@ -12,20 +16,12 @@ namespace SHCAIDA
         public MainWindow()
         {
             InitializeComponent();
-            //ProgramMainframe.DownloadSiemensSources();
-            //ProgramMainframe.DownloadRockwellSources();
-            //ProgramMainframe.DownloadSQLServerSources();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ChooseDataSourceToAdd f = new ChooseDataSourceToAdd();
             f.Show();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //ProgramMainframe.AddValue();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -110,6 +106,20 @@ namespace SHCAIDA
                     ProgramMainframe.StoragingRunning = false;
                 }
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "BPMN файлы(*.bpmn)|*.bpmn";
+            openFileDialog1.ShowDialog();
+            // получаем выбранный файл
+            string filename = openFileDialog1.FileName;
+            Model model = Model.Read(filename);
+            System.Drawing.Image img = model.GetImage(0, 2.0f);
+            string path = "@" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
+            img.Save(path, ImageFormat.Png);
+            Process.Start(path);            
         }
     }
 }

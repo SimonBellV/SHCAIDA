@@ -7,19 +7,19 @@ using System.Windows;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // общие сведения об этой сборке.
-[assembly: AssemblyTitle("SHCAIDA")]
+/*[assembly: AssemblyTitle("SHCAIDA")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SHCAIDA")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCulture("")]*/
 
 // Установка значения False для параметра ComVisible делает типы в этой сборке невидимыми
 // для компонентов COM. Если необходимо обратиться к типу в этой сборке через
 // из модели COM задайте для атрибута ComVisible этого типа значение true.
-[assembly: ComVisible(false)]
+//[assembly: ComVisible(false)]
 
 //Чтобы начать создание локализуемых приложений, задайте
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj
@@ -31,14 +31,14 @@ using System.Windows;
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
-[assembly: ThemeInfo(
+/*[assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //где расположены тематические словари ресурсов
                                      //(используется, если ресурс не найден на странице,
                                      // или в словарях ресурсов приложения)
     ResourceDictionaryLocation.SourceAssembly //где расположен универсальный словарь ресурсов
                                               //(используется, если ресурс не найден на странице,
                                               // приложение или любые тематические словари ресурсов)
-)]
+)]*/
 
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
@@ -51,5 +51,5 @@ using System.Windows;
 // Можно задать все значения или принять номер сборки и номер редакции по умолчанию.
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+//[assembly: AssemblyVersion("1.0.0.0")]
+//[assembly: AssemblyFileVersion("1.0.0.0")]
