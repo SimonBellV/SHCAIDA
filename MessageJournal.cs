@@ -7,50 +7,76 @@ namespace SHCAIDA
 {
     public class Message
     {
-        public string sensor { get; set; }
-        public string state { get; set; }
-        public string time { get; set; }
+        public string Sensor { get; set; }
+        public string State { get; set; }
+        public string Time { get; set; }
 
         public Message(string sensor, string state, string time)
         {
-            this.sensor = sensor;
-            this.state = state;
-            this.time = time;
+            this.Sensor = sensor;
+            this.State = state;
+            this.Time = time;
         }
     }
     public class MessageJournal : INotifyPropertyChanged
     {
         public int ID { get; set; }
-        private string sensor;
+        private int sensorID;
+        private int clientID;
         private string state;
+        private TypeOfDataSources type;
         private double time;
 
-        public MessageJournal(string sensor, string state, DateTime time)
+        public MessageJournal(int sensorID, int clientID, string state, DateTime time, TypeOfDataSources type)
         {
-            this.sensor = sensor;
+            this.sensorID = sensorID;
             this.state = state;
             this.time = time.ToOADate();
+            this.clientID = clientID;
+            this.type = type;
         }
 
         public MessageJournal()
         {
             ID = -1;
-            sensor = "";
+            sensorID = -1;
+            clientID = -1;
+            type = 0;
             state = "";
         }
 
         public Message ConvertToMessage()
         {
-            return new Message(sensor, state, DateTime.FromOADate(time).ToString());
+            return new Message(ProgramMainframe.GetSensorNameById(sensorID, type), state, DateTime.FromOADate(time).ToString());
 ;       }
 
-        public string Sensor
+        public int SensorID
         {
-            get { return sensor; }
+            get { return sensorID; }
             set
             {
-                sensor = value;
-                OnPropertyChanged("Sensor");
+                sensorID = value;
+                OnPropertyChanged("SensorID");
+            }
+        }
+
+        public int ClientID
+        {
+            get { return clientID; }
+            set
+            {
+                clientID = value;
+                OnPropertyChanged("ClientID");
+            }
+        }
+
+        public TypeOfDataSources Type
+        {
+            get { return type; }
+            set
+            {
+                type = value;
+                OnPropertyChanged("Type");
             }
         }
 

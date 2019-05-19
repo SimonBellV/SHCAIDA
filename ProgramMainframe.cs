@@ -435,10 +435,31 @@ namespace SHCAIDA
                 foreach (var outv in list)
                     if (LinguisticVariables.Find(x => x.name == variable.name).labels.Find(y => y.name == outv.Label).isLogging)
                     {
-                        Journaldb.MessageJournals.Add(new MessageJournal(variable.name, outv.Label, DateTime.Now));
+                        var dev = FindDevice(variable.name);
+                        Journaldb.MessageJournals.Add(new MessageJournal(dev.Item1, dev.Item2, outv.Label, DateTime.Now, dev.Item3));
                         Journaldb.SaveChanges();
                     }
             }
+        }
+
+        public static Tuple<int, int, TypeOfDataSources> FindDevice(string name)
+        {
+            foreach (var device in SiemensSensors.SiemensSensors)
+                if (device.Name == name)
+                {
+                    int clientID = -1;
+                    foreach (var client in SiemensClients.SiemensClients)
+                        if (client.Name == device.SourceName)
+                        {
+                            clientID = client.ID;
+                            break;
+                        }
+                    return new Tuple<int, int, TypeOfDataSources>(device.ID, clientID, TypeOfDataSources.Siemens);
+                }
+            foreach (var device in MssqlSensors.MSSQLSensors)
+                if (device.Name == name)
+                    return new Tuple<int, int, TypeOfDataSources>(device.ID, device.ClientID, TypeOfDataSources.Mssql);
+            throw new ArgumentOutOfRangeException();
         }
 
         public static int GetMssqlClientId(string dataSource)
