@@ -57,7 +57,8 @@ namespace SHCAIDA
         public InputDeviceType DeviceType
         {
             get => deviceType;
-            set {
+            set
+            {
                 deviceType = value;
                 OnPropertyChanged("DeviceType");
             }

@@ -148,7 +148,7 @@ namespace SHCAIDA
             {
                 UsingSensorsLV.Items.Clear();
                 foreach (var val in ProgramMainframe.LinguisticVariables)
-                    if (UsingSourcesLV.SelectedItem!=null && val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && val.source == UsingSourcesLV.SelectedItem.ToString())
+                    if (UsingSourcesLV.SelectedItem != null && val.sourceType == UsingSourceTypesLV.SelectedItem.ToString() && val.source == UsingSourcesLV.SelectedItem.ToString())
                         UsingSensorsLV.Items.Add(val.name);
             }
         }

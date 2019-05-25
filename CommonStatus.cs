@@ -51,7 +51,7 @@ namespace SHCAIDA
             ID = -1;
             this.name = name;
             this.type = GetDataSourceTypeString(type);
-        }    
+        }
 
         public CommonStatus()
         {

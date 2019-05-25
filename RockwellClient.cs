@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Corsinvest.AllenBradley.PLC.Api;
+using System;
 using System.Windows;
-using Corsinvest.AllenBradley.PLC.Api;
 
 namespace SHCAIDA
 {

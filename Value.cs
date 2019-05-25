@@ -47,10 +47,10 @@ namespace SHCAIDA
     }
     public class Value : BasicValue
     {
-        public int ID { get; set; }        
+        public int ID { get; set; }
         private TypeOfDataSources dataSourceType;
         private int clientID;
-        private int deviceID;        
+        private int deviceID;
 
         public Value(DateTime date, TypeOfDataSources dataSource, int clientID, int deviceID, double deviceValue) : base(deviceValue, date)
         {
@@ -93,7 +93,7 @@ namespace SHCAIDA
             }
         }
 
-        
+
 
         public override event PropertyChangedEventHandler PropertyChanged;
         public override void OnPropertyChanged([CallerMemberName]string prop = "")

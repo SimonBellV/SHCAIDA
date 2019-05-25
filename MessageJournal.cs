@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 
 namespace SHCAIDA
 {
@@ -48,7 +47,8 @@ namespace SHCAIDA
         public Message ConvertToMessage()
         {
             return new Message(ProgramMainframe.GetSensorNameById(sensorID, type), state, DateTime.FromOADate(time).ToString());
-;       }
+            ;
+        }
 
         public int SensorID
         {

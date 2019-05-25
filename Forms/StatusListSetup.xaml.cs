@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace SHCAIDA
 {
-    
+
     public partial class StatusListSetup : Window
     {
         private readonly List<string> statuses = new List<string>();
@@ -20,7 +20,7 @@ namespace SHCAIDA
         private void Button_Click(object sender, RoutedEventArgs e) // add to list
         {
             if (!statuses.Contains(StateTB.Text))
-            {                
+            {
                 statuses.Add(StateTB.Text);
                 StatesLB.Items.Add(StateTB.Text);
                 StateTB.Clear();

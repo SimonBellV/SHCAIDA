@@ -188,10 +188,10 @@ namespace SHCAIDA
             foreach (var device in MssqlSensors.MSSQLSensors)
                 if (device.isStoragingEnable)
                     Valuesdb.Values.Add(new Value(
-                        DateTime.Now, 
-                        TypeOfDataSources.Siemens, 
-                        Mssqlconnections.Find(x => x.Sensor == device).Client.ID, 
-                        device.ID, 
+                        DateTime.Now,
+                        TypeOfDataSources.Siemens,
+                        Mssqlconnections.Find(x => x.Sensor == device).Client.ID,
+                        device.ID,
                         Mssqlconnections.Find(x => x.Sensor == device).Client.ReadData(device)));
             Valuesdb.SaveChangesAsync();
         }

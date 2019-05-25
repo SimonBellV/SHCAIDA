@@ -57,7 +57,7 @@ namespace SHCAIDA
         {
             if (RuleCollisionDetection())
             {
-                
+
                 Rule += SensorsLB.SelectedItem + " IS " + StatusLB.SelectedItem;
                 CurrentRulesLB.Items.Add(Rule);
                 ProgramMainframe.Rules.Add(new Rule(Rule));

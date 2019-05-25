@@ -21,7 +21,7 @@ namespace SHCAIDA
     public partial class GameDevicesSetup : Window
     {
         private readonly List<DeviceType> allDevices;
-        private List<DeviceType> usedDevices;
+        private readonly List<DeviceType> usedDevices;
         public GameDevicesSetup()
         {
             InitializeComponent();

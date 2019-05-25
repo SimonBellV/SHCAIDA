@@ -1,12 +1,11 @@
-﻿using System;
+﻿using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using NPOI;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 
 namespace SHCAIDA
 {
@@ -160,14 +159,16 @@ namespace SHCAIDA
             foreach (var value in output.values)
             {
                 DateTime someDate = (value.Date);
-                DataUnit someData = new DataUnit();
-                someData.devices = new List<DeviceParameters>
+                DataUnit someData = new DataUnit
+                {
+                    devices = new List<DeviceParameters>
                 {
                     output
-                };
-                someData.values = new List<double>
+                },
+                    values = new List<double>
                 {
                     output.values.Find(x => x.Date <= someDate.AddSeconds(0.4) &&  x.Date >= someDate.AddSeconds(-0.4)).DeviceValue
+                }
                 };
                 foreach (var device in usedSensors)
                 {
@@ -326,7 +327,7 @@ namespace SHCAIDA
                         {
                             if (appropriateColumns[j])
                             {
-                                finaleMatrix[i1, j1] = MidValInList(outputTableValues[i+ isdv, j+ jsdv]);
+                                finaleMatrix[i1, j1] = MidValInList(outputTableValues[i + isdv, j + jsdv]);
                                 j1++;
                             }
                             else
