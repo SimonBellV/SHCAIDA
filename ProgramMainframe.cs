@@ -21,7 +21,7 @@ namespace SHCAIDA
     }
 
     [Serializable]
-    public class SensorsConnections<T1, T2>
+    public struct SensorsConnections<T1, T2>
     {
         public T1 Sensor;
         public T2 Client;
@@ -123,7 +123,6 @@ namespace SHCAIDA
         public static ValuesApplicationContext Valuesdb;
         public static CommonStatusContext Statusdb;
         public static MessageJournalContext Journaldb;
-        //public static List<RockwellClient> rockwellClients = new List<RockwellClient>();
         public static SiemensClientApplicationContext SiemensClients;
         public static Accord.Fuzzy.Database FuzzyDb;
         public static Accord.Fuzzy.InferenceSystem IS;
@@ -310,7 +309,6 @@ namespace SHCAIDA
         /// </summary>
         public static void WriteFuzzyDB()
         {
-            var output = JsonConvert.SerializeObject(LinguisticVariables);
             using (var sw = new StreamWriter("fuzzyDB.txt"))
             {
                 sw.WriteLine(LinguisticVariables.Count);
@@ -332,10 +330,6 @@ namespace SHCAIDA
                         sw.WriteLine(label.V4);
                     }
                 }
-            }
-            using (StreamWriter sw = new StreamWriter("fuzzyDBexperimental.txt"))
-            {
-                sw.WriteLine(output);
             }
         }//рассмотреть целесообразность записи в json
 
@@ -386,6 +380,7 @@ namespace SHCAIDA
                 if (fs.Length != 0)
                     Rules = (List<Rule>)formatter.Deserialize(fs);
             }
+            RulesCount = Rules.Count + 1;
         }
 
         public static void AddLabel(string varName, Status label)
@@ -460,14 +455,6 @@ namespace SHCAIDA
                 if (device.Name == name)
                     return new Tuple<int, int, TypeOfDataSources>(device.ID, device.ClientID, TypeOfDataSources.Mssql);
             throw new ArgumentOutOfRangeException();
-        }
-
-        public static int GetMssqlClientId(string dataSource)
-        {
-            foreach (var client in MssqlClients.MSSQLClients)
-                if (client.DataSource == dataSource)
-                    return client.ID;
-            return -1;
         }
 
         private static void ReadGameNodes()

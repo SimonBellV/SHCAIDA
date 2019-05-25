@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace SHCAIDA
 {
-    public class Message
+    public struct Message
     {
         public string Sensor { get; set; }
         public string State { get; set; }

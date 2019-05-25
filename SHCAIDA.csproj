@@ -152,6 +152,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommonStatus.cs" />
+    <Compile Include="DeviceParameters.cs" />
     <Compile Include="Forms\ChooseDataSourceToAdd.xaml.cs">
       <DependentUpon>ChooseDataSourceToAdd.xaml</DependentUpon>
     </Compile>
@@ -175,19 +176,20 @@
     <Compile Include="Forms\RuleSensors.xaml.cs">
       <DependentUpon>RuleSensors.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RuleVariablesSetup.xaml.cs">
-      <DependentUpon>RuleVariablesSetup.xaml</DependentUpon>
+    <Compile Include="Forms\RuleVariablesStatesSetup.xaml.cs">
+      <DependentUpon>RuleVariablesStatesSetup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\RuleWizard.xaml.cs">
       <DependentUpon>RuleWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RockwellSensor.cs" />
     <Compile Include="RoledDevice.cs" />
     <Compile Include="Sensor.cs" />
-    <Compile Include="Forms\SiemensSensorAdd.xaml.cs">
-      <DependentUpon>SiemensSensorAdd.xaml</DependentUpon>
+    <Compile Include="Forms\PLCSensorAdd.xaml.cs">
+      <DependentUpon>PLCSensorAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SiemensSourceAdd.xaml.cs">
-      <DependentUpon>SiemensSourceAdd.xaml</DependentUpon>
+    <Compile Include="Forms\PLCSourceAdd.xaml.cs">
+      <DependentUpon>PLCSourceAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="RockwellClient.cs" />
     <Compile Include="SiemensClient.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Forms\StatusLoggingSetup.xaml.cs">
       <DependentUpon>StatusLoggingSetup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Status.cs" />
     <Compile Include="Value.cs" />
     <Page Include="Forms\ChooseDataSourceToAdd.xaml">
       <SubType>Designer</SubType>
@@ -239,7 +242,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\RuleVariablesSetup.xaml">
+    <Page Include="Forms\RuleVariablesStatesSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,11 +250,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SiemensSensorAdd.xaml">
+    <Page Include="Forms\PLCSensorAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SiemensSourceAdd.xaml">
+    <Page Include="Forms\PLCSourceAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
