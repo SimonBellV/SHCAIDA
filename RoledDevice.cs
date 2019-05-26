@@ -15,8 +15,6 @@ namespace SHCAIDA
             values = new List<BasicValue>();
         }
 
-        public string SensorName => this.deviceType == TypeOfDataSources.Siemens ? ProgramMainframe.GetSensorNameById(deviceID, deviceType) : throw new ArgumentException();
-
         public void SetupIntervals(int intervalsCount)
         {
             intervals = new List<Vector2>();

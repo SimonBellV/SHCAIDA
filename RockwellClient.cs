@@ -1,11 +1,15 @@
 ﻿using Corsinvest.AllenBradley.PLC.Api;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace SHCAIDA
 {
-    class RockwellClient
+    class RockwellClient :INotifyPropertyChanged
     {
+        public int ID { get; set; }
         private Controller plc;
         private bool isPlcConnected;
         public string name;
@@ -39,9 +43,20 @@ namespace SHCAIDA
             }
         }
 
-        /*public List<double> ReadData(List<string> variables)
+        public float ReadData(string variable)
         {
-            return new List<double>();
-        }*/
+            return 0;
+        }
+
+        private void WriteData(List<string> variables, List<double> values)
+        {
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
     }
 }

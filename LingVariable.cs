@@ -21,15 +21,13 @@ namespace SHCAIDA
             this.end = end;
         }
 
-        public Status GetLabel(string label) => labels.Find(x => x.name == label);
-
         public Accord.Fuzzy.LinguisticVariable ConvertToLinguisticVariable
         {
             get
             {
                 Accord.Fuzzy.LinguisticVariable t = new Accord.Fuzzy.LinguisticVariable(name, start, end);
                 foreach (var label in labels)
-                    t.AddLabel(label.GetGetFuzzy());
+                    t.AddLabel(label.GetFuzzy());
                 return t;
             }
         }

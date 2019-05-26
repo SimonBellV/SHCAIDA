@@ -29,28 +29,28 @@ namespace SHCAIDA
             }
         }
 
-        private string GetDataSourceTypeString(TypeOfDataSources type)
-        {
-            switch (type)
-            {
-                case TypeOfDataSources.Siemens:
-                    return "Siemens";
-                case TypeOfDataSources.Mssql:
-                    return "MSSQL";
-                case TypeOfDataSources.Rockwell:
-                    return "Rockwell";
-                case TypeOfDataSources.Common:
-                    return "Общее";
-                default:
-                    return "Неопределенно";
-            }
-        }
-
         public CommonStatus(string name, TypeOfDataSources type)
         {
             ID = -1;
             this.name = name;
-            this.type = GetDataSourceTypeString(type);
+            switch (type)
+            {
+                case TypeOfDataSources.Siemens:
+                    this.type = "Siemens";
+                    break;
+                case TypeOfDataSources.Mssql:
+                    this.type = "MSSQL";
+                    break;
+                case TypeOfDataSources.Rockwell:
+                    this.type = "Rockwell";
+                    break;
+                case TypeOfDataSources.Common:
+                    this.type = "Общее";
+                    break;
+                default:
+                    this.type = "Неопределенно";
+                    break;
+            }
         }
 
         public CommonStatus()

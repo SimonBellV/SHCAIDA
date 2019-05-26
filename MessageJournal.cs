@@ -47,7 +47,6 @@ namespace SHCAIDA
         public Message ConvertToMessage()
         {
             return new Message(ProgramMainframe.GetSensorNameById(sensorID, type), state, DateTime.FromOADate(time).ToString());
-            ;
         }
 
         public int SensorID

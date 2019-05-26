@@ -93,8 +93,6 @@ namespace SHCAIDA
             }
         }
 
-
-
         public override event PropertyChangedEventHandler PropertyChanged;
         public override void OnPropertyChanged([CallerMemberName]string prop = "")
         {

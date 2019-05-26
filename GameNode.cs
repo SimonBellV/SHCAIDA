@@ -87,7 +87,7 @@ namespace SHCAIDA
         {
             get
             {
-                var res = "Название: " + nodeName + "\nКоличество интервалов регуляторов: " + regulatorIntervalCount + "\nРегуляторы, которые входят в узел:\n";
+                var res = "Название: " + nodeName + "\nОписание: " + nodeDescription + "\nКоличество интервалов регуляторов: " + regulatorIntervalCount + "\nРегуляторы, которые входят в узел:\n";
                 foreach (var sensor in usedSensors.Where(sensor => sensor.role == GameRole.Regulator).Select(sensor => sensor))
                     res += (ProgramMainframe.GetSensorNameById(sensor.deviceID, sensor.deviceType) + "\n");
                 res += "Количество интервалов датчиков состояний: " + stateSensorIntervalCount + "\nДатчики состояний:\n";

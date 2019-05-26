@@ -146,16 +146,6 @@ namespace SHCAIDA
             }
         }
 
-        public List<double> ReadData(List<string> variables)
-        {
-            List<double> data = new List<double>();
-
-            foreach (string var in variables)
-                data.Add((double)plc.Read(var));
-
-            return data;
-        }
-
         public float ReadData(string variable)
         {
             object result;

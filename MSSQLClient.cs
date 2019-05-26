@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
@@ -109,6 +110,10 @@ namespace SHCAIDA
             }
             catch { }
             return 0;
+        }
+
+        private void WriteData(List<string> variables, List<double> values)
+        {
         }
     }
 }

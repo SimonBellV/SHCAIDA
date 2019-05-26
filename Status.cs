@@ -16,7 +16,7 @@ namespace SHCAIDA
 
         public string String => name + " - " + V1 + " ," + V2 + " ," + V3 + " ," + V4;
 
-        public FuzzySet GetGetFuzzy()
+        public FuzzySet GetFuzzy()
         {
             if (!type)
                 return new FuzzySet(name, new TrapezoidalFunction(V1, V2, V3, V4));
